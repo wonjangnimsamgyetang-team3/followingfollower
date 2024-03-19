@@ -1,5 +1,6 @@
 // import { getLocalStorageJSON } from "utils/getLocalStorageJSON";
-import { UserData } from "@/type/type";
+
+import { UserData } from "@/app/types/type";
 import { supabase } from "../supabase";
 
 export const updateUserAccount = async ({
