@@ -5,6 +5,7 @@ interface State {
   like: number;
   increaseLike: () => void;
   removeAllLikes: () => void;
+  // MyPage-ProfileImage.tsx
   thumnailImg: string;
 }
 

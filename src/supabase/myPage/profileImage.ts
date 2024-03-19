@@ -1,7 +1,12 @@
 // import { getLocalStorageJSON } from "utils/getLocalStorageJSON";
+import { UserData } from "@/type/type";
 import { supabase } from "../supabase";
 
-export const updateUserAccount = async ({ nickname, avatar, contents }) => {
+export const updateUserAccount = async ({
+  nickname,
+  avatar,
+  contents,
+}: UserData) => {
   const { data, error } = await supabase.auth.updateUser({
     data: { nickname, avatar, contents },
   });
@@ -31,7 +36,7 @@ export const readUserInfo = async () => {
 };
 
 export const readMyReview = async () => {
-  const { data, error } = await supabase.from("reviewWrite").select("*");
+  const { data, error } = await supabase.from("TodoList").select("*");
 
   if (error) {
     alert("오류로 인해 정보를 받아오지 못 하고 있습니다.");
@@ -39,7 +44,7 @@ export const readMyReview = async () => {
   return data;
 };
 
-export const uploadImage = async (filePath, image) => {
+export const uploadImage = async (filePath: string, image: string) => {
   const { data, error } = await supabase.storage
     .from("userImage")
     .upload(filePath, image, {
@@ -54,7 +59,7 @@ export const uploadImage = async (filePath, image) => {
   return data;
 };
 
-export const downloadImage = async (filePath) => {
+export const downloadImage = async (filePath: string) => {
   try {
     const { data, error } = await supabase.storage
       .from("userImage")
