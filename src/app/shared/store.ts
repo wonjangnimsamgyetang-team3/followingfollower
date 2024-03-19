@@ -6,14 +6,14 @@ interface State {
   increaseLike: () => void;
   removeAllLikes: () => void;
   // MyPage-ProfileImage.tsx
-  thumnailImg: string;
+  defaultImg: string;
 }
 
 const useStoreState = create<State>((set) => ({
   like: 0,
   increaseLike: () => set((state) => ({ like: state.like + 1 })),
   removeAllLikes: () => set({ like: 0 }),
-  thumnailImg: defaultImg.src,
+  defaultImg: defaultImg.src,
 }));
 
 export default useStoreState;

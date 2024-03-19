@@ -2,11 +2,11 @@
 import useStoreState from "@/app/shared/store";
 
 const ProfileImage = () => {
-  const thumnailImg = useStoreState((store) => store.thumnailImg);
+  const defaultImg = useStoreState((store) => store.defaultImg);
 
   return (
     <div>
-      <img src={thumnailImg} alt="유저이미지" />
+      <img src={defaultImg} alt="유저이미지" />
       <input type="file" accept="image/*" id="imgFileChoice" />
     </div>
   );
