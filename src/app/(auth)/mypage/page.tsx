@@ -1,7 +1,13 @@
 "use client";
 
+import ProfileImage from "@/components/ProfileImage";
+
 const MyPage = () => {
-  return <div>MY</div>;
+  return (
+    <section>
+      <ProfileImage />
+    </section>
+  );
 };
 
 export default MyPage;
