@@ -5,7 +5,9 @@ import ProfileImage from "@/components/ProfileImage";
 const MyPage = () => {
   return (
     <section>
-      <ProfileImage />
+      <article>
+        <ProfileImage />
+      </article>
     </section>
   );
 };
