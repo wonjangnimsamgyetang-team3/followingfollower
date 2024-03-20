@@ -166,4 +166,7 @@ a {
   --subColor4: #efefef;
 
   --fc-button-active-bg-color: transparent;
+
+  --fc-event-bg-color: #fb8494;
+  --fc-event-border-color: #fb8494;
 }
