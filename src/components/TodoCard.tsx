@@ -1,17 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
-import { Database } from 'database.types';
+import React, { useState } from 'react';
 import ToggleButton from './ToggleButton';
 import HeartFillIcon from '../icons/HeartFillIcon';
 import { HeartIcon } from '@/icons/HeartIcon';
-import Image from 'next/image';
-
-const supabase = createClient<Database>(
-  'https://jcsjtjiqolsewkoutsag.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impjc2p0amlxb2xzZXdrb3V0c2FnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTA4MzEyOTMsImV4cCI6MjAyNjQwNzI5M30.Mm1I1g_5qrNONvPK8gsK_3xDBim04lX01cQAX1yXVB0'
-);
+import ModalPotal from './ModalPortal';
+import TodoModal from './TodoModal';
+import TodoDetail from './TodoDetail';
 
 interface TestData {
   contents: string;
@@ -19,35 +14,36 @@ interface TestData {
   end: string;
   imageFile: string;
   likeCount: number;
-  liked: boolean;
+  liked: string[];
   nickname: string;
   start: string;
   title: string;
   todoId: string;
 }
 
-interface TodoType {
+export type TodoType = {
   contents: string;
   created_at: string;
   end: string;
   imageFile: string;
   likeCount: number;
-  liked: boolean;
+  liked: string[];
   nickname: string;
   start: string;
   title: string;
   todoId: string;
-}
+};
 
 const TodoCard = ({ todo }: { todo: TodoType }) => {
   const [likes, setLikes] = useState(false);
   const [testData, setTestData] = useState<TestData[]>([]);
+  const [openModal, setOpenModal] = useState(false);
 
   if (!todo) {
     return <div>데이터 없음</div>;
   }
 
-  const { title, nickname, contents, created_at, imageFile } = todo;
+  const { title, nickname, contents, created_at, imageFile, liked } = todo;
 
   const formattedDate = new Date(created_at).toLocaleDateString('ko-KR', {
     year: 'numeric',
@@ -56,25 +52,44 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
   });
 
   return (
-    <div className="bg-white m-[15px]">
-      <h2>{title}</h2>
-      <img
-        className="object-cover"
-        src={`${imageFile}`}
-        alt="todoImage"
-        sizes="650px"
-      />
-      <p>{nickname}</p>
-      <p>{contents}</p>
-      <p>{formattedDate}</p>
-      <div>
-        <ToggleButton
-          toggled={likes}
-          onToggle={setLikes}
-          onIcon={<HeartFillIcon />}
-          offIcon={<HeartIcon />}
+    <div
+      onClick={() => setOpenModal(true)}
+      className="bg-white m-[15px] 'border-2 rounded-[20px] border-gray-500 border-dashed' rounded-[30px] p-[30px] flex flex-col items-center justify-center"
+    >
+      <div className="flex flex-col items-center flex justify-center">
+        <h2 className="font-bold text-lg mb-[10px]">{title}</h2>
+        <img
+          className="object-cover rounded-[30px] mb-[20px]"
+          src={`${imageFile}`}
+          alt="todoImage"
+          sizes="650px"
         />
       </div>
+      <div className="w-full">
+        <p className="mb-[10px]">{nickname}</p>
+        <p className="mb-[20px]">{contents}</p>
+      </div>
+      <div className="flex w-full justify-between">
+        <p className="text-gray-400">{formattedDate}</p>
+        <div>
+          <ToggleButton
+            toggled={likes}
+            onToggle={setLikes}
+            onIcon={<HeartFillIcon />}
+            offIcon={<HeartIcon />}
+          />
+          <p>{`${liked?.length ?? 0}`}</p>
+        </div>
+      </div>
+      {/* {openModal && (
+        <ModalPotal>
+          <div>
+            <TodoModal onClose={() => setOpenModal(false)}>
+              <TodoDetail todo={todo} />
+            </TodoModal>
+          </div>
+        </ModalPotal>
+      )} */}
     </div>
   );
 };

@@ -22,6 +22,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <NavBar />
           {children}
+          <div id="portal" />
         </body>
       </QueryProvider>
     </html>
