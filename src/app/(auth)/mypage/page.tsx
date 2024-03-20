@@ -28,7 +28,7 @@ const MyPage = () => {
   return (
     <section>
       <article>
-        <ProfileImage />
+        <ProfileImage isEdit={isEdit} setIsEdit={setIsEdit} />
       </article>
       <article>
         <ProfileContents isEdit={isEdit} setIsEdit={setIsEdit} />
