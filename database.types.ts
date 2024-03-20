@@ -93,12 +93,12 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'public_usersAccounts_userId_fkey';
-            columns: ['userEmail'];
+            foreignKeyName: "public_usersAccounts_userId_fkey";
+            columns: ["userEmail"];
             isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
         ];
       };
     };
