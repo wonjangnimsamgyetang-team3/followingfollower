@@ -1,14 +1,7 @@
-"use client";
-
-import React from "react";
+import { User } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
-import SingOutButton from "./SignOutBtn";
-import useStoreState from "@/app/shared/store";
 
-const NavBar = () => {
-  const { userInfo } = useStoreState();
-  const tk = userInfo?.token;
-
+const NavBar = ({ user }: { user: User | null }) => {
   return (
     <nav className="flex justify-center">
       <div className="flex">
@@ -21,16 +14,23 @@ const NavBar = () => {
         <Link href="/feed" className="p-4">
           88피드
         </Link>
-        <Link href="/mypage" className="p-4">
-          마이페이지
-        </Link>
-        {!tk ? (
+        {!user ? (
           <Link href="/login" className="p-4">
-            로그인
+            마이페이지
           </Link>
         ) : (
-          <Link href="/" className="p-4">
-            <SingOutButton />
+          <Link href="/mypage" className="p-4">
+            마이페이지
+          </Link>
+        )}
+
+        {user ? (
+          <Link href="/login" className="p-4">
+            로그아웃
+          </Link>
+        ) : (
+          <Link href="/login" className="p-4">
+            로그인
           </Link>
         )}
       </div>
