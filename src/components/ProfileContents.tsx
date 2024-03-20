@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 const ProfileContents = () => {
     const [isEdit, setIsEdit] = useState(false);
- 
+    const 
   return (
     <div>
       <div>
