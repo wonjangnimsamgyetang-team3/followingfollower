@@ -17,6 +17,22 @@ export const updateUserAccount = async ({
   return data;
 };
 
+export const setUserAccount = async ({
+  nickname,
+  avatar,
+  contents,
+}: UserData) => {
+  const { data, error } = await supabase
+    .from("usersAccounts")
+    .insert([{ nickname, contents, avatar }])
+    .select();
+  if (!data || error) {
+    console.error("데이터를 넣을 수 없습니다.");
+  }
+
+  return data;
+};
+
 export const getLoginUserInfo = async () => {
   const { data } = await supabase.auth.getUser();
   return data;
