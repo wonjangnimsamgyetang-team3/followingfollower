@@ -1,3 +1,4 @@
+import CalendarPage from "@/app/calendar/page";
 import ProfileContents from "@/components/ProfileContents";
 import ProfileImage from "@/components/ProfileImage";
 import { queryKey } from "@/query/queryKey";
@@ -22,6 +23,9 @@ const MyPage = () => {
       </article>
       <article>
         <ProfileContents />
+      </article>
+      <article>
+        <CalendarPage />
       </article>
     </section>
   );
