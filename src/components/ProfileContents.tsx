@@ -1,35 +1,45 @@
 "use client";
+import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
 import useStoreState from "@/app/shared/store";
-import { ChangeEvent, MouseEventHandler, useState } from "react";
-import { setUserAccount } from "@/supabase/myPage/profileImage";
+import { readUserInfo, setUserDatabase } from "@/supabase/myPage/profileImage";
+import { useQuery } from "@tanstack/react-query";
+import { UserData } from "@/app/types/type";
+import { queryKey } from "@/query/queryKey";
+import { useInsert } from "@/query/mutation";
 import ProfileImage from "./ProfileImage";
-import { useRouter } from "next/router";
 
 const ProfileContents = () => {
-    const router = useRouter();
-  const { nickname, contents, avatar } = useStoreState((store) => store.userAccount);
+  const myAccount = { email: "1234@qwer.com" };
+
+  // console.log(userInfo);
+  // const [userData] = userInfo;
+  // console.log(userData);
+  const insertMutation = useInsert(readUserInfo, queryKey.usersAccounts);
+  const { nickname, contents } = useStoreState((store) => store.userAccount);
+  const setUserAccount = useStoreState((store) => store.setUserAccount);
   const [editValue, setEditValue] = useState({
     nickname,
-      contents,
-    avatar
+    contents,
   });
   const [isEdit, setIsEdit] = useState(false);
   const editValueNickname = editValue.nickname;
   const editValueContents = editValue.contents;
 
-  const onEditValueChange = (e : ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const editValueChangeHandler = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     e.preventDefault();
     const { name, value } = e.target;
     setEditValue({ ...editValue, [name]: value });
   };
 
-  const onEditContents = (e: MouseEventHandler<HTMLButtonElement>) => {
+  const editContentsHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEdit(true);
-    setEditValue({ nickname, contents, avatar });
+    setEditValue({ nickname, contents });
   };
 
-  const onEditSave = (e) => {
+  const onEditSave = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // 유효성;
     const editSaveCheck = window.confirm("수정내용을 저장하시겠습니까?");
@@ -48,52 +58,29 @@ const ProfileContents = () => {
       return;
     }
 
-    setInitValue(editValue);
-    setAccount(editValue);
+    setUserAccount(editValue);
 
     const userAccountEdit = async () => {
-      await setUserAccount(editValue);
+      await setUserDatabase(editValue);
     };
     userAccountEdit();
     setIsEdit(false);
   };
 
-  const onEditCancel = (e : MouseEventHandler<HTMLButtonElement>) => {
+  const onEditCancel = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEdit(false);
   };
 
-  const onLogout = async () => {
-    try {
-      const checkSignOut = window.confirm("정말 로그아웃을 하시겠습니까?");
-      if (checkSignOut === true) {
-       localStorage.clear();
-     
-        alert("로그아웃이 완료됐습니다!");
-        router.push("/");
-      } else {
-        alert("로그아웃을 취소하셨습니다.");
-        setIsEdit(false);
-        return;
-      }
-    } catch (error) {
-      console.log(error);
-      alert("로그아웃을 다시 한 번 시도해 주세용");
-    }
-  };
   return (
     <section>
       <div>
-        <ProfileImage />
         <div>
           {!isEdit ? (
             <article>
               <div>
                 <div>
-                  <div>
-                    <p>{nickname}</p>
-                  </div>
-                  <button  onClick={onLogout} />⛔ 로그아웃</button>
+                  <p>{nickname}</p>
                 </div>
                 <div>
                   <p>
@@ -102,48 +89,44 @@ const ProfileContents = () => {
                 </div>
               </div>
               <div>
-                <button
-                  onClick={onEditContents}
-                
-                >내용 편집</button>
-              </div>
+                <button onClick={editContentsHandler}>수정</button>
               </div>
             </article>
           ) : (
-            // <form onSubmit={onEditSave}>
-            //   <div>
-            //     <div>
-            //       <input
-            //         name="nickname"
-            //         value={editValueNickname}
-            //         onChange={onEditValueChange}
-            //         maxLength={8}
-            //         placeholder={
-            //           editValueNickname === ""
-            //             ? "닉네임을 적어주세요 (8글자 이내)"
-            //             : editValueNickname
-            //         }
-            //       />
-            //     </div>
-            //     <textarea
-            //       name="comment"
-            //       cols="30"
-            //       rows="10"
-            //       value={editValueContents}
-            //       onChange={onEditValueChange}
-            //       maxLength={100}
-            //       placeholder={
-            //         editValueContents === ""
-            //           ? "자신을 소개해주세요 (100글자 이내)"
-            //           : editValueContents
-            //       }
-            //     ></textarea>
-            //     <div>
-            //       <button >수정완료</button>
-            //       <button onClick={onEditCancel} />수정취소</button>
-            //     </div>
-            //   </div>
-            // </form>
+            <form onSubmit={onEditSave}>
+              <div>
+                <div>
+                  <input
+                    name="nickname"
+                    value={editValueNickname}
+                    onChange={editValueChangeHandler}
+                    maxLength={8}
+                    placeholder={
+                      editValueNickname === ""
+                        ? "닉네임을 적어주세요 (8글자 이내)"
+                        : editValueNickname
+                    }
+                  />
+                </div>
+                <textarea
+                  name="contents"
+                  cols={30}
+                  rows={10}
+                  value={editValueContents}
+                  onChange={editValueChangeHandler}
+                  maxLength={100}
+                  placeholder={
+                    editValueContents === ""
+                      ? "자신을 소개해주세요 (100글자 이내)"
+                      : editValueContents
+                  }
+                ></textarea>
+                <div>
+                  <button>수정완료</button>
+                  <button onClick={onEditCancel}>수정취소</button>
+                </div>
+              </div>
+            </form>
           )}
         </div>
       </div>

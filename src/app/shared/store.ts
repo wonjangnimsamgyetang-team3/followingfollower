@@ -7,15 +7,12 @@ interface State {
   increaseLike: () => void;
   removeAllLikes: () => void;
   // MyPage-ProfileImage.tsx
-
   defaultImg: string;
   selectFile: string;
+  userAccount: { nickname: string; contents: string };
   setSelectFile: (selectImg: string) => void;
   setDefaultImg: (selectImg: string) => void;
-  // MyPage-ProfileConetents.tsx
-  userAccount: { nickname: string; contents: string; avatar: string };
-
-  setUserAccount: (newUserData: UserData | null) => void;
+  setUserAccount: (newUserData: UserData) => void;
 }
 
 const useStoreState = create<State>((set) => ({
@@ -25,11 +22,15 @@ const useStoreState = create<State>((set) => ({
   // MyPage-ProfileImage.tsx
   defaultImg: defaultImg.src,
   selectFile: defaultImg.src,
+  userAccount: { nickname: "g", contents: "gg", email: "", uid: "" },
   setSelectFile: (selectImg: string) =>
     set((prev) => ({ ...prev, selectFile: selectImg })),
   setDefaultImg: (selectImg: string) =>
     set((prev) => ({ ...prev, defaultImg: selectImg })),
-  setUserAccount: (newUserData: UserData) => set({ userAccount: newUserData }),
+  setUserAccount: (newUserData: UserData) =>
+    set(() => ({
+      userAccount: newUserData,
+    })),
 }));
 
 export default useStoreState;

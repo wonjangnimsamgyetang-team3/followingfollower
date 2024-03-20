@@ -5,11 +5,11 @@ import { supabase } from "../supabase";
 
 export const updateUserAccount = async ({
   nickname,
-  avatar,
+  // avatar,
   contents,
 }: UserData) => {
   const { data, error } = await supabase.auth.updateUser({
-    data: { nickname, avatar, contents },
+    data: { nickname, contents },
   });
   if (error) {
     console.error("업데이트를 다시 시도해주세요!");
@@ -17,14 +17,10 @@ export const updateUserAccount = async ({
   return data;
 };
 
-export const setUserAccount = async ({
-  nickname,
-  avatar,
-  contents,
-}: UserData) => {
+export const setUserDatabase = async ({ nickname, contents }: UserData) => {
   const { data, error } = await supabase
     .from("usersAccounts")
-    .insert([{ nickname, contents, avatar }])
+    .insert([{ nickname, contents }])
     .select();
   if (!data || error) {
     console.error("데이터를 넣을 수 없습니다.");
@@ -46,6 +42,8 @@ export const getLoginUserInfo = async () => {
 // export const setUserAccount = async () => {};
 export const readUserInfo = async () => {
   const { data, error } = await supabase.from("usersAccounts").select("*");
+  console.log(data);
+
   if (error) {
     alert("오류로 인해 정보를 받아오지 못 하고 있습니다.");
   }

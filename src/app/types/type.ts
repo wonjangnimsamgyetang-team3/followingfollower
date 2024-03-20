@@ -1,8 +1,12 @@
 export interface UserData {
+  avatar?: string;
+  nickname: string;
+  contents: string;
+  id?: string | null;
   uid?: string;
   email?: string;
-  nickname: string;
-  avatar: string;
-  contents: string;
-  isLoggedIn?: true;
 }
+
+// export type UserInfo {
+//   userData: UserData[];
+// }
