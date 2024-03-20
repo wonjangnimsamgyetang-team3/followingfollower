@@ -1,3 +1,4 @@
+"use client";
 import CalendarPage from "@/app/calendar/page";
 import ProfileContents from "@/components/ProfileContents";
 import ProfileImage from "@/components/ProfileImage";
@@ -6,16 +7,6 @@ import { readUserInfo } from "@/supabase/myPage/profileImage";
 import { useQuery } from "@tanstack/react-query";
 
 const MyPage = () => {
-  // const {
-  //   isPending,
-  //   isError,
-  //   data: userInfo,
-  // } = useQuery({
-  //   queryKey: [queryKey.usersAccounts],
-  //   queryFn: readUserInfo,
-  // });
-
-  // console.log(userInfo);
   return (
     <section>
       <article>

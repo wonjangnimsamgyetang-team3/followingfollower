@@ -3,24 +3,32 @@ import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
 import useStoreState from "@/app/shared/store";
 import { readUserInfo, setUserDatabase } from "@/supabase/myPage/profileImage";
 import { useQuery } from "@tanstack/react-query";
-import { UserData } from "@/app/types/type";
+import { UserData, UserInfo } from "@/app/types/type";
 import { queryKey } from "@/query/queryKey";
 import { useInsert } from "@/query/mutation";
 import ProfileImage from "./ProfileImage";
+import useInput from "@/hooks/useInput";
 
 const ProfileContents = () => {
   const myAccount = { email: "1234@qwer.com" };
-
-  // console.log(userInfo);
-  // const [userData] = userInfo;
-  // console.log(userData);
-  const insertMutation = useInsert(readUserInfo, queryKey.usersAccounts);
-  const { nickname, contents } = useStoreState((store) => store.userAccount);
-  const setUserAccount = useStoreState((store) => store.setUserAccount);
-  const [editValue, setEditValue] = useState({
-    nickname,
-    contents,
+  const {
+    isPending,
+    isError,
+    data: userInfo,
+  } = useQuery({
+    queryKey: [queryKey.usersAccounts],
+    queryFn: readUserInfo,
   });
+
+  const initialUserData: UserData = {
+    nickname: userInfo.nickname,
+    contents: userInfo.contents,
+  };
+  const insertMutation = useInsert(readUserInfo, queryKey.usersAccounts);
+  // const { nickname, contents } = useStoreState((store) => store.userAccount);
+  const setUserAccount = useStoreState((store) => store.setUserAccount);
+  // const [editValue, setEditValue] = useState<UserData>(initialUserData);
+  const {editValue, setEditValue, ,} = useInput(initialUserData);
   const [isEdit, setIsEdit] = useState(false);
   const editValueNickname = editValue.nickname;
   const editValueContents = editValue.contents;
