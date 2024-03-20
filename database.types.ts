@@ -6,29 +6,113 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
-      movies: {
+      test: {
         Row: {
-          // the data expected from .select()
+          contents: string | null;
           id: number;
-          name: string;
-          data: Json | null;
+          title: string;
         };
         Insert: {
-          // the data to be passed to .insert()
-          id?: never; // generated columns must not be supplied
-          name: string; // `not null` columns with no default must be supplied
-          data?: Json | null; // nullable columns can be omitted
+          contents?: string | null;
+          id?: number;
+          title: string;
         };
         Update: {
-          // the data to be passed to .update()
-          id?: never;
-          name?: string; // `not null` columns are optional on .update()
-          data?: Json | null;
+          contents?: string | null;
+          id?: number;
+          title?: string;
         };
+        Relationships: [];
+      };
+      TodoList: {
+        Row: {
+          contents: string | null;
+          created_at: string;
+          end: string | null;
+          file: string | null;
+          likeCount: number | null;
+          liked: boolean | null;
+          nickname: string | null;
+          start: string | null;
+          title: string | null;
+          todoId: string;
+        };
+        Insert: {
+          contents?: string | null;
+          created_at?: string;
+          end?: string | null;
+          file?: string | null;
+          likeCount?: number | null;
+          liked?: boolean | null;
+          nickname?: string | null;
+          start?: string | null;
+          title?: string | null;
+          todoId?: string;
+        };
+        Update: {
+          contents?: string | null;
+          created_at?: string;
+          end?: string | null;
+          file?: string | null;
+          likeCount?: number | null;
+          liked?: boolean | null;
+          nickname?: string | null;
+          start?: string | null;
+          title?: string | null;
+          todoId?: string;
+        };
+        Relationships: [];
+      };
+      usersAccounts: {
+        Row: {
+          avatar: string | null;
+          contents: string | null;
+          id: number;
+          nickname: string | null;
+          uid: string;
+          userEmail: string | null;
+        };
+        Insert: {
+          avatar?: string | null;
+          contents?: string | null;
+          id?: number;
+          nickname?: string | null;
+          uid?: string;
+          userEmail?: string | null;
+        };
+        Update: {
+          avatar?: string | null;
+          contents?: string | null;
+          id?: number;
+          nickname?: string | null;
+          uid?: string;
+          userEmail?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_usersAccounts_userId_fkey";
+            columns: ["userEmail"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
       };
     };
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      [_ in never]: never;
+    };
+    Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
   };
-}
+};

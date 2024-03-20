@@ -6,8 +6,11 @@ interface State {
   increaseLike: () => void;
   removeAllLikes: () => void;
   // MyPage-ProfileImage.tsx
+
   defaultImg: string;
   selectFile: string;
+  setSelectFile: (selectImg: string) => void;
+  setDefaultImg: (selectImg: string) => void;
 }
 
 const useStoreState = create<State>((set) => ({
@@ -17,6 +20,10 @@ const useStoreState = create<State>((set) => ({
   // MyPage-ProfileImage.tsx
   defaultImg: defaultImg.src,
   selectFile: defaultImg.src,
+  setSelectFile: (selectImg: string) =>
+    set((prev) => ({ ...prev, selectFile: selectImg })),
+  setDefaultImg: (selectImg: string) =>
+    set((prev) => ({ ...prev, defaultImg: selectImg })),
 }));
 
 export default useStoreState;

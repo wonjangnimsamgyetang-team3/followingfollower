@@ -1,5 +1,3 @@
-"use client";
-
 import ProfileImage from "@/components/ProfileImage";
 
 const MyPage = () => {
