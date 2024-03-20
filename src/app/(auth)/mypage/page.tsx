@@ -1,9 +1,9 @@
-import CalendarPage from "@/app/calendar/page";
-import ProfileContents from "@/components/ProfileContents";
-import ProfileImage from "@/components/ProfileImage";
-import { queryKey } from "@/query/queryKey";
-import { readUserInfo } from "@/supabase/myPage/profileImage";
-import { useQuery } from "@tanstack/react-query";
+import CalendarPage from '@/components/Calendar';
+import ProfileContents from '@/components/ProfileContents';
+import ProfileImage from '@/components/ProfileImage';
+import { queryKey } from '@/query/queryKey';
+import { readUserInfo } from '@/supabase/myPage/profileImage';
+import { useQuery } from '@tanstack/react-query';
 
 const MyPage = () => {
   // const {
