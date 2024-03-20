@@ -10,9 +10,10 @@ import { useRouter } from 'next/navigation';
 const NewTodo = () => {
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File>();
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
   const router = useRouter();
 
-  //이미지 파일 업로드, 드랍
+  // 이미지 파일 업로드, 드롭
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const files = e.target?.files;
@@ -20,6 +21,7 @@ const NewTodo = () => {
       setFile(files[0]);
     }
   };
+
   const handleDrag = (e: React.DragEvent) => {
     if (e.type === 'dragenter') {
       setDragging(true);
@@ -27,39 +29,74 @@ const NewTodo = () => {
       setDragging(false);
     }
   };
+
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
   };
+
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setDragging(false);
     const files = e.dataTransfer?.files;
     if (files && files[0]) {
       setFile(files[0]);
+      console.log(files[0]);
     }
   };
 
-  //supabase에 todo 저장
+  // supabase에 todo 저장
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!file) return;
 
+    const uuid = crypto.randomUUID();
+    const filePath = `todoImage/${uuid}`;
+
     const formData = new FormData();
-    //'value' 속성이 'string' 형식에 없습니다. 'valueOf'을(를) 사용하시겠습니까?라는 오류가 나는데 뭐가 문제인지 잘 모르겠음.
     formData.append('title', e.currentTarget['title'].value);
     formData.append('contents', e.currentTarget['contents'].value);
     formData.append('start', e.currentTarget['start'].value);
     formData.append('end', e.currentTarget['end'].value);
-    formData.append('file', file);
+    formData.append('imageFile', file);
 
-    const todoData = {
-      title: formData.get('title') as string,
-      contents: formData.get('contents') as string,
-      start: formData.get('start') as string,
-      end: formData.get('end') as string,
+    const uploadImage = async (filePath: string, file: File) => {
+      const { data, error } = await supabase.storage
+        .from('todoImage')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: true,
+        });
+
+      if (error) {
+        console.error('업로드 오류', error.message);
+        throw error;
+      }
+
+      return data;
     };
+    const data = await uploadImage(filePath, file);
+    const { data: imageUrl } = supabase.storage
+      .from('todoImage')
+      .getPublicUrl(data.path);
+    const ImgDbUrl = imageUrl.publicUrl;
 
-    const { data } = await supabase.from('TodoList').insert([todoData]);
+    // Todo 생성
+    const { data: insertedData, error: insertError } = await supabase
+      .from('TodoList')
+      .insert([
+        {
+          title: formData.get('title'),
+          contents: formData.get('contents'),
+          start: formData.get('start'),
+          end: formData.get('end'),
+          imageFile: ImgDbUrl,
+        },
+      ]);
+
+    if (insertError) {
+      console.error('insert error', insertError);
+      return;
+    }
 
     alert('등록 완료!');
     router.push('/feed');

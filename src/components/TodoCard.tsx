@@ -16,7 +16,7 @@ interface TestData {
   contents: string;
   created_at: string;
   end: string;
-  file: string;
+  imageFile: string;
   likeCount: number;
   liked: boolean;
   nickname: string;
@@ -29,7 +29,7 @@ interface TodoType {
   contents: string;
   created_at: string;
   end: string;
-  file: string;
+  imageFile: string;
   likeCount: number;
   liked: boolean;
   nickname: string;
@@ -39,14 +39,14 @@ interface TodoType {
 }
 
 const TodoCard = ({ todo }: { todo: TodoType }) => {
-  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState(false);
   const [testData, setTestData] = useState<TestData[]>([]);
 
   if (!todo) {
     return <div>데이터 없음</div>;
   }
 
-  const { title, nickname, contents, created_at } = todo;
+  const { title, nickname, contents, created_at, imageFile } = todo;
 
   const formattedDate = new Date(created_at).toLocaleDateString('ko-KR', {
     year: 'numeric',
@@ -57,13 +57,19 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
   return (
     <div className="bg-white m-[15px]">
       <h2>{title}</h2>
+      <img
+        className="object-cover"
+        src={`${imageFile}`}
+        alt="todoImage"
+        sizes="650px"
+      />
       <p>{nickname}</p>
       <p>{contents}</p>
       <p>{formattedDate}</p>
       <div>
         <ToggleButton
-          toggled={liked}
-          onToggle={setLiked}
+          toggled={likes}
+          onToggle={setLikes}
           onIcon={<HeartFillIcon />}
           offIcon={<HeartIcon />}
         />

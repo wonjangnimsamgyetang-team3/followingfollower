@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import NewTodo from '../../../components/NewTodo';
 
 export const metadata: Metadata = {
-  title: 'New Post',
+  title: 'New Todo',
   description: 'Create a new post',
 };
 
