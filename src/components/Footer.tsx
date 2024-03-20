@@ -45,7 +45,7 @@ const Footer = () => {
           ⬆️
         </button>
       </div>
-      <p className="text-subColor3">Copyright © 2024 - All right reserved</p>
+      <p className="text-subColor3">© 2024 FF. All right reserved.</p>
     </footer>
   );
 };
