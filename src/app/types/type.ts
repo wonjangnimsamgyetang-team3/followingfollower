@@ -29,3 +29,8 @@ export interface UserInfo {
 export type UserEmail = {
   userEmail: string;
 };
+
+export type TabName = {
+  myTodos: string;
+  likeTodos: string;
+};

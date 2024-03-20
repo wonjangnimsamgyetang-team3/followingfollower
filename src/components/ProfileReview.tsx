@@ -1,9 +1,9 @@
 "use client";
-import { UserEmail } from "@/app/types/type";
+import { TabName, UserEmail } from "@/app/types/type";
 import { queryKey } from "@/query/queryKey";
 import { readMyReview, readUserInfo } from "@/supabase/myPage/profileImage";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import defaultImg from "@/assets/profile.png";
 const ProfileReview = ({ userEmail }: UserEmail) => {
   const {
@@ -14,8 +14,12 @@ const ProfileReview = ({ userEmail }: UserEmail) => {
     queryKey: [queryKey.usersAccounts],
     queryFn: readMyReview,
   });
-  console.log(userEmail);
-  console.log(userTodo);
+  const tabName: TabName = {
+    myTodos: "내가 한 일",
+    likeTodos: "좋아요한 할 일",
+  };
+  const [tab, setTab] = useState<TabName>(tabName);
+  const { myTodos, likeTodos } = tab;
   const filterUserTodo = userTodo?.filter((todo) => todo.email === userEmail);
   console.log(filterUserTodo);
   if (isPending) {
@@ -23,10 +27,15 @@ const ProfileReview = ({ userEmail }: UserEmail) => {
   }
   return (
     <section>
-      <article>
-        <div>내가 할 일</div>
-        <div>좋아요한 할 일</div>
-      </article>
+      <div>
+        <button>
+          <div>{myTodos}</div>
+        </button>
+        <button>
+          <div>{likeTodos}</div>
+        </button>
+      </div>
+      {/* 내가 한 일 */}
       {userEmail !== (null || undefined) && (
         <article>
           {filterUserTodo?.map((todoItem) => {
@@ -67,6 +76,7 @@ const ProfileReview = ({ userEmail }: UserEmail) => {
           })}
         </article>
       )}
+      {/* 좋아요 한 일 */}
     </section>
   );
 };
