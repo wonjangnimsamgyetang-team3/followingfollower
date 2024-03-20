@@ -1,7 +1,10 @@
-import { createClient } from '@supabase/supabase-js';
-import { Database } from 'database.types';
+import { createClient } from "@supabase/supabase-js";
+import { Database } from "database.types";
 
-export const supabase = createClient<Database>(
-  process.env.SUPABASE_URL ?? '',
-  process.env.SUPABASE_KEY ?? ''
-);
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
+  ? process.env.NEXT_PUBLIC_SUPABASE_URL
+  : "";
+const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_KEY
+  ? process.env.NEXT_PUBLIC_SUPABASE_KEY
+  : "";
+export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_KEY);
