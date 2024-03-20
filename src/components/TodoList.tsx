@@ -11,6 +11,7 @@ interface TodoData {
   imageFile: string;
   likeCount: number;
   liked: boolean;
+  liketest: string[];
   nickname: string;
   start: string;
   title: string;

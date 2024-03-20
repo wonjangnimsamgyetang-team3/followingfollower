@@ -1,95 +1,105 @@
-'use client';
-
 import React, { useState } from 'react';
 import ToggleButton from './ToggleButton';
 import HeartFillIcon from '../icons/HeartFillIcon';
 import { HeartIcon } from '@/icons/HeartIcon';
-import ModalPotal from './ModalPortal';
-import TodoModal from './TodoModal';
-import TodoDetail from './TodoDetail';
+import { supabase } from '@/supabase/supabase';
 
-interface TestData {
+interface TodoType {
   contents: string;
   created_at: string;
   end: string;
   imageFile: string;
   likeCount: number;
-  liked: string[];
+  liked: boolean;
+  liketest: string[];
   nickname: string;
   start: string;
   title: string;
   todoId: string;
 }
 
-export type TodoType = {
-  contents: string;
-  created_at: string;
-  end: string;
-  imageFile: string;
-  likeCount: number;
-  liked: string[];
-  nickname: string;
-  start: string;
-  title: string;
-  todoId: string;
-};
-
 const TodoCard = ({ todo }: { todo: TodoType }) => {
-  const [likes, setLikes] = useState(false);
-  const [testData, setTestData] = useState<TestData[]>([]);
-  const [openModal, setOpenModal] = useState(false);
+  const [likes, setLikes] = useState(todo.liked);
+  const [liketest, setLiketest] = useState<string[]>(todo.liketest);
 
-  if (!todo) {
-    return <div>데이터 없음</div>;
-  }
+  const handleLikeToggle = async () => {
+    const userId = '15';
+    if (likes) {
+      await removeLikedUser(todo.todoId);
+      if (liketest !== null) {
+        setLiketest((updatedLiketest) =>
+          updatedLiketest.filter((id) => id !== userId)
+        );
+      }
+    } else {
+      await addLikedUser(todo.todoId);
+      if (liketest !== null) {
+        setLiketest((updatedLiketest) => [...updatedLiketest, userId]);
+      } else {
+        setLiketest([userId]);
+      }
+    }
+    setLikes(!likes);
+  };
+  const addLikedUser = async (todoId: string) => {
+    const userId = '15';
+    const { data, error } = await supabase
+      .from('TodoList')
+      .update({ liketest: [...liketest, userId] })
+      .eq('todoId', todoId)
+      .select();
 
-  const { title, nickname, contents, created_at, imageFile, liked } = todo;
+    if (error) {
+      throw error;
+    }
+  };
 
-  const formattedDate = new Date(created_at).toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
+  const removeLikedUser = async (todoId: string) => {
+    const userId = '15';
+    const { data, error } = await supabase
+      .from('TodoList')
+      .update({ liketest: liketest.filter((id) => id !== userId) })
+      .eq('todoId', todoId)
+      .select();
+
+    if (error) {
+      throw error;
+    }
+  };
 
   return (
-    <div
-      onClick={() => setOpenModal(true)}
-      className="bg-white m-[15px] 'border-2 rounded-[20px] border-gray-500 border-dashed' rounded-[30px] p-[30px] flex flex-col items-center justify-center"
-    >
+    <div className="bg-white m-[15px] border-2 border-solid border-subColor2 rounded-[30px] p-[30px] flex flex-col items-center justify-center">
       <div className="flex flex-col items-center flex justify-center">
-        <h2 className="font-bold text-lg mb-[10px]">{title}</h2>
+        <h2 className="font-bold text-lg mb-[10px]">{todo.title}</h2>
         <img
           className="object-cover rounded-[30px] mb-[20px]"
-          src={`${imageFile}`}
+          src={todo.imageFile}
           alt="todoImage"
           sizes="650px"
         />
       </div>
       <div className="w-full">
-        <p className="mb-[10px]">{nickname}</p>
-        <p className="mb-[20px]">{contents}</p>
+        <p className="mb-[10px]">{todo.nickname}</p>
+        <p className="mb-[20px]">{todo.contents}</p>
       </div>
       <div className="flex w-full justify-between">
-        <p className="text-gray-400">{formattedDate}</p>
-        <div>
+        <p className="text-gray-400">
+          {new Date(todo.created_at).toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          })}
+        </p>
+        <div className="flex">
           <ToggleButton
             toggled={likes}
-            onToggle={setLikes}
+            onToggle={handleLikeToggle}
             onIcon={<HeartFillIcon />}
             offIcon={<HeartIcon />}
           />
-          <p>{`${liked?.length ?? 0}`}</p>
+          <p className="ml-[5px]">{`${liketest?.length ?? 0}`}</p>
         </div>
       </div>
-      {/* {openModal && (
-        <ModalPotal>
-          <div>
-            <TodoModal onClose={() => setOpenModal(false)}>
-              <TodoDetail todo={todo} />
-            </TodoModal>
-          </div>
-        </ModalPotal>
-      )} */}
     </div>
   );
 };

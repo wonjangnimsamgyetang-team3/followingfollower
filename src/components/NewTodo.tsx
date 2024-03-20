@@ -103,7 +103,7 @@ const NewTodo = () => {
 
   return (
     <div className="w-full h-full flex flex-col flex items-center flex justify-center bg-[#e3e3e3]">
-      <section className="w-[700px] h-[900px] outline-none flex flex-col items-center justify-center mt-20 mb-20 bg-white border-2 border-[#fb8494] rounded-[30px] p-[40px]">
+      <section className="w-[700px] h-[900px] outline-none flex flex-col items-center justify-center mt-20 mb-20 bg-white border-2 border-solid border-subColor2 rounded-[30px] p-[40px]">
         <div className="text-lg text-[#fb8494] mb-[20px]">username</div>
         <form className="w-full flex flex-col mt-2" onSubmit={handleSubmit}>
           <textarea

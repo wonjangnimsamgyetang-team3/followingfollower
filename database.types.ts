@@ -63,6 +63,7 @@ export type Database = {
           start?: string | null;
           title?: string | null;
           todoId?: string;
+          liketest?: string[];
         };
         Relationships: [];
       };
@@ -98,7 +99,7 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: 'users';
             referencedColumns: ['id'];
-          },
+          }
         ];
       };
     };

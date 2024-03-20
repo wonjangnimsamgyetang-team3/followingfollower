@@ -1,12 +1,19 @@
-// import React from 'react';
-// import { TodoType } from './TodoCard';
+import React, { useState } from 'react';
+import { TodoType } from './TodoCard';
+import { supabase } from '@/supabase/supabase';
 
-// type Props = {
-//   todo: TodoType;
-// };
+type Props = {
+  todo: TodoType;
+};
 
-// const TodoDetail = ({ todo }: TodoType) => {
-//   return <div>{todo}</div>;
-// };
+const TodoDetail = ({ todo }: Props) => {
+  const [commentData, setCommentData] = useState<TodoData[]>([]);
 
-// export default TodoDetail;
+  async function getTestData() {
+    let { data } = await supabase.from('commentList').select('*');
+    setTodoData(data);
+  }
+  return <div>{todo}</div>;
+};
+
+export default TodoDetail;
