@@ -26,13 +26,15 @@ const ProfileContents = () => {
 
   // const [userInfo, setUserInfo] = useState<UserData[]>([]);
   // const insertMutation = useInsert(readUserInfo, queryKey.usersAccounts);
-  const { nickname, contents } = useStoreState((store) => store.userAccount);
-  console.log(nickname, contents);
+  const { nickname, contents, email } = useStoreState(
+    (store) => store.userAccount
+  );
+
   const setUserAccount = useStoreState((store) => store.setUserAccount);
   const [editValue, setEditValue] = useState({
     nickname,
     contents,
-    email: userEmail,
+    email,
   });
   const [isEdit, setIsEdit] = useState(false);
   const editValueNickname = editValue.nickname;

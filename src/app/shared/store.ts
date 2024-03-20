@@ -9,10 +9,16 @@ interface State {
   // MyPage-ProfileImage.tsx
   defaultImg: string;
   selectFile: string;
-  userAccount: { nickname: string; contents: string };
+  userAccount: {
+    nickname: string;
+    contents: string;
+    email: string;
+    uid: string;
+    avatar: string;
+  };
   setSelectFile: (selectImg: string) => void;
   setDefaultImg: (selectImg: string) => void;
-  setUserAccount: (newUserData: UserData) => void;
+  setUserAccount: (newUserData: Partial<UserData>) => void;
 }
 
 const useStoreState = create<State>((set) => ({
@@ -22,7 +28,7 @@ const useStoreState = create<State>((set) => ({
   // MyPage-ProfileImage.tsx
   defaultImg: defaultImg.src,
   selectFile: defaultImg.src,
-  userAccount: { nickname: "", contents: "", email: "", uid: "" },
+  userAccount: { nickname: "", contents: "", email: "", uid: "", avatar: "" },
   setSelectFile: (selectImg: string) =>
     set((prev) => ({ ...prev, selectFile: selectImg })),
   setDefaultImg: (selectImg: string) =>

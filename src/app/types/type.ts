@@ -8,17 +8,18 @@
 // }
 
 export type UserData = {
-  avatar?: string | undefined;
+  avatar?: string;
   nickname: string;
   contents: string;
-  id?: string | undefined;
-  uid?: string | undefined;
-  email: string | undefined;
+  id?: string;
+  uid?: string;
+  email: string;
 };
 
 export interface UserInfo {
   nickname: string;
   contents: string;
+  email: string;
 }
 
 // nickname: userInfo.nickname,
