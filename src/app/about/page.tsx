@@ -47,6 +47,9 @@ const AboutPage = () => {
           <Image src={boy} alt="소개하는 남자 일러스트" />
         </section>
       </article>
+      <article>
+        <h3>팔팔 프로젝트에 함께한 사람들</h3>
+      </article>
     </div>
   );
 };

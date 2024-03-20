@@ -8,7 +8,7 @@ const NavBar = () => {
           FF
         </Link>
         <Link href="/about" className="p-4">
-          사이트 소개
+          서비스 소개
         </Link>
         <Link href="/feed" className="p-4">
           88피드
