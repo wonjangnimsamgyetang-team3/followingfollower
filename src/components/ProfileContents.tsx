@@ -20,7 +20,7 @@ const ProfileContents = () => {
     queryFn: readUserInfo,
   });
 
-  const initialUserData: UserData = {
+  const init: UserData = {
     nickname: userInfo.nickname,
     contents: userInfo.contents,
   };
@@ -28,7 +28,7 @@ const ProfileContents = () => {
   // const { nickname, contents } = useStoreState((store) => store.userAccount);
   const setUserAccount = useStoreState((store) => store.setUserAccount);
   // const [editValue, setEditValue] = useState<UserData>(initialUserData);
-  const {editValue, setEditValue, ,} = useInput(initialUserData);
+  const {editValue, setEditValue, ,} = useInput(init);
   const [isEdit, setIsEdit] = useState(false);
   const editValueNickname = editValue.nickname;
   const editValueContents = editValue.contents;
