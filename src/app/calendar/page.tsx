@@ -4,8 +4,28 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import './calendar.css';
+import { supabase } from '@/supabase/supabase';
+import { useQuery } from '@tanstack/react-query';
 
 const CalendarPage = () => {
+  const {
+    data: todos,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['todos'],
+    queryFn: async () => {
+      try {
+        const response = await supabase.from('TodoList').select('*');
+        return response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
+  console.log(todos);
+
   const events = [
     {
       title: '아침 먹기',
@@ -39,7 +59,7 @@ const CalendarPage = () => {
         <FullCalendar
           initialView="dayGridMonth"
           plugins={[dayGridPlugin]}
-          events={events}
+          events={todos}
           // eventClick={() => alert('hi')}
           // eventContent={renderEventContent}
         />
