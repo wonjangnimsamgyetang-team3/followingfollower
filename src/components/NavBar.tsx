@@ -1,6 +1,14 @@
-import Link from 'next/link';
+"use client";
+
+import React from "react";
+import Link from "next/link";
+import SingOutButton from "./SignOutBtn";
+import useStoreState from "@/app/shared/store";
 
 const NavBar = () => {
+  const { userInfo } = useStoreState();
+  const tk = userInfo?.token;
+
   return (
     <nav className="flex justify-center">
       <div className="flex">
@@ -16,9 +24,15 @@ const NavBar = () => {
         <Link href="/mypage" className="p-4">
           마이페이지
         </Link>
-        <Link href="/login" className="p-4">
-          로그인
-        </Link>
+        {!tk ? (
+          <Link href="/login" className="p-4">
+            로그인
+          </Link>
+        ) : (
+          <Link href="/" className="p-4">
+            <SingOutButton />
+          </Link>
+        )}
       </div>
     </nav>
   );
