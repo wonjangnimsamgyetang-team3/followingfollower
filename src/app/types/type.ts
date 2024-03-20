@@ -6,7 +6,10 @@
 //   uid: string;
 //   email: string;
 // }
-
+export type Edit = {
+  isEdit: boolean;
+  setIsEdit: () => void;
+};
 export type UserData = {
   avatar?: string;
   nickname: string;

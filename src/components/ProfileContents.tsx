@@ -5,14 +5,15 @@ import {
   readUserInfo,
   updateUserAccounts,
 } from "@/supabase/myPage/profileImage";
+import { Edit, UserData } from "@/app/types/type";
 
-const ProfileContents = () => {
+const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const myAccount = { email: "1234@qwer.com" };
   const userEmail = myAccount.email;
 
   // const [userInfo, setUserInfo] = useState<UserData[]>([]);
   // const insertMutation = useInsert(readUserInfo, queryKey.usersAccounts);
-  const { nickname, contents, email } = useStoreState(
+  const { nickname, contents, email } = useStoreState<UserData>(
     (store) => store.userAccount
   );
 
@@ -22,7 +23,7 @@ const ProfileContents = () => {
     contents,
     email,
   });
-  const [isEdit, setIsEdit] = useState(false);
+
   const editValueNickname = editValue.nickname;
   const editValueContents = editValue.contents;
   useEffect(() => {
@@ -31,8 +32,10 @@ const ProfileContents = () => {
 
   const test = async () => {
     const data = await readUserInfo();
-    const [filterUserData] = data?.filter((item) => item.email === userEmail);
-    setUserAccount(filterUserData);
+    if (data) {
+      const [filterUserData] = data.filter((item) => item.email === userEmail);
+      setUserAccount(filterUserData);
+    }
   };
 
   const editValueChangeHandler = (

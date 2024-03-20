@@ -5,10 +5,12 @@ import ProfileImage from "@/components/ProfileImage";
 import { queryKey } from "@/query/queryKey";
 import { readUserInfo } from "@/supabase/myPage/profileImage";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 const MyPage = () => {
   const myAccount = { email: "1234@qwer.com" };
   const userEmail = myAccount.email;
+  const [isEdit, setIsEdit] = useState(false);
   const {
     isPending,
     isError,
@@ -29,7 +31,7 @@ const MyPage = () => {
         <ProfileImage />
       </article>
       <article>
-        <ProfileContents />
+        <ProfileContents isEdit={isEdit} setIsEdit={setIsEdit} />
       </article>
       <article>
         <Calendar />
