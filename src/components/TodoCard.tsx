@@ -6,6 +6,7 @@ import { Database } from 'database.types';
 import ToggleButton from './ToggleButton';
 import HeartFillIcon from '../icons/HeartFillIcon';
 import { HeartIcon } from '@/icons/HeartIcon';
+import Image from 'next/image';
 
 const supabase = createClient<Database>(
   'https://jcsjtjiqolsewkoutsag.supabase.co',
