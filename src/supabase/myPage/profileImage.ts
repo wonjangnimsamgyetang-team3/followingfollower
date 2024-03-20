@@ -3,24 +3,31 @@
 import { UserData } from "@/app/types/type";
 import { supabase } from "../supabase";
 
-export const updateUserAccount = async ({
+export const updateUserAccounts = async ({
   nickname,
-  // avatar,
   contents,
+  email,
 }: UserData) => {
-  const { data, error } = await supabase.auth.updateUser({
-    data: { nickname, contents },
-  });
+  const { data, error } = await supabase
+    .from("usersAccounts")
+    .update({ nickname, contents, email })
+    .eq("email", `${email}`)
+    .select();
+
   if (error) {
     console.error("업데이트를 다시 시도해주세요!");
   }
   return data;
 };
 
-export const setUserDatabase = async ({ nickname, contents }: UserData) => {
+export const setUserDatabase = async ({
+  nickname,
+  contents,
+  email,
+}: UserData) => {
   const { data, error } = await supabase
     .from("usersAccounts")
-    .insert([{ nickname, contents }])
+    .insert([{ nickname, contents, email }])
     .select();
   if (!data || error) {
     console.error("데이터를 넣을 수 없습니다.");
@@ -43,11 +50,12 @@ export const getLoginUserInfo = async () => {
 export const readUserInfo = async () => {
   const { data, error } = await supabase.from("usersAccounts").select("*");
   console.log(data);
-
+  if (data !== (null || undefined)) {
+    return data;
+  }
   if (error) {
     alert("오류로 인해 정보를 받아오지 못 하고 있습니다.");
   }
-  return data;
 };
 
 export const readMyReview = async () => {

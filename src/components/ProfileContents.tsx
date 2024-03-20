@@ -1,37 +1,51 @@
 "use client";
-import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  PropsWithChildren,
+  useEffect,
+  useState,
+} from "react";
 import useStoreState from "@/app/shared/store";
-import { readUserInfo, setUserDatabase } from "@/supabase/myPage/profileImage";
+import {
+  readUserInfo,
+  setUserDatabase,
+  updateUserAccounts,
+} from "@/supabase/myPage/profileImage";
 import { useQuery } from "@tanstack/react-query";
 import { UserData, UserInfo } from "@/app/types/type";
 import { queryKey } from "@/query/queryKey";
 import { useInsert } from "@/query/mutation";
 import ProfileImage from "./ProfileImage";
-import useInput from "@/hooks/useInput";
+import { supabase } from "@/supabase/supabase";
 
 const ProfileContents = () => {
   const myAccount = { email: "1234@qwer.com" };
-  const {
-    isPending,
-    isError,
-    data: userInfo,
-  } = useQuery({
-    queryKey: [queryKey.usersAccounts],
-    queryFn: readUserInfo,
-  });
+  const userEmail = myAccount.email;
 
-  const init: UserData = {
-    nickname: userInfo.nickname,
-    contents: userInfo.contents,
-  };
-  const insertMutation = useInsert(readUserInfo, queryKey.usersAccounts);
-  // const { nickname, contents } = useStoreState((store) => store.userAccount);
+  // const [userInfo, setUserInfo] = useState<UserData[]>([]);
+  // const insertMutation = useInsert(readUserInfo, queryKey.usersAccounts);
+  const { nickname, contents } = useStoreState((store) => store.userAccount);
+  console.log(nickname, contents);
   const setUserAccount = useStoreState((store) => store.setUserAccount);
-  // const [editValue, setEditValue] = useState<UserData>(initialUserData);
-  const {editValue, setEditValue, ,} = useInput(init);
+  const [editValue, setEditValue] = useState({
+    nickname,
+    contents,
+    email: userEmail,
+  });
   const [isEdit, setIsEdit] = useState(false);
   const editValueNickname = editValue.nickname;
   const editValueContents = editValue.contents;
+  useEffect(() => {
+    test();
+  }, []);
+
+  const test = async () => {
+    const data = await readUserInfo();
+    const [filterUserData] = data?.filter((item) => item.email === userEmail);
+    setUserAccount(filterUserData);
+  };
 
   const editValueChangeHandler = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -44,7 +58,7 @@ const ProfileContents = () => {
   const editContentsHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEdit(true);
-    setEditValue({ nickname, contents });
+    setEditValue({ nickname, contents, email: userEmail });
   };
 
   const onEditSave = (e: FormEvent<HTMLFormElement>) => {
@@ -69,7 +83,7 @@ const ProfileContents = () => {
     setUserAccount(editValue);
 
     const userAccountEdit = async () => {
-      await setUserDatabase(editValue);
+      await updateUserAccounts(editValue);
     };
     userAccountEdit();
     setIsEdit(false);
@@ -108,10 +122,10 @@ const ProfileContents = () => {
                     name="nickname"
                     value={editValueNickname}
                     onChange={editValueChangeHandler}
-                    maxLength={8}
+                    maxLength={10}
                     placeholder={
                       editValueNickname === ""
-                        ? "닉네임을 적어주세요 (8글자 이내)"
+                        ? "닉네임을 적어주세요 (10글자 이내)"
                         : editValueNickname
                     }
                   />
@@ -119,7 +133,7 @@ const ProfileContents = () => {
                 <textarea
                   name="contents"
                   cols={30}
-                  rows={10}
+                  rows={2}
                   value={editValueContents}
                   onChange={editValueChangeHandler}
                   maxLength={100}

@@ -22,7 +22,7 @@ const useStoreState = create<State>((set) => ({
   // MyPage-ProfileImage.tsx
   defaultImg: defaultImg.src,
   selectFile: defaultImg.src,
-  userAccount: { nickname: "g", contents: "gg", email: "", uid: "" },
+  userAccount: { nickname: "", contents: "", email: "", uid: "" },
   setSelectFile: (selectImg: string) =>
     set((prev) => ({ ...prev, selectFile: selectImg })),
   setDefaultImg: (selectImg: string) =>

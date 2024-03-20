@@ -1,23 +1,24 @@
 // export interface UserData {
-//   avatar?: string;
 //   nickname: string;
 //   contents: string;
-//   id?: string;
-//   uid?: string;
-//   email?: string;
+//   avatar: string;
+//   id: string;
+//   uid: string;
+//   email: string;
 // }
 
 export type UserData = {
-  avatar?: string;
+  avatar?: string | undefined;
   nickname: string;
   contents: string;
-  id?: string;
-  uid?: string;
-  email?: string;
+  id?: string | undefined;
+  uid?: string | undefined;
+  email: string | undefined;
 };
-export type UserInfo = {
+
+export interface UserInfo {
   nickname: string;
   contents: string;
-};
+}
 
 // nickname: userInfo.nickname,
