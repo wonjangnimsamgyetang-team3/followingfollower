@@ -3,6 +3,7 @@
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
+import './calendar.css';
 
 const CalendarPage = () => {
   const events = [
@@ -24,22 +25,32 @@ const CalendarPage = () => {
       end: '2024-03-30',
       color: '#fb8494',
     },
+    {
+      title: '디저트 먹기',
+      start: '2024-03-25',
+      end: '2024-03-27',
+      color: '#fb8494',
+    },
   ];
 
   return (
     <>
-      <FullCalendar
-        initialView="dayGridMonth"
-        plugins={[dayGridPlugin]}
-        events={events}
-        // eventClick={() => alert('hi')}
-        // eventContent={renderEventContent}
-      />
-      <FullCalendar
-        plugins={[listPlugin]}
-        initialView="listWeek"
-        events={events}
-      />
+      <section className="">
+        <FullCalendar
+          initialView="dayGridMonth"
+          plugins={[dayGridPlugin]}
+          events={events}
+          // eventClick={() => alert('hi')}
+          // eventContent={renderEventContent}
+        />
+      </section>
+      {/* <section>
+        <FullCalendar
+          plugins={[listPlugin]}
+          initialView="listWeek"
+          events={events}
+        />
+      </section> */}
     </>
   );
 };

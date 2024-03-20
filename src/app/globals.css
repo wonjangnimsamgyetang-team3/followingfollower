@@ -164,4 +164,6 @@ a {
   --subColor2: #ffd7db;
   --subColor3: #777777;
   --subColor4: #efefef;
+
+  --fc-button-active-bg-color: transparent;
 }
