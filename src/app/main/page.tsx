@@ -21,7 +21,6 @@ const MainPage = () => {
             </div>
             <div>
               <h3>전체 글</h3>
-              <article>제목 내용1</article>
               <AllCard />
             </div>
           </>

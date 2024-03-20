@@ -7,7 +7,7 @@ const AllCard = async () => {
   return (
     <div>
       {TodoList?.map((card: any) => {
-        return <div key={card.todoId}>{card.title}</div>;
+        return <article key={card.todoId}>{card.title}</article>;
       })}
     </div>
   );
