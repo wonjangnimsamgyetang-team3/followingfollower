@@ -2,6 +2,7 @@
 import Calendar from "@/components/Calendar";
 import ProfileContents from "@/components/ProfileContents";
 import ProfileImage from "@/components/ProfileImage";
+import ProfileReview from "@/components/ProfileReview";
 import { queryKey } from "@/query/queryKey";
 import { readUserInfo } from "@/supabase/myPage/profileImage";
 import { useQuery } from "@tanstack/react-query";
@@ -35,6 +36,9 @@ const MyPage = () => {
       </article>
       <article>
         <Calendar />
+      </article>
+      <article>
+        <ProfileReview userEmail={userEmail} />
       </article>
     </section>
   );

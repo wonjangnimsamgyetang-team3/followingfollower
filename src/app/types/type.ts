@@ -8,7 +8,7 @@
 // }
 export type Edit = {
   isEdit: boolean;
-  setIsEdit: () => void;
+  setIsEdit: (boolean: boolean) => void;
 };
 export type UserData = {
   avatar?: string;
@@ -26,3 +26,6 @@ export interface UserInfo {
 }
 
 // nickname: userInfo.nickname,
+export type UserEmail = {
+  userEmail: string;
+};
