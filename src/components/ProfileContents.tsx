@@ -1,24 +1,10 @@
 "use client";
-import {
-  ChangeEvent,
-  FormEvent,
-  MouseEvent,
-  PropsWithChildren,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
 import useStoreState from "@/app/shared/store";
 import {
   readUserInfo,
-  setUserDatabase,
   updateUserAccounts,
 } from "@/supabase/myPage/profileImage";
-import { useQuery } from "@tanstack/react-query";
-import { UserData, UserInfo } from "@/app/types/type";
-import { queryKey } from "@/query/queryKey";
-import { useInsert } from "@/query/mutation";
-import ProfileImage from "./ProfileImage";
-import { supabase } from "@/supabase/supabase";
 
 const ProfileContents = () => {
   const myAccount = { email: "1234@qwer.com" };
