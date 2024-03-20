@@ -23,6 +23,10 @@ const ProfileReview = ({ userEmail }: UserEmail) => {
   }
   return (
     <section>
+      <article>
+        <div>내가 할 일</div>
+        <div>좋아요한 할 일</div>
+      </article>
       {userEmail !== (null || undefined) && (
         <article>
           {filterUserTodo?.map((todoItem) => {
