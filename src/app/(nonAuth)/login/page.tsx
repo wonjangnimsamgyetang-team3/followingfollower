@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { FaGithub } from "react-icons/fa6";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from 'react';
+import { FaGithub } from 'react-icons/fa6';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-import type { Database } from "database.types";
+import type { Database } from 'database.types';
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 const LoginPage = () => {
-  const [loginEmail, setLoginEmail] = useState<string>("");
-  const [loginPw, setLoginPw] = useState<string>("");
+  const [loginEmail, setLoginEmail] = useState<string>('');
+  const [loginPw, setLoginPw] = useState<string>('');
   const [user, setUser] = useState<any | null>(null);
   const supabase = createClientComponentClient<Database>();
   const router = useRouter();
@@ -25,7 +25,7 @@ const LoginPage = () => {
 
       if (!user) {
         setUser(user);
-        console.log("user", user);
+        console.log('user', user);
       }
     };
 
@@ -44,7 +44,7 @@ const LoginPage = () => {
     });
 
     if (!loginEmail || !loginPw) {
-      alert("빈칸 없이 작성해주세요");
+      alert('빈칸 없이 작성해주세요');
       return;
     }
     if (error) {
@@ -53,8 +53,8 @@ const LoginPage = () => {
     }
 
     alert(`로그인 성공`);
-    setLoginEmail("");
-    setLoginPw("");
+    setLoginEmail('');
+    setLoginPw('');
 
     const session = await supabase.auth.getSession();
     const authAvatar = session.data.session?.user.user_metadata.avatar;
@@ -63,7 +63,7 @@ const LoginPage = () => {
     const authEmail = session.data.session?.user.email;
 
     const { data: insertData, error: insetError } = await supabase
-      .from("usersAccounts")
+      .from('usersAccounts')
       .insert([
         {
           avatar: authAvatar,
@@ -74,7 +74,7 @@ const LoginPage = () => {
       ])
       .select();
     //현재 페이지를 새로고침
-    router.push("/");
+    router.push('/');
     router.refresh();
   };
 
@@ -84,23 +84,23 @@ const LoginPage = () => {
     const authEmail: string | undefined = session.data.session?.user.email;
     if (authEmail) {
       const { error: dbError } = await supabase
-        .from("usersAccounts")
+        .from('usersAccounts')
         .delete()
-        .eq("email", authEmail);
+        .eq('email', authEmail);
     }
 
-    alert("로그아웃");
+    alert('로그아웃');
     let { error } = await supabase.auth.signOut();
-    router.replace("/");
+    router.replace('/');
     router.refresh();
   };
 
   //소셜 로그인
   const socialSignInHandler = async () => {
     let { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "github",
+      provider: 'github',
       options: {
-        redirectTo: "http://localhost:3000",
+        redirectTo: 'http://localhost:3000',
       },
     });
   };
@@ -108,7 +108,7 @@ const LoginPage = () => {
   return (
     <div>
       <div>
-        {" "}
+        {' '}
         <button onClick={socialSignInHandler}>
           <FaGithub size={50} />
         </button>
