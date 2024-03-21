@@ -7,10 +7,11 @@ import {
   uploadImage,
 } from "@/supabase/myPage/profileImage";
 import useStoreState from "@/app/shared/store";
-import { Edit, UserData, UserInfo } from "@/app/types/type";
+import { Edit, UserData } from "@/app/types/type";
 import { supabase } from "@/supabase/supabase";
 
 const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
+  console.log(isEdit);
   const avatar = "";
   const myAccount = { email: "1234@qwer.com" };
   const userEmail = myAccount.email;
@@ -120,6 +121,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     e.preventDefault();
     setIsEdit(false);
     console.log(1);
+    setEditValue({ ...editValue, avatar: defaultImg });
     if (isEdit && selectFile !== defaultImg) setDefaultImg(avatar);
   };
 
