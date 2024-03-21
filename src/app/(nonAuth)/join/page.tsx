@@ -18,12 +18,12 @@ const SingUpPage = () => {
     e.preventDefault();
 
     if (!userEmail || !userPw || !userNickname) {
-      alert("빈칸 없이 작성해주세요");
+      alert("빈칸 없이 작성해주세요!");
       return;
     }
 
     if (userPw !== userCkPw) {
-      alert("비밀번호 제대로 확인하세용");
+      alert("비밀번호가 일치하지 않습니다.");
       return;
     }
 
@@ -56,7 +56,7 @@ const SingUpPage = () => {
     setUserPw("");
     setUserCkPw("");
     setUserNickname("");
-    alert(`안녕하세요 ${userEmail}님!`);
+    alert(`회원가입이 완료됐습니다. 이메일 인증 후 로그인해주세요!`);
 
     router.push("/login");
   };
@@ -66,7 +66,7 @@ const SingUpPage = () => {
       <form onSubmit={signUpHandler} className="flex flex-col">
         <span>회원가입 하기</span>
         <div>
-          <span>아이디</span>{" "}
+          <span>이메일</span>{" "}
           <input
             type="email"
             onChange={(e) => setUserEmail(e.target.value)}

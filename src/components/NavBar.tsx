@@ -1,5 +1,6 @@
 import { User } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
+import LogOut from "./LogOut";
 
 const NavBar = ({ user }: { user: User | null }) => {
   return (
@@ -25,9 +26,7 @@ const NavBar = ({ user }: { user: User | null }) => {
         )}
 
         {user ? (
-          <Link href="/login" className="p-4">
-            로그아웃
-          </Link>
+          <LogOut />
         ) : (
           <Link href="/login" className="p-4">
             로그인
