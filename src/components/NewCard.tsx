@@ -1,10 +1,12 @@
 "use client";
 
 import { supabase } from "@/supabase/supabase";
-import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
 
-const AllCard = () => {
+import type { Todo } from "@/app/types/type";
+
+const NewCard = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["todos"],
     queryFn: async () => {
@@ -13,14 +15,7 @@ const AllCard = () => {
     },
   });
 
-  const todoAllCard = data?.map((card: any) => {
-    return (
-      <article key={card.todoId}>
-        {card.title} | {card.nickname} | {card.contents} | {card.start} /
-        {/* 아티클 : 작은 카드같은거에 쓴다 */}
-      </article>
-    );
-  });
+  console.log(data);
 
   if (isLoading) {
     <div>로딩 중 입니다...</div>;
@@ -29,7 +24,7 @@ const AllCard = () => {
   if (isError) {
     <div>에러 입니다...</div>;
   }
-  return <div>{todoAllCard}</div>;
+  return <div>gld</div>;
 };
 
-export default AllCard;
+export default NewCard;

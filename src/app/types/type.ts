@@ -5,4 +5,6 @@ export interface Todo {
   contents: string;
   start: Date;
   end: Date;
+  likeCount: number;
+  created_at: string;
 }

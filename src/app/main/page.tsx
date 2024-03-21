@@ -1,8 +1,9 @@
 import { supabase } from "@/supabase/supabase";
 import React, { useEffect, useState } from "react";
+import AllCard from "@/components/AllCard";
+import NewCard from "@/components/NewCard";
 
 import type { Todo } from "../types/type";
-import AllCard from "@/components/AllCard";
 
 const MainPage = () => {
   return (
@@ -15,9 +16,7 @@ const MainPage = () => {
           <>
             <div>
               <h3>최신 인기 글</h3>
-              <article>제목 내용1</article>
-              <article>제목 내용2</article>
-              {/* 아티클 : 작은 카드같은거에 쓴다 */}
+              <NewCard />
             </div>
             <div>
               <h3>전체 글</h3>
