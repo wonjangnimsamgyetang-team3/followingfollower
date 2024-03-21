@@ -3,14 +3,12 @@
 import Image from 'next/image';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { FaPhotoVideo } from 'react-icons/fa';
-import { createClient } from '@supabase/supabase-js';
-import { Database } from 'database.types';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/supabase/supabase';
 
 const NewTodo = () => {
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File>();
-  const [fileUrl, setFileUrl] = useState<string | null>(null);
   const router = useRouter();
 
   // 이미지 파일 업로드, 드롭
@@ -102,15 +100,10 @@ const NewTodo = () => {
     router.push('/feed');
   };
 
-  const supabase = createClient<Database>(
-    'https://jcsjtjiqolsewkoutsag.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impjc2p0amlxb2xzZXdrb3V0c2FnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTA4MzEyOTMsImV4cCI6MjAyNjQwNzI5M30.Mm1I1g_5qrNONvPK8gsK_3xDBim04lX01cQAX1yXVB0'
-  );
-
   return (
     <div className="w-full h-full flex flex-col flex items-center flex justify-center bg-[#e3e3e3]">
-      <section className="w-[700px] h-[900px] outline-none flex flex-col items-center justify-center mt-20 mb-20 bg-white border-2 border-[#fb8494] rounded-[30px] p-[40px]">
-        <div className="text-lg text-[#fb8494] mb-[20px]">username</div>
+      <section className="w-[700px] h-[900px] outline-none flex flex-col items-center justify-center mt-20 mb-20 bg-white border-2 border-solid border-subColor2 rounded-[30px] p-[40px]">
+        <div className="text-lg text-[#fb8494] mb-[20px]">nickname</div>
         <form className="w-full flex flex-col mt-2" onSubmit={handleSubmit}>
           <textarea
             className="w-15 h-12 outline-none text-lg border-2 border-[#fb8494] rounded-[30px] resize-none p-[8px] pl-[15px]"
