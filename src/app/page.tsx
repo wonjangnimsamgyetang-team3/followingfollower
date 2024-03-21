@@ -1,17 +1,31 @@
-import { cookies } from "next/headers";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { supabase } from "@/supabase/supabase";
+import React, { useEffect, useState } from "react";
+import AllCard from "@/components/AllCard";
+import NewCard from "@/components/NewCard";
+import Banner from "@/components/Banner";
 
-export default async function Home() {
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient({
-    cookies: () => cookieStore,
-  });
+const MainPage = () => {
+  return (
+    <main>
+      <Banner />
+      <section className="flex">
+        <aside>인기 TOP3</aside>
+        <div className="">
+          <div>최근 올라온 글</div>
+          <>
+            <div>
+              <h3>최신 인기 글</h3>
+              <NewCard />
+            </div>
+            <div>
+              <h3>전체 글</h3>
+              <AllCard />
+            </div>
+          </>
+        </div>
+      </section>
+    </main>
+  );
+};
 
-  // const {
-  //   data: { user },
-  // } = await supabase.auth.getUser();
-  // console.log("home - user", user?.user_metadata);
-  // const test = user?.user_metadata.avatar;
-
-  return <div>{/* <img src={test} /> */}hi</div>;
-}
+export default MainPage;

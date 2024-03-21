@@ -4,7 +4,7 @@ import LogOut from "./LogOut";
 
 const NavBar = ({ user }: { user: User | null }) => {
   return (
-    <nav className="flex justify-center">
+    <nav className="flex flex-col place-items-center">
       <div className="flex">
         <Link href="/" className="p-4">
           FF
@@ -33,6 +33,7 @@ const NavBar = ({ user }: { user: User | null }) => {
           </Link>
         )}
       </div>
+      <div className="w-full h-2 bg-gradient-to-b from-subColor2"></div>
     </nav>
   );
 };
