@@ -1,31 +1,40 @@
-import CalendarPage from '@/components/Calendar';
-import ProfileContents from '@/components/ProfileContents';
-import ProfileImage from '@/components/ProfileImage';
-import { queryKey } from '@/query/queryKey';
-import { readUserInfo } from '@/supabase/myPage/profileImage';
-import { useQuery } from '@tanstack/react-query';
+"use client";
+import Calendar from "@/components/Calendar";
+import ProfileContents from "@/components/ProfileContents";
+import ProfileImage from "@/components/ProfileImage";
+import ProfileReview from "@/components/ProfileReview";
+import { queryKey } from "@/query/queryKey";
+import { readUsersInfo } from "@/supabase/myPage/profileImage";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 const MyPage = () => {
-  // const {
-  //   isPending,
-  //   isError,
-  //   data: userInfo,
-  // } = useQuery({
-  //   queryKey: [queryKey.usersAccounts],
-  //   queryFn: readUserInfo,
-  // });
+  const myAccount = { email: "1234@qwer.com" };
+  const userEmail = myAccount.email;
+  const [isEdit, setIsEdit] = useState(false);
+  const {
+    isPending,
+    isError,
+    data: userInfo,
+  } = useQuery({
+    queryKey: [queryKey.usersAccounts],
+    queryFn: readUsersInfo,
+  });
+  console.log(userInfo);
 
-  // console.log(userInfo);
   return (
     <section>
       <article>
-        <ProfileImage />
+        <ProfileImage isEdit={isEdit} setIsEdit={setIsEdit} />
       </article>
       <article>
-        <ProfileContents />
+        <ProfileContents isEdit={isEdit} setIsEdit={setIsEdit} />
       </article>
       <article>
-        <CalendarPage />
+        <Calendar />
+      </article>
+      <article>
+        <ProfileReview userEmail={userEmail} />
       </article>
     </section>
   );

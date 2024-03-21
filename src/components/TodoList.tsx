@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import TodoCard from './TodoCard';
-import { supabase } from '@/supabase/supabase';
+import React, { useEffect, useState } from "react";
+import TodoCard from "./TodoCard";
+import { supabase } from "@/supabase/supabase";
 
 export type TodoData = {
   contents: string;
@@ -26,7 +26,7 @@ const TodoList = () => {
   }, []);
 
   async function getTodoData() {
-    let { data } = await supabase.from('TodoList').select('*');
+    let { data } = await supabase.from("TodoList").select("*");
     setTodoData(data);
   }
 
