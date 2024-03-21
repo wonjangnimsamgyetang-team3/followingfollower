@@ -3,12 +3,12 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import listPlugin from "@fullcalendar/list";
-import "./calendar.css";
+import "../style/calendar.css";
 import { supabase } from "@/supabase/supabase";
 import { useQuery } from "@tanstack/react-query";
-import { TodosInCalendar } from "../types/todoInCalendar";
+import { TodosInCalendar } from "../app/types/todoInCalendar";
 
-const CalendarPage = () => {
+const Calendar = () => {
   const todos: TodosInCalendar = [];
 
   const { data, isLoading, isError } = useQuery({
@@ -33,7 +33,7 @@ const CalendarPage = () => {
 
   return (
     <>
-      <section className="">
+      <section className="w-1/2">
         <FullCalendar
           initialView="dayGridMonth"
           plugins={[dayGridPlugin]}
@@ -51,4 +51,4 @@ const CalendarPage = () => {
   );
 };
 
-export default CalendarPage;
+export default Calendar;

@@ -1,0 +1,111 @@
+"use client";
+
+import { useState } from "react";
+import { supabase } from "@/supabase/supabase";
+import { useRouter } from "next/navigation";
+
+const SingUpPage = () => {
+  const [userEmail, setUserEmail] = useState<string>("");
+  const [userPw, setUserPw] = useState<string>("");
+  const [userCkPw, setUserCkPw] = useState<string>("");
+  const [userNickname, setUserNickname] = useState<string>("");
+  const router = useRouter();
+
+  // 회원가입
+  const signUpHandler = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    e.preventDefault();
+
+    if (!userEmail || !userPw || !userNickname) {
+      alert("빈칸 없이 작성해주세요");
+      return;
+    }
+
+    if (userPw !== userCkPw) {
+      alert("비밀번호 제대로 확인하세용");
+      return;
+    }
+
+    try {
+      let { data, error } = await supabase.auth.signUp({
+        email: userEmail,
+        password: userPw,
+        options: {
+          emailRedirectTo: `${location.origin}/auth/callback`,
+          data: {
+            userNickname: userNickname,
+            avatar: "",
+            contents: "",
+          },
+        },
+      });
+    } catch (error) {
+      if (error) {
+        console.log(error);
+        return;
+      }
+    }
+
+    // if (!data.user.identities.length === 0) {
+    //   alert("이미 존재하는 이메일입니다.");
+    //   return;
+    // }
+
+    setUserEmail("");
+    setUserPw("");
+    setUserCkPw("");
+    setUserNickname("");
+    alert(`안녕하세요 ${userEmail}님!`);
+
+    router.push("/login");
+  };
+
+  return (
+    <div>
+      <form onSubmit={signUpHandler} className="flex flex-col">
+        <span>회원가입 하기</span>
+        <div>
+          <span>아이디</span>{" "}
+          <input
+            type="email"
+            onChange={(e) => setUserEmail(e.target.value)}
+            value={userEmail}
+            className="border border-indigo-600 w-80"
+          />
+        </div>
+        <div>
+          <span>비밀번호</span>
+          <input
+            type="password"
+            onChange={(e) => setUserPw(e.target.value)}
+            value={userPw}
+            className="border border-indigo-600 w-80"
+          />
+        </div>
+        <div>
+          <span>비밀번호 확인</span>
+          <input
+            type="password"
+            onChange={(e) => setUserCkPw(e.target.value)}
+            value={userCkPw}
+            className="border border-indigo-600 w-80"
+          />
+        </div>
+        <div>
+          <span>닉네임</span>
+          <input
+            type="text"
+            onChange={(e) => setUserNickname(e.target.value)}
+            value={userNickname}
+            className="border border-indigo-600 w-80"
+          />
+        </div>
+
+        <button type="submit">회원가입</button>
+      </form>
+    </div>
+  );
+};
+
+export default SingUpPage;
