@@ -5,6 +5,7 @@ import memo from '../../assets/memo.png';
 import calendar from '../../assets/calendar.png';
 import comment from '../../assets/comment.png';
 import { supabase } from '@/supabase/supabase';
+import Link from 'next/link';
 
 export const revalidate = 10;
 
@@ -12,7 +13,8 @@ const AboutPage = async () => {
   const { data: todos } = await supabase.from('TodoList').select('*');
   const { data: users } = await supabase.from('usersAccounts').select('*');
   const { data: members } = await supabase.from('members').select('*');
-  console.log(members);
+
+  const sortedMember = members?.sort((a, b) => a.id - b.id);
   const today = new Date();
   const deadline = new Date(today.setDate(today.getDate() - 1));
 
@@ -22,11 +24,11 @@ const AboutPage = async () => {
   const doneTodosNum = doneTodos?.length;
 
   return (
-    <main className="p-7 flex flex-col place-items-center">
+    <main className="pt-20 pb-32 flex flex-col place-items-center gap-20">
       <h2 className="p-3 text-4xl text-subColor1 border-b-2 border-solid border-subColor1">
         Todo를 공유하며 소통할 수 있는 사이트 팔팔입니다!
       </h2>
-      <article className="pt-14 flex place-items-center gap-14">
+      <article className="flex place-items-center gap-14">
         <section>
           <Image
             src={girl}
@@ -55,50 +57,72 @@ const AboutPage = async () => {
           </div>
         </section>
       </article>
-      <article className="pt-14 flex place-items-center gap-14">
-        <section className="flex flex-col place-items-end gap-7">
-          <div className="flex place-items-center justify-center gap-4">
-            <h1 className="text-8xl text-subColor1 [text-shadow:_3px_3px_0_var(--mainColor2)]">
-              {todosNum}
-            </h1>
-            <p>개의 Todo가 공유되었어요!</p>
-          </div>
-          <div className="flex place-items-center justify-center gap-4">
-            <h1 className="text-8xl text-subColor1 [text-shadow:_3px_3px_0_var(--mainColor2)]">
-              {doneTodosNum}
-            </h1>
-            <p>개의 Todo가 완료되었어요!</p>
-          </div>
-          <div className="flex place-items-center justify-center gap-4">
-            <h1 className="text-8xl text-subColor1 [text-shadow:_3px_3px_0_var(--mainColor2)]">
-              {usersNum}
-            </h1>
-            <p>명의 사람들이 이용 중이에요!</p>
-          </div>
-        </section>
-        <section>
-          <Image
-            width={240}
-            height={240}
-            src={boy}
-            alt="소개하는 남자 일러스트"
-          />
+      <article className="flex flex-col place-items-center gap-14">
+        <h2 className="text-3xl text-subColor1 font-bold">팔팔에서 지금까지</h2>
+        <section className="flex gap-14">
+          <section className="flex flex-col place-items-end gap-7">
+            <div className="flex place-items-center justify-center gap-4">
+              <h1 className="text-8xl text-subColor1 [text-shadow:_3px_3px_0_var(--mainColor2)]">
+                {todosNum}
+              </h1>
+              <p>개의 Todo가 공유되었어요!</p>
+            </div>
+            <div className="flex place-items-center justify-center gap-4">
+              <h1 className="text-8xl text-subColor1 [text-shadow:_3px_3px_0_var(--mainColor2)]">
+                {doneTodosNum}
+              </h1>
+              <p>개의 Todo가 완료되었어요!</p>
+            </div>
+            <div className="flex place-items-center justify-center gap-4">
+              <h1 className="text-8xl text-subColor1 [text-shadow:_3px_3px_0_var(--mainColor2)]">
+                {usersNum}
+              </h1>
+              <p>명의 사람들이 이용 중이에요!</p>
+            </div>
+          </section>
+          <section>
+            <Image
+              width={240}
+              height={240}
+              src={boy}
+              alt="소개하는 남자 일러스트"
+            />
+          </section>
         </section>
       </article>
-      <article className="pt-14">
-        <h3 className="px-10 py-3 bg-subColor2 rounded-full">
+      <article className="flex flex-col place-items-center">
+        <h3 className="px-10 py-3 text-xl border-2 border-solid border-subColor1 rounded-full">
           팔팔 프로젝트에 함께한 사람들
         </h3>
-        <section>
-          {members?.map((member) => (
-            <div key={member.id}>
+        <section className="pt-14 flex gap-10">
+          {sortedMember?.map((member) => (
+            <div
+              key={member.id}
+              className="flex flex-col place-items-center gap-3"
+            >
               <Image
                 src={member.profile}
                 alt={member.name}
                 width={100}
                 height={100}
               />
-              <h3>{member.name}</h3>
+              <h3 className="pt-2">{member.name}</h3>
+              <section className="flex gap-2">
+                <Link
+                  href={member.github}
+                  className="px-4 py-2 bg-subColor2 rounded-xl hover:drop-shadow"
+                  target="_blank"
+                >
+                  github
+                </Link>
+                <Link
+                  href={member.blog}
+                  className="px-4 py-2 bg-subColor2 rounded-xl hover:drop-shadow"
+                  target="_blank"
+                >
+                  blog
+                </Link>
+              </section>
             </div>
           ))}
         </section>
