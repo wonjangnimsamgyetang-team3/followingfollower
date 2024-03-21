@@ -1,18 +1,18 @@
-import Image from 'next/image';
-import girl from '../../assets/girl.png';
-import boy from '../../assets/boy.png';
-import memo from '../../assets/memo.png';
-import calendar from '../../assets/calendar.png';
-import comment from '../../assets/comment.png';
-import { supabase } from '@/supabase/supabase';
-import Link from 'next/link';
+import Image from "next/image";
+import girl from "../../assets/girl.png";
+import boy from "../../assets/boy.png";
+import memo from "../../assets/memo.png";
+import calendar from "../../assets/calendar.png";
+import comment from "../../assets/comment.png";
+import { supabase } from "@/supabase/supabase";
+import Link from "next/link";
 
 export const revalidate = 10;
 
 const AboutPage = async () => {
-  const { data: todos } = await supabase.from('TodoList').select('*');
-  const { data: users } = await supabase.from('usersAccounts').select('*');
-  const { data: members } = await supabase.from('members').select('*');
+  const { data: todos } = await supabase.from("TodoList").select("*");
+  const { data: users } = await supabase.from("usersAccounts").select("*");
+  const { data: members } = await supabase.from("members").select("*");
 
   const sortedMember = members?.sort((a, b) => a.id - b.id);
   const today = new Date();

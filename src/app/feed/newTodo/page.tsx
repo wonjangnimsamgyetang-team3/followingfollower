@@ -1,4 +1,4 @@
-import NewTodo from '../../../components/NewTodo';
+import NewTodo from "../../../components/NewTodo";
 
 const NewPostPage = async () => {
   return (

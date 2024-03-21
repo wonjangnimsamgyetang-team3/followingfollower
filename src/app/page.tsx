@@ -1,8 +1,8 @@
-import { supabase } from '@/supabase/supabase';
-import React, { useEffect, useState } from 'react';
-import AllCard from '@/components/AllCard';
-import NewCard from '@/components/NewCard';
-import Banner from '@/components/Banner';
+import { supabase } from "@/supabase/supabase";
+import React, { useEffect, useState } from "react";
+import AllCard from "@/components/AllCard";
+import NewCard from "@/components/NewCard";
+import Banner from "@/components/Banner";
 
 const MainPage = () => {
   return (
