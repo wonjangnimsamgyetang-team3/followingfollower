@@ -1,10 +1,25 @@
 "use client";
-import { TabName, UserEmail } from "@/app/types/type";
+import { TabName } from "@/app/types/type";
 import { queryKey } from "@/query/queryKey";
-import { readMyTodo, readUserInfo } from "@/supabase/myPage/profileImage";
+import { readMyTodo } from "@/supabase/myPage/profileImage";
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import defaultImg from "@/assets/profile.png";
+
+type userTodo = {
+  contents: string | null;
+  created_at: string;
+  end: string;
+  imageFile: string;
+  likeCount: number | null;
+  liked: boolean | null;
+  nickname: string | null;
+  start: string;
+  title: string;
+  todoId: string;
+  liketest: string[];
+};
+
 const ProfileReview = ({ userEmail }: UserEmail) => {
   const {
     isPending,
@@ -20,8 +35,11 @@ const ProfileReview = ({ userEmail }: UserEmail) => {
   };
   const [tab, setTab] = useState<TabName>(tabName);
   const { myTodos, likeTodos } = tab;
-  const filterUserTodo = userTodo?.filter((todo) => todo.email === userEmail);
+  const filterUserTodo = userTodo?.filter(
+    (todo: userTodo) => todo.email === userEmail
+  );
   console.log(filterUserTodo);
+
   if (isPending) {
     <div>정보를 가져오고 있습니다..</div>;
   }

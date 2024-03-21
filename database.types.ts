@@ -54,6 +54,7 @@ export type Database = {
           title?: string | null;
           todoId?: string;
           liketest: string[];
+          email?: string;
         };
         Update: {
           contents?: string | null;
@@ -67,6 +68,7 @@ export type Database = {
           title?: string | null;
           todoId?: string;
           liketest?: string[];
+          email?: string;
         };
         Relationships: [];
       };
