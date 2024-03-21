@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import TodoCard from './TodoCard';
 import { supabase } from '@/supabase/supabase';
+import TodoCard from './TodoCard';
 
 export type TodoData = {
   contents: string;
@@ -11,7 +11,6 @@ export type TodoData = {
   imageFile: string;
   likeCount: number;
   liked: boolean;
-  liketest: string[];
   nickname: string;
   start: string;
   title: string;

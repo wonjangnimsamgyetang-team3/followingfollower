@@ -16,7 +16,6 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('comment', comment);
-    // onTodoComment(comment);
     const { data } = await supabase.from('commentList').insert([
       {
         comment: comment,
@@ -29,6 +28,7 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
   return (
     <form onSubmit={handleCommentSubmit}>
       <input
+        className="mb-[30px] w-[250px] h-[40px] border-solid border-2 border-gray-200 rounded-[10px] p-[10px]"
         name="comment"
         type="text"
         placeholder="댓글을 작성해주세요."
@@ -36,12 +36,7 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
         value={comment}
         onChange={(e) => setComment(e.target.value)}
       />
-      <button
-        disabled={buttonDisabled}
-        className={`font-bold ml-2 bg-gray-500 ${
-          buttonDisabled ? 'text-sky-300' : 'text-sky-500'
-        }`}
-      >
+      <button className="font-bold ml-2 rounded-[15px] bg-[#fb8494] w-[120px] h-[40px]">
         작성하기
       </button>
     </form>

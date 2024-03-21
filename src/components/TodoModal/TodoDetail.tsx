@@ -7,6 +7,7 @@ import CommentForm from './CommentForm';
 export type CommentData = {
   nickname: string;
   comment: string;
+  created_at: string;
 };
 
 type Props = {
@@ -28,7 +29,7 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
   async function fetchComments(todoId: string) {
     const { data: commentList, error } = await supabase
       .from('commentList')
-      .select('nickname, comment')
+      .select('nickname, comment, created_at')
       .eq('todoId', todoId);
 
     if (error) {
@@ -40,39 +41,59 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
   }
 
   return (
-    <div className="flex w-full h-full">
-      <div className="relative basis-3/5">
-        <div>
-          <img alt="avatar" />
-          {todo.nickname}
+    <div>
+      <div className="flex w-full h-full">
+        <div className="relative w-[500px] h-[650px] border-solid border-r-2 border-[#fb8494] p-8 mt-5 mb-5 mr-10">
+          <div className="flex items-center ml-[15px] mb-[15px]">
+            <img alt="avatar" />
+            <p className="font-bold text-xl ml-[15px]">{todo.nickname}</p>
+          </div>
+          <div className="relative">
+            <img
+              className="rounded-[30px] mb-[20px] w-full h-full"
+              src={todo.imageFile}
+              alt="todoImage"
+            />
+          </div>
+          <div>
+            <p className="font-bold text-xl pb-[20px]">{todo.title}</p>
+            <p className="pb-[15px]">{todo.contents}</p>
+          </div>
+          <div className="pt-[160px]">
+            <TodoBar todo={todo} commentCount={commentData.length} />
+          </div>
         </div>
-        <div className="relative">
-          <img
-            className="object-cover rounded-[30px] mb-[20px]"
-            src={todo.imageFile}
-            alt="todoImage"
-            sizes="650px"
-          />
+        <div className="h-[650px]">
+          <ul className="flex flex-col  p-5 w-full h-full overflow-y-auto">
+            {commentData.map((comment, index) => (
+              <li
+                className="border-b-2 border-solid border-subColor2 p-4"
+                key={index}
+              >
+                <div className="flex">
+                  <img alt="avatar" />
+                  <div className="flex flex-col ml-[15px]">
+                    <span className="mb-[10px]">{comment.nickname}</span>
+                    <span className="text-lg mb-[10px]">{comment.comment}</span>
+                    <div className="text-gray-400">
+                      {new Date(comment.created_at).toLocaleDateString(
+                        'ko-KR',
+                        {
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                        }
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <div className="mb-[30px] w-full h-[20px]">
+            <CommentForm todo={todo} onCommentSuccess={handleCommentSuccess} />
+          </div>
         </div>
-        <div>
-          <p className="font-bold text-xl">{todo.title}</p>
-          <p>{todo.contents}</p>
-        </div>
-        <TodoBar todo={todo} commentCount={commentData.length} />
-      </div>
-      <div>
-        <ul>
-          {commentData.map((comment, index) => (
-            <li key={index}>
-              <img alt="avatar" sizes="small" />
-              <div>
-                <span>{comment.nickname}</span>
-                <span>{comment.comment}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <CommentForm todo={todo} onCommentSuccess={handleCommentSuccess} />
       </div>
     </div>
   );
