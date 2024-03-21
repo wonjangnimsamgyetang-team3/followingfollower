@@ -71,8 +71,11 @@ export const getLocalStorageJSON = () => {
   }
 };
 
-export const readUsersInfo = async () => {
-  const { data, error } = await supabase.from("usersAccounts").select("*");
+export const readUsersInfo = async (email: string) => {
+  const { data, error } = await supabase
+    .from("usersAccounts")
+    .select()
+    .eq("email", email);
   if (data !== (null || undefined)) {
     return data;
   }

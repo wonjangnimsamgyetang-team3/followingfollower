@@ -36,6 +36,14 @@ const initialState = {
   like: 0,
   userInfo: null,
   activeCategory: "내가 할 일",
+  userAccount: {
+    avatar: "",
+    nickname: "보라돌이",
+    contents: "눈사람만들래?",
+    id: "",
+    uid: "asde234j23-4we2webdk512k-12m0-5adpib",
+    email: "tj2033428@naver.com",
+  },
 };
 
 const useStoreState = create<State>((set) => ({

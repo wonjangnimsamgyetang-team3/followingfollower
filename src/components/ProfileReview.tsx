@@ -5,9 +5,10 @@ import { useQuery } from "@tanstack/react-query";
 import {
   getLocalStorageJSON,
   readMyTodo,
+  readUsersInfo,
 } from "@/supabase/myPage/profileImage";
-import type { userTodo } from "@/app/types/type";
 import useStoreState from "@/app/shared/store";
+import type { userTodo } from "@/app/types/type";
 import ProfileReviewTab from "./ProfileReviewTab";
 import ProfileReviewLike from "./ProfileReviewLike";
 import defaultImg from "@/assets/profile.png";

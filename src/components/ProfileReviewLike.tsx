@@ -3,7 +3,7 @@ import { userTodo } from "@/app/types/type";
 import defaultImg from "@/assets/profile.png";
 import useStoreState from "@/app/shared/store";
 
-type ReviewLike = {
+export type ReviewLike = {
   userTodo: Partial<userTodo>;
 };
 
@@ -51,7 +51,6 @@ const ProfileReviewLike = ({ userTodo }: ReviewLike) => {
                 <div>{title}</div>
                 <div>{nickname ? nickname : "no name"}</div>
                 <div>
-                  <p>{contents}</p>
                   <p>{contents}</p>
                 </div>
                 <div>{`${end} ~ ${start}`}</div>
