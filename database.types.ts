@@ -81,7 +81,7 @@ export type Database = {
           id?: number;
           nickname?: string | null;
           uid?: string;
-          email?: string | null;
+          email?: string;
         };
         Update: {
           avatar?: string | null;
@@ -89,7 +89,7 @@ export type Database = {
           id?: number;
           nickname?: string | null;
           uid?: string;
-          email?: string | null;
+          email?: string;
         };
         Relationships: [
           {

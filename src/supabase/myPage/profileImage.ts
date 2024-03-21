@@ -2,7 +2,6 @@
 
 import { UserData, UserInfo } from "@/app/types/type";
 import { supabase } from "../supabase";
-import { DiVim } from "react-icons/di";
 
 export const updateUserMetaData = async ({
   nickname,
