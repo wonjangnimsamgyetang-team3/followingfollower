@@ -31,13 +31,13 @@ export type Database = {
         Row: {
           contents: string | null;
           created_at: string;
-          end: string | null;
+          end: string;
           file: string | null;
           likeCount: number | null;
           liked: boolean | null;
           nickname: string | null;
-          start: string | null;
-          title: string | null;
+          start: string;
+          title: string;
           todoId: string;
         };
         Insert: {

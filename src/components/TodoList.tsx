@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import TodoCard from './TodoCard';
 import { supabase } from '@/supabase/supabase';
 
-interface TodoData {
+export type TodoData = {
   contents: string;
   created_at: string;
   end: string;
@@ -16,7 +16,7 @@ interface TodoData {
   start: string;
   title: string;
   todoId: string;
-}
+};
 
 const TodoList = () => {
   const [todoData, setTodoData] = useState<TodoData[]>([]);

@@ -9,7 +9,7 @@ import { supabase } from '@/supabase/supabase';
 const NewTodo = () => {
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File>();
-  const [fileUrl, setFileUrl] = useState<string | null>(null);
+  // const [fileUrl, setFileUrl] = useState<string | null>(null);
   const router = useRouter();
 
   // 이미지 파일 업로드, 드롭
