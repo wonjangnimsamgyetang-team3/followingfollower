@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import listPlugin from '@fullcalendar/list';
-import '../style/calendar.css';
-import { supabase } from '@/supabase/supabase';
-import { useQuery } from '@tanstack/react-query';
-import { TodosInCalendar } from '../app/types/todoInCalendar';
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import listPlugin from "@fullcalendar/list";
+import "../style/calendar.css";
+import { supabase } from "@/supabase/supabase";
+import { useQuery } from "@tanstack/react-query";
+import { TodosInCalendar } from "../app/types/todoInCalendar";
 
 const Calendar = () => {
   const todos: TodosInCalendar = [];
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['todos'],
+    queryKey: ["todos"],
     queryFn: async () => {
       try {
-        const response = await supabase.from('TodoList').select('*');
+        const response = await supabase.from("TodoList").select("*");
         return response.data;
       } catch (error) {
         console.log(error);
