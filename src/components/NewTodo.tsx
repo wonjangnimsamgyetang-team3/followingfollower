@@ -1,16 +1,25 @@
 'use client';
 
 import Image from 'next/image';
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import { FaPhotoVideo } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/supabase/supabase';
+//zustand
+import useStoreState from '@/app/shared/store';
 
 const NewTodo = () => {
+  //zustand
+  const { userInfo } = useStoreState();
+  console.log('로그인한 유저정보', userInfo);
+  const nickname = userInfo?.nickname;
+  const test = userInfo?.avatar;
+
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File>();
   const router = useRouter();
 
+  // 이미지 파일 업로드, 드롭
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const files = e.target?.files;
@@ -102,9 +111,9 @@ const NewTodo = () => {
   return (
     <div className="w-full h-full flex flex-col flex items-center flex justify-center bg-[#e3e3e3]">
       <section className="w-[700px] h-[900px] outline-none flex flex-col items-center justify-center mt-20 mb-20 bg-white border-2 border-solid border-subColor2 rounded-[30px] p-[40px]">
-        <div className="text-lg text-[#fb8494] mb-[20px]">
-          {/* {userInfo?.user_metadata?.nickname} */}
-          nickname
+        <div className="text-lg text-[#fb8494] mb-[20px]">{nickname}</div>
+        <div>
+          <img src={test} />
         </div>
         <form className="w-full flex flex-col mt-2" onSubmit={handleSubmit}>
           <textarea
