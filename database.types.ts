@@ -32,31 +32,33 @@ export type Database = {
           contents: string | null;
           created_at: string;
           end: string;
-          file: string | null;
+          imageFile: string;
           likeCount: number | null;
           liked: boolean | null;
           nickname: string | null;
           start: string;
           title: string;
           todoId: string;
+          liketest: string[];
         };
         Insert: {
           contents?: string | null;
           created_at?: string;
           end?: string | null;
-          file?: string | null;
+          imageFile?: string;
           likeCount?: number | null;
           liked?: boolean | null;
           nickname?: string | null;
           start?: string | null;
           title?: string | null;
           todoId?: string;
+          liketest: string[];
         };
         Update: {
           contents?: string | null;
           created_at?: string;
           end?: string | null;
-          file?: string | null;
+          imageFile?: string;
           likeCount?: number | null;
           liked?: boolean | null;
           nickname?: string | null;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { TodoType } from './TodoCard';
+import { TodoType } from '../TodoCard';
 import { supabase } from '@/supabase/supabase';
-import TodoBar from './TodoBar';
+import TodoBar from '../TodoBar';
 import CommentForm from './CommentForm';
 
 export type CommentData = {

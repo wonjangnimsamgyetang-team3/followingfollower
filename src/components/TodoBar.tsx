@@ -6,7 +6,7 @@ import { HeartIcon } from '@/icons/HeartIcon';
 import { supabase } from '@/supabase/supabase';
 import { TodoType } from './TodoCard';
 import { useState } from 'react';
-import { FaRegCommentDots } from 'react-icons/fa';
+import { AiOutlineComment } from 'react-icons/ai';
 
 type Props = {
   todo: TodoType;
@@ -79,7 +79,7 @@ const TodoBar = ({ todo, commentCount }: Props) => {
         />
         <p className="ml-[5px]">{`${liketest?.length ?? 0}`}</p>
         <div className="flex">
-          <FaRegCommentDots className="ml-[5px]" />
+          <AiOutlineComment className="ml-[10px]" />
           <p className="ml-[5px]">{`${commentCount ?? 0}`}</p>
         </div>
       </div>

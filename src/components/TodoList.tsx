@@ -22,10 +22,10 @@ const TodoList = () => {
   const [todoData, setTodoData] = useState<TodoData[]>([]);
 
   useEffect(() => {
-    getTestData();
+    getTodoData();
   }, []);
 
-  async function getTestData() {
+  async function getTodoData() {
     let { data } = await supabase.from('TodoList').select('*');
     setTodoData(data);
   }

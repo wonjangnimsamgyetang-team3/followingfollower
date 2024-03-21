@@ -9,7 +9,6 @@ import { supabase } from '@/supabase/supabase';
 const NewTodo = () => {
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File>();
-  // const [fileUrl, setFileUrl] = useState<string | null>(null);
   const router = useRouter();
 
   // 이미지 파일 업로드, 드롭
@@ -104,7 +103,7 @@ const NewTodo = () => {
   return (
     <div className="w-full h-full flex flex-col flex items-center flex justify-center bg-[#e3e3e3]">
       <section className="w-[700px] h-[900px] outline-none flex flex-col items-center justify-center mt-20 mb-20 bg-white border-2 border-solid border-subColor2 rounded-[30px] p-[40px]">
-        <div className="text-lg text-[#fb8494] mb-[20px]">username</div>
+        <div className="text-lg text-[#fb8494] mb-[20px]">nickname</div>
         <form className="w-full flex flex-col mt-2" onSubmit={handleSubmit}>
           <textarea
             className="w-15 h-12 outline-none text-lg border-2 border-[#fb8494] rounded-[30px] resize-none p-[8px] pl-[15px]"

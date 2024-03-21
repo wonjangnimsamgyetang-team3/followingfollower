@@ -2,7 +2,7 @@
 
 import { supabase } from '@/supabase/supabase';
 import React, { FormEvent, useState } from 'react';
-import { TodoType } from './TodoCard';
+import { TodoType } from '../TodoCard';
 
 type Props = {
   todo: TodoType;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/supabase/supabase';
-import ModalPotal from './ModalPortal';
-import TodoModal from './TodoModal';
-import TodoDetail from './TodoDetail';
+import ModalPotal from './TodoModal/ModalPortal';
+import TodoModal from './TodoModal/TodoModal';
+import TodoDetail from './TodoModal/TodoDetail';
 import TodoBar from './TodoBar';
 
 export type TodoType = {
@@ -25,7 +25,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
 
   useEffect(() => {
     fetchCommentCount(todo.todoId);
-  }, [todo.todoId]);
+  }, []);
 
   const fetchCommentCount = async (todoId: string) => {
     const { data, error } = await supabase
@@ -36,14 +36,15 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
     if (error) {
       throw error;
     }
-
     setCommentCount(data[0]?.count || 0);
-    setCommentCount(0);
   };
 
   return (
     <div className="bg-white m-[15px] border-2 border-solid border-subColor2 rounded-[30px] p-[30px] flex flex-col items-center justify-center">
-      <div onClick={() => setOpenModal(true)}>
+      <div
+        className="cursor-pointer hover:pointer"
+        onClick={() => setOpenModal(true)}
+      >
         <div className="flex flex-col items-center flex justify-center">
           <h2 className="font-bold text-lg mb-[10px]">{todo.title}</h2>
           <img
@@ -58,7 +59,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
           <p className="mb-[20px]">{todo.contents}</p>
         </div>
       </div>
-      <div>
+      <div className="w-full">
         <TodoBar todo={todo} commentCount={commentCount} />
         {openModal && (
           <ModalPotal>
