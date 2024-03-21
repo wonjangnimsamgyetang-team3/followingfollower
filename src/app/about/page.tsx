@@ -11,11 +11,13 @@ export const revalidate = 10;
 const AboutPage = async () => {
   const { data: todos } = await supabase.from('TodoList').select('*');
   const { data: users } = await supabase.from('usersAccounts').select('*');
+  const today = new Date();
+  const deadline = new Date(today.setDate(today.getDate() - 1));
 
   const todosNum = todos?.length;
-  console.log(todos?.length);
   const usersNum = users?.length;
-  console.log(users?.length);
+  const doneTodos = todos?.filter((todo) => new Date(todo.end) < deadline);
+  const doneTodosNum = doneTodos?.length;
 
   return (
     <main className="p-7 flex flex-col place-items-center">
@@ -61,7 +63,7 @@ const AboutPage = async () => {
           </div>
           <div className="flex place-items-center justify-center gap-4">
             <h1 className="text-8xl text-subColor1 [text-shadow:_3px_3px_0_var(--mainColor2)]">
-              57
+              {doneTodosNum}
             </h1>
             <p>개의 Todo가 완료되었어요!</p>
           </div>
@@ -81,7 +83,7 @@ const AboutPage = async () => {
           />
         </section>
       </article>
-      <article>
+      <article className="pt-14">
         <h3 className="px-10 py-3 bg-subColor2 rounded-full">
           팔팔 프로젝트에 함께한 사람들
         </h3>
