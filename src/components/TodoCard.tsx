@@ -1,78 +1,78 @@
-'use client';
+import React, { useEffect, useState } from 'react';
+import { supabase } from '@/supabase/supabase';
+import ModalPotal from './TodoModal/ModalPortal';
+import TodoModal from './TodoModal/TodoModal';
+import TodoDetail from './TodoModal/TodoDetail';
+import TodoBar from './TodoBar';
 
-import React, { useState, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
-import { Database } from 'database.types';
-import ToggleButton from './ToggleButton';
-import HeartFillIcon from '../icons/HeartFillIcon';
-import { HeartIcon } from '@/icons/HeartIcon';
-
-const supabase = createClient<Database>(
-  'https://jcsjtjiqolsewkoutsag.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impjc2p0amlxb2xzZXdrb3V0c2FnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTA4MzEyOTMsImV4cCI6MjAyNjQwNzI5M30.Mm1I1g_5qrNONvPK8gsK_3xDBim04lX01cQAX1yXVB0'
-);
-
-interface TestData {
+export type TodoType = {
   contents: string;
   created_at: string;
   end: string;
   imageFile: string;
   likeCount: number;
   liked: boolean;
+  liketest: string[];
   nickname: string;
   start: string;
   title: string;
   todoId: string;
-}
-
-interface TodoType {
-  contents: string;
-  created_at: string;
-  end: string;
-  imageFile: string;
-  likeCount: number;
-  liked: boolean;
-  nickname: string;
-  start: string;
-  title: string;
-  todoId: string;
-}
+};
 
 const TodoCard = ({ todo }: { todo: TodoType }) => {
-  const [likes, setLikes] = useState(false);
-  const [testData, setTestData] = useState<TestData[]>([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [commentCount, setCommentCount] = useState(0);
 
-  if (!todo) {
-    return <div>데이터 없음</div>;
-  }
+  useEffect(() => {
+    fetchCommentCount(todo.todoId);
+  }, []);
 
-  const { title, nickname, contents, created_at, imageFile } = todo;
+  const fetchCommentCount = async (todoId: string) => {
+    const { data, error } = await supabase
+      .from('commentList')
+      .select('count', { count: 'exact' })
+      .eq('todoId', todoId);
 
-  const formattedDate = new Date(created_at).toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
+    if (error) {
+      throw error;
+    }
+    setCommentCount(data[0]?.count || 0);
+  };
 
   return (
-    <div className="bg-white m-[15px]">
-      <h2>{title}</h2>
-      <img
-        className="object-cover"
-        src={`${imageFile}`}
-        alt="todoImage"
-        sizes="650px"
-      />
-      <p>{nickname}</p>
-      <p>{contents}</p>
-      <p>{formattedDate}</p>
-      <div>
-        <ToggleButton
-          toggled={likes}
-          onToggle={setLikes}
-          onIcon={<HeartFillIcon />}
-          offIcon={<HeartIcon />}
-        />
+    <div className="bg-white m-[15px] border-2 border-solid border-subColor2 rounded-[30px] p-[30px] flex flex-col items-center justify-center">
+      <div
+        className="cursor-pointer hover:pointer"
+        onClick={() => setOpenModal(true)}
+      >
+        <div className="flex flex-col items-center flex justify-center">
+          <h2 className="font-bold text-lg mb-[10px]">{todo.title}</h2>
+          <img
+            className="object-cover rounded-[30px] mb-[20px]"
+            src={todo.imageFile}
+            alt="todoImage"
+            sizes="650px"
+          />
+        </div>
+        <div className="w-full">
+          <p className="mb-[10px]">{todo.nickname}</p>
+          <p className="mb-[20px]">{todo.contents}</p>
+        </div>
+      </div>
+      <div className="w-full">
+        <TodoBar todo={todo} commentCount={commentCount} />
+        {openModal && (
+          <ModalPotal>
+            <div>
+              <TodoModal onClose={() => setOpenModal(false)}>
+                <TodoDetail
+                  todo={todo}
+                  onCommentCountChange={setCommentCount}
+                />
+              </TodoModal>
+            </div>
+          </ModalPotal>
+        )}
       </div>
     </div>
   );
