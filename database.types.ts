@@ -32,7 +32,7 @@ export type Database = {
           contents: string | null;
           created_at: string;
           end: string;
-          imageFile: string;
+          file: string | null;
           likeCount: number | null;
           liked: boolean | null;
           nickname: string | null;
@@ -46,7 +46,7 @@ export type Database = {
           contents?: string | null;
           created_at?: string;
           end?: string | null;
-          imageFile?: string;
+          file?: string | null;
           likeCount?: number | null;
           liked?: boolean | null;
           nickname?: string | null;
@@ -60,7 +60,7 @@ export type Database = {
           contents?: string | null;
           created_at?: string;
           end?: string | null;
-          imageFile?: string;
+          file?: string | null;
           likeCount?: number | null;
           liked?: boolean | null;
           nickname?: string | null;
@@ -104,7 +104,7 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: 'users';
             referencedColumns: ['id'];
-          },
+          }
         ];
       };
     };

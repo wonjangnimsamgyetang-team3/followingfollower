@@ -1,11 +1,11 @@
 'use Client';
-
 import ToggleButton from './ToggleButton';
 import HeartFillIcon from '../icons/HeartFillIcon';
 import { HeartIcon } from '@/icons/HeartIcon';
 import { supabase } from '@/supabase/supabase';
 import { TodoType } from './TodoCard';
 import { useState } from 'react';
+import { FaRegCommentDots } from 'react-icons/fa';
 import { AiOutlineComment } from 'react-icons/ai';
 
 type Props = {
@@ -15,27 +15,20 @@ type Props = {
 
 const TodoBar = ({ todo, commentCount }: Props) => {
   const [likes, setLikes] = useState(todo.liked);
-  const [liketest, setLiketest] = useState<string[]>(todo.liketest);
+  const [liketest, setLiketest] = useState<string[]>(todo.liketest || []);
 
   const handleLikeToggle = async () => {
     const userId = '15';
     if (likes) {
       await removeLikedUser(todo.todoId);
-      if (liketest !== null) {
-        setLiketest((updatedLiketest) =>
-          updatedLiketest.filter((id) => id !== userId)
-        );
-      }
+      setLiketest((prevLiketest) => prevLiketest.filter((id) => id !== userId));
     } else {
       await addLikedUser(todo.todoId);
-      if (liketest !== null) {
-        setLiketest((updatedLiketest) => [...updatedLiketest, userId]);
-      } else {
-        setLiketest([userId]);
-      }
+      setLiketest((prevLiketest) => [...prevLiketest, userId]);
     }
     setLikes(!likes);
   };
+
   const addLikedUser = async (todoId: string) => {
     const userId = '15';
     const { data, error } = await supabase
@@ -61,6 +54,7 @@ const TodoBar = ({ todo, commentCount }: Props) => {
       throw error;
     }
   };
+
   return (
     <div className="flex w-full justify-between">
       <p className="text-gray-400">
