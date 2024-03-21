@@ -18,11 +18,26 @@ export interface UserInfo {
 }
 
 // nickname: userInfo.nickname,
-// export type UserEmail = {
-//   userEmail: string;
-// };
+export type UserEmail = {
+  userEmail: string;
+};
 
 export type TabName = {
   myTodos: string;
   likeTodos: string;
+};
+
+export type userTodo = {
+  contents: string | null;
+  created_at: string;
+  end: string;
+  imageFile: string;
+  likeCount: number | null;
+  liked: boolean | null;
+  nickname: string | null;
+  start: string;
+  title: string;
+  todoId: string;
+  liketest: string[];
+  email: string;
 };

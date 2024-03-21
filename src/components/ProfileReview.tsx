@@ -1,24 +1,11 @@
 "use client";
-import { TabName } from "@/app/types/type";
+import { UserEmail, userTodo } from "@/app/types/type";
 import { queryKey } from "@/query/queryKey";
 import { readMyTodo } from "@/supabase/myPage/profileImage";
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
 import defaultImg from "@/assets/profile.png";
-
-type userTodo = {
-  contents: string | null;
-  created_at: string;
-  end: string;
-  imageFile: string;
-  likeCount: number | null;
-  liked: boolean | null;
-  nickname: string | null;
-  start: string;
-  title: string;
-  todoId: string;
-  liketest: string[];
-};
+import ProfileReviewTab from "./ProfileReviewTab";
+import ProfileReviewLike from "./ProfileReviewLike";
 
 const ProfileReview = ({ userEmail }: UserEmail) => {
   const {
@@ -29,72 +16,61 @@ const ProfileReview = ({ userEmail }: UserEmail) => {
     queryKey: [queryKey.usersAccounts],
     queryFn: readMyTodo,
   });
-  const tabName: TabName = {
-    myTodos: "내가 한 일",
-    likeTodos: "좋아요한 할 일",
-  };
-  const [tab, setTab] = useState<TabName>(tabName);
-  const { myTodos, likeTodos } = tab;
   const filterUserTodo = userTodo?.filter(
-    (todo: userTodo) => todo.email === userEmail
+    (todo: Partial<userTodo>) => todo.email === userEmail
   );
-  console.log(filterUserTodo);
 
   if (isPending) {
     <div>정보를 가져오고 있습니다..</div>;
   }
   return (
     <section>
-      <div>
-        <button>
-          <div>{myTodos}</div>
-        </button>
-        <button>
-          <div>{likeTodos}</div>
-        </button>
-      </div>
       {/* 내가 한 일 */}
-      {userEmail !== (null || undefined) && (
-        <article>
-          {filterUserTodo?.map((todoItem) => {
-            const {
-              todoId,
-              imageFile,
-              title,
-              nickname,
-              contents,
-              start,
-              end,
-              likeCount,
-            } = todoItem;
-            return (
-              <div key={todoId}>
-                {imageFile ? (
-                  <img
-                    src={imageFile}
-                    className="w-[130px] h-[130px] object-fit"
-                  />
-                ) : (
-                  <img
-                    src={defaultImg.src}
-                    className="w-[130px] h-[130px] object-fit"
-                  />
-                )}
-                <div>{title}</div>
-                <div>{nickname ? nickname : "no name"}</div>
-                <div>
-                  <p>{contents}</p>
-                  <p>{contents}</p>
+      <ProfileReviewTab />
+      <div>
+        {userEmail !== (null || undefined) && (
+          <article>
+            {filterUserTodo?.map((todoItem) => {
+              const {
+                todoId,
+                imageFile,
+                title,
+                nickname,
+                contents,
+                start,
+                end,
+                likeCount,
+              } = todoItem;
+              return (
+                <div key={todoId}>
+                  {imageFile ? (
+                    <img
+                      src={imageFile}
+                      className="w-[130px] h-[130px] object-fit"
+                    />
+                  ) : (
+                    <img
+                      src={defaultImg.src}
+                      className="w-[130px] h-[130px] object-fit"
+                    />
+                  )}
+                  <div>{title}</div>
+                  <div>{nickname ? nickname : "no name"}</div>
+                  <div>
+                    <p>{contents}</p>
+                    <p>{contents}</p>
+                  </div>
+                  <div>{`${end} ~ ${start}`}</div>
+                  <div>{likeCount}❤</div>
+                  <div>댓</div>
                 </div>
-                <div>{`${end} ~ ${start}`}</div>
-                <div>{likeCount}❤</div>
-                <div>댓</div>
-              </div>
-            );
-          })}
-        </article>
-      )}
+              );
+            })}
+          </article>
+        )}
+      </div>
       {/* 좋아요 한 일 */}
+      <ProfileReviewLike userTodo={userTodo} />
     </section>
   );
 };

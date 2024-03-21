@@ -25,14 +25,17 @@ interface State {
   defaultImg: string;
   selectFile: string;
   userAccount: Partial<UserData>;
+  activeCategory: string;
   setSelectFile: (selectImg: string) => void;
   setDefaultImg: (selectImg: string) => void;
   setUserAccount: (newUserData: Partial<UserData>) => void;
+  setCategory: (payload: string) => void;
 }
 
 const initialState = {
   like: 0,
   userInfo: null,
+  activeCategory: "내가 할 일",
 };
 
 const useStoreState = create<State>((set) => ({
@@ -45,6 +48,7 @@ const useStoreState = create<State>((set) => ({
   defaultImg: defaultImg.src,
   selectFile: defaultImg.src,
   userAccount: { nickname: "", contents: "", email: "", uid: "", avatar: "" },
+  // activeCategory: initialState.activeCategory,
   setSelectFile: (selectImg: string) =>
     set((prev) => ({ ...prev, selectFile: selectImg })),
   setDefaultImg: (selectImg: string) =>
@@ -53,6 +57,7 @@ const useStoreState = create<State>((set) => ({
     set(() => ({
       userAccount: newUserData,
     })),
+  setCategory: (category: string) => set({ activeCategory: category }),
 }));
 
 export default useStoreState;
