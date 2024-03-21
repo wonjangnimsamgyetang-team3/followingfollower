@@ -21,6 +21,9 @@ const config: Config = {
         subColor3: '#777777',
         subColor4: '#efefef',
       },
+      dropShadow: {
+        DEFAULT: '2px 2px 0 #890105',
+      },
     },
   },
   plugins: [require('daisyui')],
