@@ -8,15 +8,48 @@ export interface Todo {
   likeCount: number;
   created_at: string;
 }
-export interface UserData {
+
+export type Edit = {
+  isEdit: boolean;
+  setIsEdit: (boolean: boolean) => void;
+};
+
+export type UserData = {
   avatar?: string;
   nickname: string;
   contents: string;
-  id?: string | null;
+  id?: number;
   uid?: string;
-  email?: string;
+  email: string;
+};
+
+export interface UserInfo {
+  nickname: string;
+  contents: string;
+  email: string;
 }
 
-// export type UserInfo {
-//   userData: UserData[];
-// }
+// nickname: userInfo.nickname,
+export type UserEmail = {
+  userEmail: string;
+};
+
+export type TabName = {
+  myTodos: string;
+  likeTodos: string;
+};
+
+export type userTodo = {
+  contents: string | null;
+  created_at: string;
+  end: string;
+  imageFile: string;
+  likeCount: number | null;
+  liked: boolean | null;
+  nickname: string | null;
+  start: string;
+  title: string;
+  todoId: string;
+  liketest: string[];
+  email: string;
+};
