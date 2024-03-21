@@ -7,9 +7,12 @@ import defaultImg from "@/assets/profile.png";
 import ProfileReviewTab from "./ProfileReviewTab";
 import ProfileReviewLike from "./ProfileReviewLike";
 import useStoreState from "@/app/shared/store";
+import { useRouter } from "next/navigation";
 
 const ProfileReview = ({ userEmail }: UserEmail) => {
+  const router = useRouter();
   const {
+    isLoading,
     isPending,
     isError,
     data: userTodo,
@@ -22,10 +25,14 @@ const ProfileReview = ({ userEmail }: UserEmail) => {
     (todo: Partial<userTodo>) => todo.email === userEmail
   );
 
-  if (isPending) {
+  if (isPending || isLoading) {
     <div>정보를 가져오고 있습니다..</div>;
   }
-
+  if (isError) {
+    // 로그인 안 되어 있으면
+    // router.replace("/login")
+    return <div>정보를 가져오고 있습니다...요기 로딩서클 돌아갈 예정</div>;
+  }
   return (
     <section>
       {/* 내가 한 일 */}

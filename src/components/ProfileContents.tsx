@@ -3,14 +3,25 @@ import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
 import {
   readUsersInfo,
   updateUserAccounts,
+  updateUserMetaData,
+  uploadImage,
 } from "@/supabase/myPage/profileImage";
 import useStoreState from "@/app/shared/store";
 import { Edit, UserData, UserInfo } from "@/app/types/type";
+import { supabase } from "@/supabase/supabase";
 
 const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
+  const avatar = "";
   const myAccount = { email: "1234@qwer.com" };
   const userEmail = myAccount.email;
+  const uuid = crypto.randomUUID();
+  const filePath = `userOneImage/${userEmail}+${uuid}`;
+  const defaultImg = useStoreState((store) => store.defaultImg);
+  const selectFile = useStoreState((store) => store.selectFile);
+  const setSelectFile = useStoreState((store) => store.setSelectFile);
+  const setDefaultImg = useStoreState((store) => store.setDefaultImg);
 
+  console.log(defaultImg);
   const { nickname, contents, email } = useStoreState<Partial<UserData>>(
     (store) => store.userAccount
   );
@@ -51,27 +62,53 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     setEditValue({ nickname, contents, email: userEmail });
   };
 
-  const editSaveHandler = (e: FormEvent<HTMLFormElement>) => {
+  const editSaveHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // 유효성;
     const editSaveCheck = window.confirm("수정내용을 저장하시겠습니까?");
-    if (
-      editSaveCheck === true &&
-      editValueNickname === nickname &&
-      editValueContents === contents
-    ) {
-      alert("수정된 내용이 없습니다");
-      return;
-    }
+    // if (
+    //   editSaveCheck === true &&
+    //   editValueNickname === nickname &&
+    //   editValueContents === contents
+    // ) {
+    //   alert("수정된 내용이 없습니다");
+    //   return;
+    // }
 
     if (editSaveCheck === false) {
       alert("수정을 취소하셨습니다.");
       setIsEdit(false);
       return;
     }
-
+    // store에 저장
     setUserAccount(editValue);
 
+    if (selectFile === null) return;
+
+    try {
+      console.log(selectFile);
+      console.log(filePath);
+      const data = await uploadImage(filePath, selectFile);
+      // 파이어베이스 해당 콜렉션에 있는 문서 파일 url 가져오기
+      const { data: imageUrl } = supabase.storage
+        .from("unAuthUserImage")
+        .getPublicUrl(data.path);
+      const ImgDbUrl = imageUrl.publicUrl;
+      await updateUserMetaData({ nickname, avatar: ImgDbUrl });
+
+      if (!imageUrl) {
+        alert("사진을 등록해주세요!");
+      } else {
+        alert("사진 등록이 완료됐습니다.");
+      }
+      setUserAccount({ avatar: ImgDbUrl });
+    } catch (error) {
+      console.error("이미지가 업로드되지 않았어용", error);
+      alert("이미지가 업로드 되지 않았어용! 다시 등록해주세용!");
+      return null;
+    }
+
+    // DB에 저장
     const userAccountEditHandler = async () => {
       await updateUserAccounts(editValue);
     };
@@ -82,6 +119,8 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const editCancelHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEdit(false);
+    console.log(1);
+    if (isEdit && selectFile !== defaultImg) setDefaultImg(avatar);
   };
 
   return (

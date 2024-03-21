@@ -2,6 +2,7 @@
 
 import { UserData, UserInfo } from "@/app/types/type";
 import { supabase } from "../supabase";
+import { File } from "buffer";
 
 export const updateUserMetaData = async ({
   nickname,

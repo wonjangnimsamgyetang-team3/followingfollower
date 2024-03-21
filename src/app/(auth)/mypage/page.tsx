@@ -20,7 +20,6 @@ const MyPage = () => {
     queryKey: [queryKey.usersAccounts],
     queryFn: readUsersInfo,
   });
-  console.log(userInfo);
 
   return (
     <section>
