@@ -1,8 +1,8 @@
-"use client";
-import useStoreState from "@/app/shared/store";
-import { Edit } from "@/app/types/type";
-import Image from "next/image";
-import { ChangeEvent, useRef } from "react";
+'use client';
+import useStoreState from '@/app/shared/store';
+import { Edit } from '@/app/types/type';
+import Image from 'next/image';
+import { ChangeEvent, useRef } from 'react';
 
 const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
   const imgRef = useRef<HTMLInputElement>(null);
@@ -23,7 +23,7 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
         setSelectFile(imgUrl);
         setDefaultImg(imgUrl);
       } else {
-        console.log("이미지 파일이 선택되지 않았습니다");
+        console.log('이미지 파일이 선택되지 않았습니다');
       }
     }
   };
