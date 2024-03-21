@@ -18,8 +18,8 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
       const imgFile = e.target.files[0];
 
       if (imgFile) {
-        setSelectFile(imgFile);
         const imgUrl = URL.createObjectURL(imgFile);
+        setSelectFile(imgUrl);
         setDefaultImg(imgUrl);
 
         if (!isEdit) setDefaultImg(defaultImg);

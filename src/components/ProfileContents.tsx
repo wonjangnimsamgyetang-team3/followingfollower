@@ -33,11 +33,10 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   }, []);
 
   const userMyPage = async () => {
-    const { data } = await supabase.auth.getUser();
-    console.log(data);
+    const email = "1234@qwer.com";
     const storageItem = getLocalStorageJSON();
     const uid = storageItem.user.id;
-    const email = storageItem.user.email;
+    // const email = storageItem.user.email;
     const nickname = storageItem.user.user_metadata.nickname;
     const avatar = storageItem.user.user_metadata.avatar;
     console.log(avatar);
@@ -87,19 +86,21 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
       const data = await uploadImage(filePath, selectFile);
       console.log(data);
       // 해당 콜렉션에 있는 문서 파일 url 가져오기
-      const { data: imageUrl } = supabase.storage
-        .from("userImage")
-        .getPublicUrl(data.path);
-      const ImgDbUrl = imageUrl.publicUrl;
-      console.log(ImgDbUrl);
-      await updateUserMetaData({ nickname, avatar: ImgDbUrl });
-
-      if (!imageUrl) {
-        alert("사진을 등록해주세요!");
-      } else {
-        alert("사진 등록이 완료됐습니다.");
+      if (data !== null) {
+        const { data: imageUrl } = supabase.storage
+          .from("userImage")
+          .getPublicUrl(data.path);
+        const ImgDbUrl = imageUrl.publicUrl;
+        console.log(ImgDbUrl);
+        await updateUserAccounts({ ...editValue, avatar: ImgDbUrl });
+        // await updateUserMetaData({ nickname, contents, avatar: ImgDbUrl });
+        if (!imageUrl) {
+          alert("사진을 등록해주세요!");
+        } else {
+          alert("사진 등록이 완료됐습니다.");
+        }
+        setUserAccount({ avatar: ImgDbUrl });
       }
-      setUserAccount({ avatar: ImgDbUrl });
     } catch (error) {
       console.error("이미지가 업로드되지 않았어용", error);
       alert("이미지가 업로드 되지 않았어용! 다시 등록해주세용!");
@@ -119,7 +120,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     setIsEdit(false);
     console.log(1);
     console.log(defaultImg);
-    setEditValue({ ...editValue, avatar: avatar !== "" ? avatar : defaultImg });
+    // setEditValue({ ...editValue, avatar: avatar !== "" ? avatar : defaultImg });
     if (isEdit && selectFile !== defaultImg) setDefaultImg(avatar);
   };
 
@@ -165,10 +166,10 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
                   rows={2}
                   value={editValueContents}
                   onChange={editValueChangeHandler}
-                  maxLength={100}
+                  maxLength={30}
                   placeholder={
                     editValueContents === ""
-                      ? "자신을 소개해주세요 (100글자 이내)"
+                      ? "자신을 소개해주세요 (30글자 이내)"
                       : editValueContents
                   }
                 ></textarea>

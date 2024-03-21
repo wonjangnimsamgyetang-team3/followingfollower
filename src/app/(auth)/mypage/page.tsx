@@ -33,7 +33,7 @@ const MyPage = () => {
         <Calendar />
       </article>
       <article>
-        <ProfileReview userEmail={userEmail} />
+        <ProfileReview />
       </article>
     </section>
   );
