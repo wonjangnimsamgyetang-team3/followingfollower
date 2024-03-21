@@ -1,5 +1,6 @@
 "use client";
 import useStoreState from "@/app/shared/store";
+import { Edit } from "@/app/types/type";
 import Image from "next/image";
 import { ChangeEvent, useRef } from "react";
 
@@ -17,6 +18,7 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
 
       if (imgFile) {
         const imgUrl = URL.createObjectURL(imgFile);
+        console.log(imgFile);
         console.log(imgUrl);
         setSelectFile(imgUrl);
         setDefaultImg(imgUrl);
@@ -31,10 +33,11 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
       <label htmlFor="imgFileChoice">
         <div>
           <Image
-            src={defaultImg ? defaultImg : selectFile}
+            src={defaultImg || selectFile}
             alt="유저이미지"
             width={130}
             height={0}
+            sizes="130px"
             className="rounded-full"
           />
         </div>

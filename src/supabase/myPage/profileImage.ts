@@ -1,13 +1,27 @@
 // import { getLocalStorageJSON } from "utils/getLocalStorageJSON";
 
-import { UserData } from "@/app/types/type";
+import { UserData, UserInfo } from "@/app/types/type";
 import { supabase } from "../supabase";
+import { DiVim } from "react-icons/di";
+
+export const updateUserMetaData = async ({
+  nickname,
+  avatar,
+}: Pick<UserData, "nickname" | "avatar">) => {
+  const { data, error } = await supabase.auth.updateUser({
+    data: { nickname, avatar },
+  });
+  if (error) {
+    console.error("업데이트를 다시 시도해주세요!");
+  }
+  return data;
+};
 
 export const updateUserAccounts = async ({
   nickname,
   contents,
   email,
-}: UserData) => {
+}: UserInfo) => {
   const { data, error } = await supabase
     .from("usersAccounts")
     .update({ nickname, contents, email })
@@ -24,7 +38,7 @@ export const setUserDatabase = async ({
   nickname,
   contents,
   email,
-}: UserData) => {
+}: UserInfo) => {
   const { data, error } = await supabase
     .from("usersAccounts")
     .insert([{ nickname, contents, email }])
@@ -38,6 +52,9 @@ export const setUserDatabase = async ({
 
 export const getLoginUserInfo = async () => {
   const { data } = await supabase.auth.getUser();
+  if (!data) {
+    console.error("정보를 불러오지 못 하고 있습니다.");
+  }
   return data;
 };
 
@@ -46,19 +63,17 @@ export const getLoginUserInfo = async () => {
 //   return data;
 // };
 
-// export const setUserAccount = async () => {};
-export const readUserInfo = async () => {
+export const readUsersInfo = async () => {
   const { data, error } = await supabase.from("usersAccounts").select("*");
-  console.log(data);
   if (data !== (null || undefined)) {
     return data;
   }
   if (error) {
-    alert("오류로 인해 정보를 받아오지 못 하고 있습니다.");
+    console.error("오류로 인해 정보를 받아오지 못 하고 있습니다.");
   }
 };
 
-export const readMyReview = async () => {
+export const readMyTodo = async () => {
   const { data, error } = await supabase.from("TodoList").select("*");
 
   if (error) {
@@ -77,7 +92,7 @@ export const uploadImage = async (filePath: string, image: string) => {
 
   if (error) {
     console.error("파일 업로드 오류", error.message);
-    alert("정보를 받아오지 못하고 있습니다.");
+    // alert("정보를 받아오지 못하고 있습니다.");
   }
   return data;
 };

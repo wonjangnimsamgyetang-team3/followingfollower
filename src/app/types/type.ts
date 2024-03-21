@@ -1,11 +1,3 @@
-// export interface UserData {
-//   nickname: string;
-//   contents: string;
-//   avatar: string;
-//   id: string;
-//   uid: string;
-//   email: string;
-// }
 export type Edit = {
   isEdit: boolean;
   setIsEdit: (boolean: boolean) => void;
@@ -14,7 +6,7 @@ export type UserData = {
   avatar?: string;
   nickname: string;
   contents: string;
-  id?: string;
+  id?: number;
   uid?: string;
   email: string;
 };
@@ -26,9 +18,9 @@ export interface UserInfo {
 }
 
 // nickname: userInfo.nickname,
-export type UserEmail = {
-  userEmail: string;
-};
+// export type UserEmail = {
+//   userEmail: string;
+// };
 
 export type TabName = {
   myTodos: string;

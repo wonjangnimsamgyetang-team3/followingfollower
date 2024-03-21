@@ -4,7 +4,7 @@ import ProfileContents from "@/components/ProfileContents";
 import ProfileImage from "@/components/ProfileImage";
 import ProfileReview from "@/components/ProfileReview";
 import { queryKey } from "@/query/queryKey";
-import { readUserInfo } from "@/supabase/myPage/profileImage";
+import { readUsersInfo } from "@/supabase/myPage/profileImage";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -18,14 +18,10 @@ const MyPage = () => {
     data: userInfo,
   } = useQuery({
     queryKey: [queryKey.usersAccounts],
-    queryFn: readUserInfo,
+    queryFn: readUsersInfo,
   });
   console.log(userInfo);
-  // const { nickname, contents } = userInfo;
-  // const [FilterData] = data.filter((item) => item.email === userEmail);
-  // console.log(FilterData);
-  // const [data] = userInfo;
-  // console.log(data);
+
   return (
     <section>
       <article>

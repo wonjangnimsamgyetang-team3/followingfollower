@@ -68,12 +68,12 @@ export type Database = {
       };
       usersAccounts: {
         Row: {
-          avatar: string | null;
+          avatar: string;
           contents: string | null;
           id: number;
           nickname: string | null;
           uid: string;
-          userEmail: string | null;
+          email: string;
         };
         Insert: {
           avatar?: string | null;
@@ -81,7 +81,7 @@ export type Database = {
           id?: number;
           nickname?: string | null;
           uid?: string;
-          userEmail?: string | null;
+          email?: string | null;
         };
         Update: {
           avatar?: string | null;
@@ -89,7 +89,7 @@ export type Database = {
           id?: number;
           nickname?: string | null;
           uid?: string;
-          userEmail?: string | null;
+          email?: string | null;
         };
         Relationships: [
           {

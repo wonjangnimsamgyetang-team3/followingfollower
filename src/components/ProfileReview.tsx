@@ -1,7 +1,7 @@
 "use client";
 import { TabName, UserEmail } from "@/app/types/type";
 import { queryKey } from "@/query/queryKey";
-import { readMyReview, readUserInfo } from "@/supabase/myPage/profileImage";
+import { readMyTodo, readUserInfo } from "@/supabase/myPage/profileImage";
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import defaultImg from "@/assets/profile.png";
@@ -12,7 +12,7 @@ const ProfileReview = ({ userEmail }: UserEmail) => {
     data: userTodo,
   } = useQuery({
     queryKey: [queryKey.usersAccounts],
-    queryFn: readMyReview,
+    queryFn: readMyTodo,
   });
   const tabName: TabName = {
     myTodos: "내가 한 일",

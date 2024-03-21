@@ -1,24 +1,22 @@
 "use client";
 import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
-import useStoreState from "@/app/shared/store";
 import {
-  readUserInfo,
+  readUsersInfo,
   updateUserAccounts,
 } from "@/supabase/myPage/profileImage";
-import { Edit, UserData } from "@/app/types/type";
+import useStoreState from "@/app/shared/store";
+import { Edit, UserData, UserInfo } from "@/app/types/type";
 
 const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const myAccount = { email: "1234@qwer.com" };
   const userEmail = myAccount.email;
 
-  // const [userInfo, setUserInfo] = useState<UserData[]>([]);
-  // const insertMutation = useInsert(readUserInfo, queryKey.usersAccounts);
-  const { nickname, contents, email } = useStoreState<UserData>(
+  const { nickname, contents, email } = useStoreState<Partial<UserData>>(
     (store) => store.userAccount
   );
 
   const setUserAccount = useStoreState((store) => store.setUserAccount);
-  const [editValue, setEditValue] = useState({
+  const [editValue, setEditValue] = useState<Partial<UserData>>({
     nickname,
     contents,
     email,
@@ -26,12 +24,13 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
 
   const editValueNickname = editValue.nickname;
   const editValueContents = editValue.contents;
+
   useEffect(() => {
-    test();
+    userMyPage();
   }, []);
 
-  const test = async () => {
-    const data = await readUserInfo();
+  const userMyPage = async () => {
+    const data = await readUsersInfo();
     if (data) {
       const [filterUserData] = data.filter((item) => item.email === userEmail);
       setUserAccount(filterUserData);
@@ -52,7 +51,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     setEditValue({ nickname, contents, email: userEmail });
   };
 
-  const onEditSave = (e: FormEvent<HTMLFormElement>) => {
+  const editSaveHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // 유효성;
     const editSaveCheck = window.confirm("수정내용을 저장하시겠습니까?");
@@ -73,14 +72,14 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
 
     setUserAccount(editValue);
 
-    const userAccountEdit = async () => {
+    const userAccountEditHandler = async () => {
       await updateUserAccounts(editValue);
     };
-    userAccountEdit();
+    userAccountEditHandler();
     setIsEdit(false);
   };
 
-  const onEditCancel = (e: MouseEvent<HTMLButtonElement>) => {
+  const editCancelHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEdit(false);
   };
@@ -106,7 +105,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
               </div>
             </article>
           ) : (
-            <form onSubmit={onEditSave}>
+            <form onSubmit={editSaveHandler}>
               <div>
                 <div>
                   <input
@@ -136,7 +135,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
                 ></textarea>
                 <div>
                   <button>수정완료</button>
-                  <button onClick={onEditCancel}>수정취소</button>
+                  <button onClick={editCancelHandler}>수정취소</button>
                 </div>
               </div>
             </form>
