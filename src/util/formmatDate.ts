@@ -1,4 +1,4 @@
-export const formmatterDate = (date: string) => {
+export const formmatDate = (date: string) => {
   new Date(date).toLocaleDateString("ko-KR", {
     year: "numeric",
     month: "2-digit",
