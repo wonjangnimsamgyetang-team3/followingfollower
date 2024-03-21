@@ -1,7 +1,7 @@
 "use client";
 import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
 import {
-  readUsersInfo,
+  getLocalStorageJSON,
   updateUserAccounts,
   updateUserMetaData,
   uploadImage,
@@ -11,22 +11,13 @@ import { Edit, UserData } from "@/app/types/type";
 import { supabase } from "@/supabase/supabase";
 
 const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
-  console.log(isEdit);
-  const avatar = "";
-  const myAccount = { email: "1234@qwer.com" };
-  const userEmail = myAccount.email;
-  const uuid = crypto.randomUUID();
-  const filePath = `userOneImage/${userEmail}+${uuid}`;
+  const { email, nickname, uid, contents } = useStoreState(
+    (store) => store.userAccount
+  );
   const defaultImg = useStoreState((store) => store.defaultImg);
   const selectFile = useStoreState((store) => store.selectFile);
   const setSelectFile = useStoreState((store) => store.setSelectFile);
   const setDefaultImg = useStoreState((store) => store.setDefaultImg);
-
-  console.log(defaultImg);
-  const { nickname, contents, email } = useStoreState<Partial<UserData>>(
-    (store) => store.userAccount
-  );
-
   const setUserAccount = useStoreState((store) => store.setUserAccount);
   const [editValue, setEditValue] = useState<Partial<UserData>>({
     nickname,
@@ -42,10 +33,23 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   }, []);
 
   const userMyPage = async () => {
-    const data = await readUsersInfo();
-    if (data) {
-      const [filterUserData] = data.filter((item) => item.email === userEmail);
-      setUserAccount(filterUserData);
+    const { data } = await supabase.auth.getUser();
+    console.log(data);
+    const storageItem = getLocalStorageJSON();
+    const uid = storageItem.user.id;
+    const email = storageItem.user.email;
+    const nickname = storageItem.user.user_metadata.nickname;
+    const avatar = storageItem.user.user_metadata.avatar;
+    console.log(avatar);
+    const userData = {
+      uid,
+      email,
+      nickname,
+      avatar,
+      contents,
+    };
+    if (storageItem) {
+      setUserAccount(userData);
     }
   };
 
@@ -60,21 +64,13 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const editContentsHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEdit(true);
-    setEditValue({ nickname, contents, email: userEmail });
+    setEditValue({ nickname, contents, email });
   };
 
   const editSaveHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // 유효성;
     const editSaveCheck = window.confirm("수정내용을 저장하시겠습니까?");
-    // if (
-    //   editSaveCheck === true &&
-    //   editValueNickname === nickname &&
-    //   editValueContents === contents
-    // ) {
-    //   alert("수정된 내용이 없습니다");
-    //   return;
-    // }
 
     if (editSaveCheck === false) {
       alert("수정을 취소하셨습니다.");
@@ -85,14 +81,14 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     setUserAccount(editValue);
 
     if (selectFile === null) return;
-
+    const uuid = crypto.randomUUID();
+    const filePath = `userImage/${email}+${uuid}`;
     try {
-      console.log(selectFile);
-      console.log(filePath);
       const data = await uploadImage(filePath, selectFile);
-      // 파이어베이스 해당 콜렉션에 있는 문서 파일 url 가져오기
+      console.log(data);
+      // 해당 콜렉션에 있는 문서 파일 url 가져오기
       const { data: imageUrl } = supabase.storage
-        .from("unAuthUserImage")
+        .from("userImage")
         .getPublicUrl(data.path);
       const ImgDbUrl = imageUrl.publicUrl;
       await updateUserMetaData({ nickname, avatar: ImgDbUrl });
@@ -121,7 +117,8 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     e.preventDefault();
     setIsEdit(false);
     console.log(1);
-    setEditValue({ ...editValue, avatar: defaultImg });
+    console.log(defaultImg);
+    setEditValue({ ...editValue, avatar: avatar !== "" ? avatar : defaultImg });
     if (isEdit && selectFile !== defaultImg) setDefaultImg(avatar);
   };
 

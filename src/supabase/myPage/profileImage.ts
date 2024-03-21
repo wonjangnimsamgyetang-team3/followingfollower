@@ -7,9 +7,9 @@ import { File } from "buffer";
 export const updateUserMetaData = async ({
   nickname,
   avatar,
-}: Pick<UserData, "nickname" | "avatar">) => {
+}: Pick<UserData, "nickname" | "avatar" | "contents">) => {
   const { data, error } = await supabase.auth.updateUser({
-    data: { nickname, avatar },
+    data: { nickname, avatar, contents },
   });
   if (error) {
     console.error("업데이트를 다시 시도해주세요!");
@@ -52,16 +52,19 @@ export const setUserDatabase = async ({
 
 export const getLoginUserInfo = async () => {
   const { data } = await supabase.auth.getUser();
+
   if (!data) {
     console.error("정보를 불러오지 못 하고 있습니다.");
   }
   return data;
 };
 
-// export const readUserLocalAccount = async () => {
-//   const data = await getLocalStorageJSON();
-//   return data;
-// };
+export const getLocalStorageJSON = () => {
+  const localStorageKey = localStorage.key(0);
+  const localStorageValue = localStorage.getItem(localStorageKey);
+  const resultObj = JSON.parse(localStorageValue) || [];
+  return resultObj;
+};
 
 export const readUsersInfo = async () => {
   const { data, error } = await supabase.from("usersAccounts").select("*");
@@ -82,13 +85,14 @@ export const readMyTodo = async () => {
   return data;
 };
 
-export const uploadImage = async (filePath: string, image: string) => {
+export const uploadImage = async (filePath: string, image: File) => {
   const { data, error } = await supabase.storage
     .from("userImage")
     .upload(filePath, image, {
       cacheControl: "3600",
       upsert: true,
     });
+  console.log(data);
 
   if (error) {
     console.error("파일 업로드 오류", error.message);
