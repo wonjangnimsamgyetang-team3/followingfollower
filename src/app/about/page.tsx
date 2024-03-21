@@ -11,6 +11,8 @@ export const revalidate = 10;
 const AboutPage = async () => {
   const { data: todos } = await supabase.from('TodoList').select('*');
   const { data: users } = await supabase.from('usersAccounts').select('*');
+  const { data: members } = await supabase.from('members').select('*');
+  console.log(members);
   const today = new Date();
   const deadline = new Date(today.setDate(today.getDate() - 1));
 
@@ -87,6 +89,19 @@ const AboutPage = async () => {
         <h3 className="px-10 py-3 bg-subColor2 rounded-full">
           팔팔 프로젝트에 함께한 사람들
         </h3>
+        <section>
+          {members?.map((member) => (
+            <div key={member.id}>
+              <Image
+                src={member.profile}
+                alt={member.name}
+                width={100}
+                height={100}
+              />
+              <h3>{member.name}</h3>
+            </div>
+          ))}
+        </section>
       </article>
     </main>
   );
