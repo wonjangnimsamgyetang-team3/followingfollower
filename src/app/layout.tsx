@@ -34,6 +34,7 @@ export default async function RootLayout({
           <NavBar user={user} />
           {children}
           <Footer />
+          <div id="portal" />
         </body>
       </QueryProvider>
     </html>

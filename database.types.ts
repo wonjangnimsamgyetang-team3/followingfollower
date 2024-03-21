@@ -32,48 +32,54 @@ export type Database = {
           contents: string | null;
           created_at: string;
           end: string;
-          file: string | null;
+          imageFile: string;
           likeCount: number | null;
           liked: boolean | null;
           nickname: string | null;
           start: string;
           title: string;
           todoId: string;
+          liketest: string[];
+          email?: string;
         };
         Insert: {
           contents?: string | null;
           created_at?: string;
           end?: string | null;
-          file?: string | null;
+          imageFile?: string;
           likeCount?: number | null;
           liked?: boolean | null;
           nickname?: string | null;
           start?: string | null;
           title?: string | null;
           todoId?: string;
+          liketest: string[];
+          email?: string;
         };
         Update: {
           contents?: string | null;
           created_at?: string;
           end?: string | null;
-          file?: string | null;
+          imageFile?: string;
           likeCount?: number | null;
           liked?: boolean | null;
           nickname?: string | null;
           start?: string | null;
           title?: string | null;
           todoId?: string;
+          liketest?: string[];
+          email?: string;
         };
         Relationships: [];
       };
       usersAccounts: {
         Row: {
-          avatar: string | null;
+          avatar: string;
           contents: string | null;
           id: number;
           nickname: string | null;
           uid: string;
-          userEmail: string | null;
+          email: string;
         };
         Insert: {
           avatar?: string | null;
@@ -81,7 +87,7 @@ export type Database = {
           id?: number;
           nickname?: string | null;
           uid?: string;
-          userEmail?: string | null;
+          email?: string;
         };
         Update: {
           avatar?: string | null;
@@ -89,7 +95,7 @@ export type Database = {
           id?: number;
           nickname?: string | null;
           uid?: string;
-          userEmail?: string | null;
+          email?: string;
         };
         Relationships: [
           {

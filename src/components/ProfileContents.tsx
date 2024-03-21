@@ -1,29 +1,41 @@
 "use client";
 import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
+import {
+  readUsersInfo,
+  updateUserAccounts,
+} from "@/supabase/myPage/profileImage";
 import useStoreState from "@/app/shared/store";
-import { readUserInfo, setUserDatabase } from "@/supabase/myPage/profileImage";
-import { useQuery } from "@tanstack/react-query";
-import { UserData } from "@/app/types/type";
-import { queryKey } from "@/query/queryKey";
-import { useInsert } from "@/query/mutation";
-import ProfileImage from "./ProfileImage";
+import { Edit, UserData, UserInfo } from "@/app/types/type";
 
-const ProfileContents = () => {
+const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const myAccount = { email: "1234@qwer.com" };
+  const userEmail = myAccount.email;
 
-  // console.log(userInfo);
-  // const [userData] = userInfo;
-  // console.log(userData);
-  const insertMutation = useInsert(readUserInfo, queryKey.usersAccounts);
-  const { nickname, contents } = useStoreState((store) => store.userAccount);
+  const { nickname, contents, email } = useStoreState<Partial<UserData>>(
+    (store) => store.userAccount
+  );
+
   const setUserAccount = useStoreState((store) => store.setUserAccount);
-  const [editValue, setEditValue] = useState({
+  const [editValue, setEditValue] = useState<Partial<UserData>>({
     nickname,
     contents,
+    email,
   });
-  const [isEdit, setIsEdit] = useState(false);
+
   const editValueNickname = editValue.nickname;
   const editValueContents = editValue.contents;
+
+  useEffect(() => {
+    userMyPage();
+  }, []);
+
+  const userMyPage = async () => {
+    const data = await readUsersInfo();
+    if (data) {
+      const [filterUserData] = data.filter((item) => item.email === userEmail);
+      setUserAccount(filterUserData);
+    }
+  };
 
   const editValueChangeHandler = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -36,10 +48,10 @@ const ProfileContents = () => {
   const editContentsHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEdit(true);
-    setEditValue({ nickname, contents });
+    setEditValue({ nickname, contents, email: userEmail });
   };
 
-  const onEditSave = (e: FormEvent<HTMLFormElement>) => {
+  const editSaveHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // 유효성;
     const editSaveCheck = window.confirm("수정내용을 저장하시겠습니까?");
@@ -60,14 +72,14 @@ const ProfileContents = () => {
 
     setUserAccount(editValue);
 
-    const userAccountEdit = async () => {
-      await setUserDatabase(editValue);
+    const userAccountEditHandler = async () => {
+      await updateUserAccounts(editValue);
     };
-    userAccountEdit();
+    userAccountEditHandler();
     setIsEdit(false);
   };
 
-  const onEditCancel = (e: MouseEvent<HTMLButtonElement>) => {
+  const editCancelHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEdit(false);
   };
@@ -93,17 +105,17 @@ const ProfileContents = () => {
               </div>
             </article>
           ) : (
-            <form onSubmit={onEditSave}>
+            <form onSubmit={editSaveHandler}>
               <div>
                 <div>
                   <input
                     name="nickname"
                     value={editValueNickname}
                     onChange={editValueChangeHandler}
-                    maxLength={8}
+                    maxLength={10}
                     placeholder={
                       editValueNickname === ""
-                        ? "닉네임을 적어주세요 (8글자 이내)"
+                        ? "닉네임을 적어주세요 (10글자 이내)"
                         : editValueNickname
                     }
                   />
@@ -111,7 +123,7 @@ const ProfileContents = () => {
                 <textarea
                   name="contents"
                   cols={30}
-                  rows={10}
+                  rows={2}
                   value={editValueContents}
                   onChange={editValueChangeHandler}
                   maxLength={100}
@@ -123,7 +135,7 @@ const ProfileContents = () => {
                 ></textarea>
                 <div>
                   <button>수정완료</button>
-                  <button onClick={onEditCancel}>수정취소</button>
+                  <button onClick={editCancelHandler}>수정취소</button>
                 </div>
               </div>
             </form>

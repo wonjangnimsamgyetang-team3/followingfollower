@@ -1,15 +1,14 @@
 // import { getLocalStorageJSON } from "utils/getLocalStorageJSON";
 
-import { UserData } from "@/app/types/type";
+import { UserData, UserInfo } from "@/app/types/type";
 import { supabase } from "../supabase";
 
-export const updateUserAccount = async ({
+export const updateUserMetaData = async ({
   nickname,
-  // avatar,
-  contents,
-}: UserData) => {
+  avatar,
+}: Pick<UserData, "nickname" | "avatar">) => {
   const { data, error } = await supabase.auth.updateUser({
-    data: { nickname, contents },
+    data: { nickname, avatar },
   });
   if (error) {
     console.error("업데이트를 다시 시도해주세요!");
@@ -17,10 +16,31 @@ export const updateUserAccount = async ({
   return data;
 };
 
-export const setUserDatabase = async ({ nickname, contents }: UserData) => {
+export const updateUserAccounts = async ({
+  nickname,
+  contents,
+  email,
+}: UserInfo) => {
   const { data, error } = await supabase
     .from("usersAccounts")
-    .insert([{ nickname, contents }])
+    .update({ nickname, contents, email })
+    .eq("email", `${email}`)
+    .select();
+
+  if (error) {
+    console.error("업데이트를 다시 시도해주세요!");
+  }
+  return data;
+};
+
+export const setUserDatabase = async ({
+  nickname,
+  contents,
+  email,
+}: UserInfo) => {
+  const { data, error } = await supabase
+    .from("usersAccounts")
+    .insert([{ nickname, contents, email }])
     .select();
   if (!data || error) {
     console.error("데이터를 넣을 수 없습니다.");
@@ -31,6 +51,9 @@ export const setUserDatabase = async ({ nickname, contents }: UserData) => {
 
 export const getLoginUserInfo = async () => {
   const { data } = await supabase.auth.getUser();
+  if (!data) {
+    console.error("정보를 불러오지 못 하고 있습니다.");
+  }
   return data;
 };
 
@@ -39,18 +62,17 @@ export const getLoginUserInfo = async () => {
 //   return data;
 // };
 
-// export const setUserAccount = async () => {};
-export const readUserInfo = async () => {
+export const readUsersInfo = async () => {
   const { data, error } = await supabase.from("usersAccounts").select("*");
-  console.log(data);
-
-  if (error) {
-    alert("오류로 인해 정보를 받아오지 못 하고 있습니다.");
+  if (data !== (null || undefined)) {
+    return data;
   }
-  return data;
+  if (error) {
+    console.error("오류로 인해 정보를 받아오지 못 하고 있습니다.");
+  }
 };
 
-export const readMyReview = async () => {
+export const readMyTodo = async () => {
   const { data, error } = await supabase.from("TodoList").select("*");
 
   if (error) {
@@ -69,7 +91,7 @@ export const uploadImage = async (filePath: string, image: string) => {
 
   if (error) {
     console.error("파일 업로드 오류", error.message);
-    alert("정보를 받아오지 못하고 있습니다.");
+    // alert("정보를 받아오지 못하고 있습니다.");
   }
   return data;
 };
