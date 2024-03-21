@@ -53,16 +53,22 @@ const AboutPage = async () => {
       </article>
       <article className="pt-14 flex place-items-center gap-14">
         <section className="flex flex-col place-items-end gap-7">
-          <div className="flex place-items-center justify-center gap-2">
-            <h1 className="text-8xl text-subColor1">{todosNum}</h1>
+          <div className="flex place-items-center justify-center gap-4">
+            <h1 className="text-8xl text-subColor1 [text-shadow:_3px_3px_0_var(--mainColor2)]">
+              {todosNum}
+            </h1>
             <p>개의 Todo가 공유되었어요!</p>
           </div>
-          <div className="flex place-items-center justify-center gap-2">
-            <h1 className="text-8xl text-subColor1">57</h1>
+          <div className="flex place-items-center justify-center gap-4">
+            <h1 className="text-8xl text-subColor1 [text-shadow:_3px_3px_0_var(--mainColor2)]">
+              57
+            </h1>
             <p>개의 Todo가 완료되었어요!</p>
           </div>
-          <div className="flex place-items-center justify-center gap-2">
-            <h1 className="text-8xl text-subColor1">{usersNum}</h1>
+          <div className="flex place-items-center justify-center gap-4">
+            <h1 className="text-8xl text-subColor1 [text-shadow:_3px_3px_0_var(--mainColor2)]">
+              {usersNum}
+            </h1>
             <p>명의 사람들이 이용 중이에요!</p>
           </div>
         </section>
