@@ -1,6 +1,9 @@
-import NewTodo from '../../../components/NewTodo';
+"use client";
 
-const NewPostPage = async () => {
+import NewTodo from "../../../components/NewTodo";
+
+import { useEffect, useState } from "react";
+const NewPostPage = () => {
   return (
     <div>
       <NewTodo />

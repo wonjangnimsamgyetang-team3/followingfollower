@@ -3,8 +3,10 @@
 import React from "react";
 import { supabase } from "@/supabase/supabase";
 import { useRouter } from "next/navigation";
+import useStoreState from "@/app/shared/store";
 
 const LogOut = () => {
+  const { removeUser } = useStoreState();
   const router = useRouter();
   const signOutButton = async () => {
     const session = await supabase.auth.getSession();
@@ -20,7 +22,7 @@ const LogOut = () => {
     let { error } = await supabase.auth.signOut();
     router.replace("/");
     router.refresh();
-
+    removeUser();
     localStorage.clear();
   };
 

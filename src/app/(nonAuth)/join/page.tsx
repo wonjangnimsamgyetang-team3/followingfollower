@@ -35,7 +35,8 @@ const SingUpPage = () => {
           emailRedirectTo: `${location.origin}/auth/callback`,
           data: {
             userNickname: userNickname,
-            avatar: "",
+            //디폴트 이미지
+            avatar: "/profile.png",
             contents: "",
           },
         },

@@ -6,10 +6,12 @@ export default async function Home() {
   const supabase = createServerComponentClient({
     cookies: () => cookieStore,
   });
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  console.log("user", user);
 
-  return <div>hi</div>;
+  // const {
+  //   data: { user },
+  // } = await supabase.auth.getUser();
+  // console.log("home - user", user?.user_metadata);
+  // const test = user?.user_metadata.avatar;
+
+  return <div>{/* <img src={test} /> */}hi</div>;
 }
