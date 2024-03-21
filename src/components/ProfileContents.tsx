@@ -91,6 +91,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
         .from("userImage")
         .getPublicUrl(data.path);
       const ImgDbUrl = imageUrl.publicUrl;
+      console.log(ImgDbUrl);
       await updateUserMetaData({ nickname, avatar: ImgDbUrl });
 
       if (!imageUrl) {
