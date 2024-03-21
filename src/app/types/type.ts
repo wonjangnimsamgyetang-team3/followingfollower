@@ -1,7 +1,19 @@
+export interface Todo {
+  todoId: string;
+  nickname: string;
+  title: string;
+  contents: string;
+  start: Date;
+  end: Date;
+  likeCount: number;
+  created_at: string;
+}
+
 export type Edit = {
   isEdit: boolean;
   setIsEdit: (boolean: boolean) => void;
 };
+
 export type UserData = {
   avatar?: string;
   nickname: string;
