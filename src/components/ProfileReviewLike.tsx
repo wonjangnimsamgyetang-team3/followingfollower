@@ -1,7 +1,8 @@
-import React from "react";
-import { UserData, userTodo } from "@/app/types/type";
-import defaultImg from "@/assets/profile.png";
-import useStoreState, { USER } from "@/app/shared/store";
+import React from 'react';
+import { UserData, userTodo } from '@/types/type';
+import defaultImg from '@/assets/profile.png';
+import useStoreState, { USER } from '@/shared/store';
+import Image from 'next/image';
 
 export type ReviewLike = {
   userTodo: userTodo[];
@@ -10,7 +11,7 @@ export type ReviewLike = {
 const ProfileReviewLike = ({ userTodo }: ReviewLike) => {
   const activeMyTodos: string = useStoreState((store) => store.activeCategory);
   const { userInfo } = useStoreState();
-  const { id } = userInfo || "";
+  const { id } = userInfo || '';
   console.log(id);
   // const { id }: Partial<UserData> = useStoreState((store) => store.userAccount);
   // console.log(id);
@@ -25,7 +26,7 @@ const ProfileReviewLike = ({ userTodo }: ReviewLike) => {
   }
   return (
     <div>
-      {id !== (null || undefined) && activeMyTodos === "좋아요한 일" && (
+      {id !== (null || undefined) && activeMyTodos === '좋아요한 일' && (
         <article>
           {filterMyLikeTodoList?.map((todoItem: Partial<userTodo>) => {
             const {
@@ -41,18 +42,24 @@ const ProfileReviewLike = ({ userTodo }: ReviewLike) => {
             return (
               <div key={todoId}>
                 {imageFile ? (
-                  <img
+                  <Image
                     src={imageFile}
                     className="w-[130px] h-[130px] object-fit"
+                    alt="투두 이미지"
+                    width={100}
+                    height={100}
                   />
                 ) : (
-                  <img
+                  <Image
                     src={defaultImg.src}
                     className="w-[130px] h-[130px] object-fit"
+                    alt="투두 이미지"
+                    width={100}
+                    height={100}
                   />
                 )}
                 <div>{title}</div>
-                <div>{nickname ? nickname : "no name"}</div>
+                <div>{nickname ? nickname : 'no name'}</div>
                 <div>
                   <p>{contents}</p>
                 </div>

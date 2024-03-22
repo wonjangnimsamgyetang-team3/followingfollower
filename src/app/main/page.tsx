@@ -1,7 +1,7 @@
-import AllCard from "@/components/AllCard";
-import NewCard from "@/components/NewCard";
-import useStoreState from "@/app/shared/store";
-import type { Todo } from "../types/type";
+import AllCard from '@/components/AllCard';
+import NewCard from '@/components/NewCard';
+import useStoreState from '@/shared/store';
+import type { Todo } from '../../types/type';
 
 const MainPage = () => {
   return (
