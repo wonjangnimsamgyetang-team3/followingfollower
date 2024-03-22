@@ -1,15 +1,8 @@
-// import { UserInfo } from "os";
-// import { create, SetState } from "zustand";
-// import { persist } from "zustand/middleware";
-// import defaultImg from "@/assets/profile.png";
-// import { UserData } from "../types/type";
-
-// // interface USER {
-// //   userEmail: string;
-// //   nickname: string;
-// //   avatar: string;
-// //   contents: string;
-// // }
+import { UserInfo } from 'os';
+import { create, SetState } from 'zustand';
+import { persist } from 'zustand/middleware';
+import defaultImg from '@/assets/profile.png';
+import { UserData } from '../types/type';
 
 interface USER {
   avatar: string;

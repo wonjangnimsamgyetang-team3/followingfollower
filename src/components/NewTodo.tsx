@@ -13,6 +13,7 @@ const NewTodo = () => {
   const { userInfo } = useStoreState();
   console.log('로그인한 유저정보', userInfo);
   const nickname = userInfo?.nickname;
+  const userAvatar = userInfo?.avatar;
 
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File>();
@@ -128,10 +129,8 @@ const NewTodo = () => {
   return (
     <div className="w-full h-full flex flex-col flex items-center flex justify-center bg-[#e3e3e3]">
       <section className="w-[700px] h-[900px] outline-none flex flex-col items-center justify-center mt-20 mb-20 bg-white border-2 border-solid border-subColor2 rounded-[30px] p-[40px]">
-        <div className="flex">
-          <div>
-            <img src={userAvatar} />
-          </div>
+        <div className="flex items-center justify-center">
+          <img className="w-[50px] h-[50px] mr-[15px]" src={userAvatar} />
           <div className="text-lg text-[#fb8494] mb-[20px]">{nickname}</div>
         </div>
         <form className="w-full flex flex-col mt-2" onSubmit={handleSubmit}>
