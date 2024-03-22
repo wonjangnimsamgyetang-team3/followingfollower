@@ -41,16 +41,14 @@ const SingUpPage = () => {
           },
         },
       });
-      const uuid = signUp.user?.app_metadata.id;
+
       const { data: insertData, error: insetError } = await supabase
         .from('myPageAccount')
         .insert([
           {
-            user_uid: uuid,
             email: userEmail,
           },
-        ])
-        .select();
+        ]);
     } catch (error) {
       if (error) {
         console.log(error);

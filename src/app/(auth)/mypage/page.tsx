@@ -20,7 +20,6 @@ const MyPage = () => {
     queryKey: [queryKey.usersAccounts],
     queryFn: readUsersInfo,
   });
-  console.log(userInfo);
 
   return (
     <section>
@@ -34,7 +33,7 @@ const MyPage = () => {
         <Calendar />
       </article>
       <article>
-        <ProfileReview userEmail={userEmail} />
+        <ProfileReview />
       </article>
     </section>
   );
