@@ -1,7 +1,7 @@
 import React from "react";
-import { UserData, userTodo } from "@/app/types/type";
+import { userTodo } from "@/app/types/type";
 import defaultImg from "@/assets/profile.png";
-import useStoreState, { USER } from "@/app/shared/store";
+import useStoreState from "@/app/shared/store";
 
 export type ReviewLike = {
   userTodo: userTodo[];

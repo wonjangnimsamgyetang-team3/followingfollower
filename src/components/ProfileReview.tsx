@@ -12,7 +12,6 @@ import HeartFillIcon from "@/icons/HeartFillIcon";
 const ProfileReview = () => {
   const { userInfo } = useStoreState();
   const email = userInfo?.email;
-  console.log(email);
   const {
     isLoading,
     isPending,

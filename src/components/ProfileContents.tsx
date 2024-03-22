@@ -66,6 +66,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     //이미지 등록
     const uuid = crypto.randomUUID();
     const filePath = `userImage/${id}+${uuid}`;
+
     try {
       const data = await uploadImage(filePath, selectFile);
       // 해당 콜렉션에 있는 문서 파일 url 가져오기
