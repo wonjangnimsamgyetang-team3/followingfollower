@@ -1,5 +1,3 @@
-// import { getLocalStorageJSON } from "utils/getLocalStorageJSON";
-
 import { UserData, UserInfo } from "@/app/types/type";
 import { supabase } from "../supabase";
 
@@ -106,14 +104,14 @@ export const updateUserMetaData = async ({
   nickname,
   avatar,
 }: Pick<UserData, "nickname" | "avatar" | "contents">) => {
-  const { user, error } = await supabase.auth.updateUser({
-    data: { userNickname: nickname, avatar, contents },
+  const { data, error } = await supabase.auth.updateUser({
+    data: { userNickname: nickname, avatar },
   });
 
   if (error) {
     console.error("업데이트를 다시 시도해주세요!");
   }
-  return user;
+  return data;
 };
 
 // export const getLocalStorageJSON = () => {

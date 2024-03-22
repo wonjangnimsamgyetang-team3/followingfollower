@@ -1,20 +1,18 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { queryKey } from "@/query/queryKey";
 import { useQuery } from "@tanstack/react-query";
 import { readMyTodo } from "@/supabase/myPage/profileImage";
-import useStoreState from "@/app/shared/store";
 import type { userTodo } from "@/app/types/type";
+import useStoreState from "@/app/shared/store";
 import ProfileReviewTab from "./ProfileReviewTab";
 import ProfileReviewLike from "./ProfileReviewLike";
 import defaultImg from "@/assets/profile.png";
+import HeartFillIcon from "@/icons/HeartFillIcon";
 
 const ProfileReview = () => {
   const { userInfo } = useStoreState();
-  const { email } = userInfo;
+  const email = userInfo?.email;
   console.log(email);
-  // const email = "1234@qwer.com";
-  const router = useRouter();
   const {
     isLoading,
     isPending,
@@ -75,8 +73,11 @@ const ProfileReview = () => {
                     <p>{contents}</p>
                   </div>
                   <div>{`${end} ~ ${start}`}</div>
-                  <div>{likeCount}❤</div>
-                  <div>댓</div>
+                  <div>
+                    {likeCount}
+                    <HeartFillIcon />
+                  </div>
+                  <div></div>
                 </div>
               );
             })}
