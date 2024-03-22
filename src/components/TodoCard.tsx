@@ -64,6 +64,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
     setCommentCount(data[0]?.count || 0);
   };
 
+  //follow test
   const followHandler = () => {
     alert(`${todo.email}, ${myEmail}`);
   };
