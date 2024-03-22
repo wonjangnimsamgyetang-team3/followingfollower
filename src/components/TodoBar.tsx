@@ -17,42 +17,62 @@ const TodoBar = ({ todo, commentCount }: Props) => {
   const { userInfo } = useStoreState();
   const { id } = userInfo || "";
   console.log(id);
-  const [likes, setLikes] = useState(todo.liked);
-  const [liketest, setLiketest] = useState<string[]>(todo.liketest || []);
+  const [likes, setLikes] = useState<boolean | null>(null);
+  const [liketest, setLiketest] = useState<string[]>([]);
 
   useEffect(() => {
-    setLikes(todo.liked);
-    setLiketest(todo.liketest);
+    const likedStatus = async () => {
+      if (!id) return;
+
+      const { data: likedUser, error } = await supabase
+        .from("TodoList")
+        .select("liketest")
+        .eq("todoId", todo.todoId)
+        .single();
+
+      if (error) {
+        console.error("Error fetching liked status:", error);
+        return;
+      }
+
+      if (likedUser?.liketest && likedUser.liketest.includes(id)) {
+        setLikes(true);
+      } else {
+        setLikes(false);
+      }
+      setLiketest(likedUser?.liketest || []);
+    };
+
+    likedStatus();
   }, [todo.liked, todo.liketest]);
 
   console.log(todo.liked);
 
   const handleLikeToggle = async () => {
-    // const userId = id;
+    const userId = id;
+    if (!userId) return;
     // const userId = "15";
-    const getUserId = async () => {
-      const { data: user } = await supabase.auth.getUser();
-      return user?.user?.id;
-    };
-    const userId = await getUserId();
+    // const getUserId = async () => {
+    //   const { data: user } = await supabase.auth.getUser();
+    //   return user?.user?.id;
+    // };
+    // const userId = await getUserId();
 
     if (likes) {
-      await removeLikedUser(todo.todoId);
+      await removeLikedUser(todo.todoId, userId);
+      setLikes(false);
       setLiketest((prevLiketest) => prevLiketest.filter((id) => id !== userId));
     } else {
-      await addLikedUser(todo.todoId);
+      await addLikedUser(todo.todoId, userId);
+      setLikes(true);
       setLiketest((prevLiketest) => [...prevLiketest, userId]);
     }
     setLikes(!likes);
   };
 
-  const addLikedUser = async (todoId: string) => {
+  const addLikedUser = async (todoId: string, userId: string) => {
     // const userId = '15';
-    const getUserId = async () => {
-      const { data: user } = await supabase.auth.getUser();
-      return user?.user?.id;
-    };
-    const userId = await getUserId();
+
     const { data, error } = await supabase
       .from("TodoList")
       .update({ liketest: [...liketest, userId] })
@@ -64,13 +84,8 @@ const TodoBar = ({ todo, commentCount }: Props) => {
     }
   };
 
-  const removeLikedUser = async (todoId: string) => {
+  const removeLikedUser = async (todoId: string, userId: string) => {
     // const userId = '15';
-    const getUserId = async () => {
-      const { data: user } = await supabase.auth.getUser();
-      return user?.user?.id;
-    };
-    const userId = await getUserId();
     const { data, error } = await supabase
       .from("TodoList")
       .update({ liketest: liketest.filter((id) => id !== userId) })
