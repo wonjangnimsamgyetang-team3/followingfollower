@@ -24,6 +24,9 @@ const config: Config = {
       dropShadow: {
         DEFAULT: "2px 2px 0 #890105",
       },
+      borderRadius: {
+        lg: "50px",
+      },
     },
   },
   plugins: [require("daisyui")],
