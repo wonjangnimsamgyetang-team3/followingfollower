@@ -1,16 +1,18 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { supabase } from "@/supabase/supabase";
-import TodoBar from "./TodoBar";
-import ModalPotal from "./TodoModal/ModalPortal";
-import TodoModal from "./TodoModal/TodoModal";
-import TodoDetail from "./TodoModal/TodoDetail";
-import useStoreState from "@/app/shared/store";
+import React, { useEffect, useState } from 'react';
+import { supabase } from '@/supabase/supabase';
+import TodoBar from './TodoBar';
+import ModalPotal from './TodoModal/ModalPortal';
+import TodoModal from './TodoModal/TodoModal';
+import TodoDetail from './TodoModal/TodoDetail';
+import useStoreState from '@/app/shared/store';
+import Image from 'next/image';
 
 export type TodoType = {
   contents: string;
   created_at: string;
+  email: string;
   end: string;
   imageFile: string;
   likeCount: number;
@@ -20,7 +22,6 @@ export type TodoType = {
   title: string;
   todoId: string;
   liketest: string[];
-  email: string;
   userId: string;
 };
 
@@ -32,6 +33,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
   //zustand
   const { userInfo } = useStoreState();
   // console.log('로그인한 유저정보', userInfo);
+  const { email: myEmail } = userInfo;
   const nickname = userInfo?.nickname;
 
   const getUserEmail = async () => {
@@ -51,9 +53,9 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
 
   const fetchCommentCount = async (todoId: string) => {
     const { data, error } = await supabase
-      .from("commentList")
-      .select("count", { count: "exact" })
-      .eq("todoId", todoId);
+      .from('commentList')
+      .select('count', { count: 'exact' })
+      .eq('todoId', todoId);
 
     if (error) {
       throw error;
@@ -62,29 +64,35 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
     setCommentCount(data[0]?.count || 0);
   };
 
-  const handleOpenModal = () => {
-    setOpenModal(true);
+  const followHandler = () => {
+    alert(`${todo.email}, ${myEmail}`);
   };
-
-  const modalLink = `/feed/${todo.todoId}`;
 
   return (
     <div className="bg-white m-[15px] border-2 border-solid border-subColor2 rounded-[30px] p-[30px] flex flex-col items-center justify-center">
-      <div onClick={() => setOpenModal(true)}>
-        <div className="flex flex-col items-center flex justify-center">
+      <div>
+        <div className="flex flex-col items-center justify-center">
           <h2 className="font-bold text-lg mb-[10px]">{todo.title}</h2>
-          <img
-            className="object-cover rounded-[30px] mb-[20px]"
+          <Image
+            className="object-cover rounded-[30px] mb-[20px] cursor-pointer"
             src={todo.imageFile}
             alt="todoImage"
-            sizes="650px"
+            onClick={() => setOpenModal(true)}
+            width={300}
+            height={300}
           />
         </div>
         <div className="w-full">
           <p className="mb-[10px]">
             {isCurrentUserTodo ? nickname : todo.nickname}
           </p>
-          <p className="mb-[20px] overflow-ellipsis">{todo.contents}</p>
+          <button onClick={followHandler}>follow</button>
+          <p
+            className="mb-[20px] overflow-ellipsis cursor-pointer"
+            onClick={() => setOpenModal(true)}
+          >
+            {todo.contents}
+          </p>
         </div>
       </div>
       <div className="w-full">
