@@ -7,6 +7,7 @@ import {
   uploadImage,
 } from "@/supabase/myPage/profileImage";
 import type { Edit, UserData } from "@/app/types/type";
+import useStoreState from "@/app/shared/store";
 
 const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const router = useRouter();
