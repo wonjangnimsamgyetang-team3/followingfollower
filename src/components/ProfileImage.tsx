@@ -6,11 +6,9 @@ import { ChangeEvent, useRef } from "react";
 
 const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
   const imgRef = useRef<HTMLInputElement>(null);
-  const defaultImg = useStoreState((store) => store.defaultImg);
-  const selectFile = useStoreState((store) => store.selectFile);
-  const setSelectFile = useStoreState((store) => store.setSelectFile);
-  const setDefaultImg = useStoreState((store) => store.setDefaultImg);
-
+  const { userInfo, defaultImg, selectFile, setSelectFile, setDefaultImg } =
+    useStoreState();
+  const { avatar } = userInfo;
   // 이미지 미리보기
   const addImgHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (!isEdit) return;
@@ -37,7 +35,7 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
         <label htmlFor="imgFileChoice">
           <div>
             <Image
-              src={defaultImg}
+              src={`${defaultImg}`}
               alt="유저이미지"
               width={130}
               height={0}
@@ -49,7 +47,7 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
       ) : (
         <div>
           <Image
-            src={defaultImg}
+            src={`${defaultImg}`}
             alt="유저이미지"
             width={130}
             height={0}

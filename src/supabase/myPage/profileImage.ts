@@ -3,28 +3,17 @@
 import { UserData, UserInfo } from "@/app/types/type";
 import { supabase } from "../supabase";
 
-export const updateUserMetaData = async ({
-  nickname,
-  avatar,
-}: Pick<UserData, "nickname" | "avatar">) => {
-  const { data, error } = await supabase.auth.updateUser({
-    data: { nickname, avatar },
-  });
-  if (error) {
-    console.error("업데이트를 다시 시도해주세요!");
-  }
-  return data;
-};
-
+// DB - myPageAccount 테이블 업데이트
 export const updateUserAccounts = async ({
+  id,
   nickname,
   contents,
   email,
   avatar,
 }: UserData) => {
   const { data, error } = await supabase
-    .from("usersAccounts")
-    .update({ nickname, contents, email, avatar })
+    .from("myPageAccount")
+    .update({ uid: id, nickname, contents, avatar })
     .eq("email", `${email}`)
     .select();
 
@@ -40,7 +29,7 @@ export const setUserDatabase = async ({
   email,
 }: UserInfo) => {
   const { data, error } = await supabase
-    .from("usersAccounts")
+    .from("myPageAccount")
     .insert([{ nickname, contents, email }])
     .select();
   if (!data || error) {
@@ -50,30 +39,9 @@ export const setUserDatabase = async ({
   return data;
 };
 
-export const getLoginUserInfo = async () => {
-  const { data } = await supabase.auth.getUser();
-
-  if (!data) {
-    console.error("정보를 불러오지 못 하고 있습니다.");
-  }
-  return data;
-};
-
-// export const getLocalStorageJSON = () => {
-//   const localStorageKey = localStorage.key(0);
-//   if (localStorageKey !== null) {
-//     const localStorageValue = localStorage.getItem(localStorageKey);
-//     const resultObj = JSON.parse(localStorageValue ?? "null") || [];
-//     return resultObj;
-//   } else {
-//     console.error("로컬 스토리지에 저장된 값이 없습니다.");
-//     return [];
-//   }
-// };
-
 export const readUsersInfo = async (email: string) => {
   const { data, error } = await supabase
-    .from("usersAccounts")
+    .from("myPageAccount")
     .select()
     .eq("email", email);
   if (data !== (null || undefined)) {
@@ -124,3 +92,38 @@ export const downloadImage = async (filePath: string) => {
     alert("이미지를 받아오지 못하고 있습니다.");
   }
 };
+
+export const getLoginUserInfo = async () => {
+  const { data } = await supabase.auth.getUser();
+
+  if (!data) {
+    console.error("정보를 불러오지 못 하고 있습니다.");
+  }
+  return data;
+};
+
+export const updateUserMetaData = async ({
+  nickname,
+  avatar,
+}: Pick<UserData, "nickname" | "avatar" | "contents">) => {
+  const { user, error } = await supabase.auth.updateUser({
+    data: { userNickname: nickname, avatar, contents },
+  });
+
+  if (error) {
+    console.error("업데이트를 다시 시도해주세요!");
+  }
+  return user;
+};
+
+// export const getLocalStorageJSON = () => {
+//   const localStorageKey = localStorage.key(0);
+//   if (localStorageKey !== null) {
+//     const localStorageValue = localStorage.getItem(localStorageKey);
+//     const resultObj = JSON.parse(localStorageValue ?? "null") || [];
+//     return resultObj;
+//   } else {
+//     console.error("로컬 스토리지에 저장된 값이 없습니다.");
+//     return [];
+//   }
+// };

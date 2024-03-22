@@ -1,56 +1,58 @@
 "use client";
 import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
 import {
-  getLocalStorageJSON,
+  readUsersInfo,
   updateUserAccounts,
-  updateUserMetaData,
   uploadImage,
 } from "@/supabase/myPage/profileImage";
 import useStoreState from "@/app/shared/store";
 import { Edit, UserData } from "@/app/types/type";
 import { supabase } from "@/supabase/supabase";
+import { useRouter } from "next/navigation";
 
 const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
-  const { email, nickname, uid, contents } = useStoreState(
+  const router = useRouter();
+  const { userInfo, defaultImg, selectFile, setDefaultImg, setUserAccount } =
+    useStoreState();
+  const { email, id } = userInfo;
+  const { nickname, contents, avatar } = useStoreState(
     (store) => store.userAccount
   );
-  const defaultImg = useStoreState((store) => store.defaultImg);
-  const selectFile = useStoreState((store) => store.selectFile);
-  const setSelectFile = useStoreState((store) => store.setSelectFile);
-  const setDefaultImg = useStoreState((store) => store.setDefaultImg);
-  const setUserAccount = useStoreState((store) => store.setUserAccount);
-  const [editValue, setEditValue] = useState<Partial<UserData>>({
+
+  const [editValue, setEditValue] = useState<UserData>({
     nickname,
     contents,
     email,
   });
-
   const editValueNickname = editValue.nickname;
   const editValueContents = editValue.contents;
 
-  useEffect(() => {
-    userMyPage();
-  }, []);
-
   const userMyPage = async () => {
-    const email = "1234@qwer.com";
-    const storageItem = getLocalStorageJSON();
-    const uid = storageItem.user.id;
-    // const email = storageItem.user.email;
-    const nickname = storageItem.user.user_metadata.nickname;
-    const avatar = storageItem.user.user_metadata.avatar;
-    console.log(avatar);
-    const userData = {
-      uid,
-      email,
+    // DB - myPageAccount
+    const userDatas = await readUsersInfo(email);
+    // 현재 유저 정보
+    const datas = userDatas?.find((item: UserData) => item.email === email);
+    const nickname = datas.nickname || "";
+    const avatar = datas.avatar || "";
+    const contents = datas.contents || "";
+    const userData: UserData = {
+      id,
       nickname,
+      email,
       avatar,
       contents,
     };
-    if (storageItem) {
+    console.log(id, email, nickname, avatar, contents);
+    if (userInfo) {
       setUserAccount(userData);
+      updateUserAccounts(userData);
+
+      setDefaultImg(avatar);
     }
   };
+  useEffect(() => {
+    userMyPage();
+  }, [nickname, contents, avatar]);
 
   const editValueChangeHandler = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -63,6 +65,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const editContentsHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEdit(true);
+    console.log({});
     setEditValue({ nickname, contents, email });
   };
 
@@ -74,6 +77,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     if (editSaveCheck === false) {
       alert("수정을 취소하셨습니다.");
       setIsEdit(false);
+      setDefaultImg(avatar ? avatar : defaultImg);
       return;
     }
     // store에 저장
@@ -81,19 +85,16 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
 
     if (selectFile === null) return;
     const uuid = crypto.randomUUID();
-    const filePath = `userImage/${email}+${uuid}`;
+    const filePath = `userImage/${id}+${uuid}`;
     try {
-      const data = await uploadImage(filePath, selectFile);
-      console.log(data);
+      const data = await uploadImage(filePath, defaultImg);
       // 해당 콜렉션에 있는 문서 파일 url 가져오기
       if (data !== null) {
         const { data: imageUrl } = supabase.storage
           .from("userImage")
           .getPublicUrl(data.path);
         const ImgDbUrl = imageUrl.publicUrl;
-        console.log(ImgDbUrl);
         await updateUserAccounts({ ...editValue, avatar: ImgDbUrl });
-        // await updateUserMetaData({ nickname, contents, avatar: ImgDbUrl });
         if (!imageUrl) {
           alert("사진을 등록해주세요!");
         } else {
@@ -113,15 +114,19 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     };
     userAccountEditHandler();
     setIsEdit(false);
+    setEditValue({ nickname, contents, email });
   };
 
   const editCancelHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEdit(false);
     console.log(1);
-    console.log(defaultImg);
-    // setEditValue({ ...editValue, avatar: avatar !== "" ? avatar : defaultImg });
-    if (isEdit && selectFile !== defaultImg) setDefaultImg(avatar);
+    setDefaultImg(avatar ? avatar : defaultImg);
+    // if (isEdit && selectFile !== defaultImg) {
+    //   setDefaultImg(avatar ? avatar : defaultImg);
+    // } else {
+    //   setDefaultImg(defaultImg);
+    // }
   };
 
   return (
@@ -142,6 +147,9 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
               </div>
               <div>
                 <button onClick={editContentsHandler}>수정</button>
+                <button onClick={() => router.replace(`feed/newtodo`)}>
+                  할 일 등록
+                </button>
               </div>
             </article>
           ) : (

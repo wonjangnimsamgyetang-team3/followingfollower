@@ -1,12 +1,11 @@
-import { UserInfo } from "os";
 import { create, SetState } from "zustand";
 import { persist } from "zustand/middleware";
 import defaultImg from "@/assets/profile.png";
 import { UserData } from "../types/type";
 
-interface USER {
+export interface USER {
   avatar: string;
-  nickname: string;
+  nickname: string | undefined;
   contents: string;
   // id: string | undefined;
   // email: string | undefined;
@@ -36,11 +35,10 @@ const initialState = {
   activeCategory: "내가 할 일",
   userAccount: {
     avatar: "",
-    nickname: "보라돌이",
-    contents: "눈사람만들래?",
-    id: "",
-    uid: "asde234j23-4we2webdk512k-12m0-5adpib",
-    email: "tj2033428@naver.com",
+    nickname: "",
+    contents: "",
+    id: 0,
+    email: "",
   },
 };
 
@@ -56,14 +54,6 @@ const useStoreState = create(
       // MyPage-ProfileImage.tsx
       defaultImg: defaultImg.src,
       selectFile: defaultImg.src,
-      userAccount: {
-        nickname: "",
-        contents: "",
-        email: "",
-        uid: "",
-        avatar: "",
-      },
-      // activeCategory: initialState.activeCategory,
       setSelectFile: (selectImg: string) =>
         set((prev) => ({ ...prev, selectFile: selectImg })),
       setDefaultImg: (selectImg: string) =>

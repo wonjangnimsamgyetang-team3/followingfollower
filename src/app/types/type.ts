@@ -15,18 +15,18 @@ export type Edit = {
 };
 
 export type UserData = {
-  avatar?: string;
-  nickname: string;
-  contents: string;
+  avatar?: string | undefined;
+  nickname: string | undefined;
+  contents: string | undefined;
   id?: number;
-  uid?: string;
-  email: string;
+  email: string | undefined;
 };
 
 export interface UserInfo {
-  nickname: string;
+  nickname: string | undefined;
   contents: string;
-  email: string;
+  avatar?: string | undefined;
+  email: string | undefined;
 }
 
 // nickname: userInfo.nickname,
@@ -52,4 +52,8 @@ export type userTodo = {
   todoId: string;
   liketest: string[];
   email: string;
+};
+
+export type SessionSupabase = {
+  SUPABASE_URL: string;
 };

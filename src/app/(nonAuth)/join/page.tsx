@@ -41,6 +41,14 @@ const SingUpPage = () => {
           },
         },
       });
+
+      const { data: insertData, error: insetError } = await supabase
+        .from("myPageAccount")
+        .insert([
+          {
+            email: userEmail,
+          },
+        ]);
     } catch (error) {
       if (error) {
         console.log(error);

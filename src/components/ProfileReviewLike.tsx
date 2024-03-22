@@ -1,28 +1,31 @@
 import React from "react";
-import { userTodo } from "@/app/types/type";
+import { UserData, userTodo } from "@/app/types/type";
 import defaultImg from "@/assets/profile.png";
-import useStoreState from "@/app/shared/store";
+import useStoreState, { USER } from "@/app/shared/store";
 
 export type ReviewLike = {
-  userTodo: Partial<userTodo>;
+  userTodo: userTodo[];
 };
 
 const ProfileReviewLike = ({ userTodo }: ReviewLike) => {
   const activeMyTodos: string = useStoreState((store) => store.activeCategory);
-
-  const myAccount = { email: "1234@qwer.com", uid: "15" };
-  const userEmail = myAccount.email;
-  const uid = myAccount.uid;
+  const { userInfo } = useStoreState();
+  const { id } = userInfo;
+  console.log(id);
+  // const { id }: Partial<UserData> = useStoreState((store) => store.userAccount);
+  // console.log(id);
+  // const id = "15";
+  // const userEmail = myAccount.email;
+  // const uid = myAccount.uid;
   const filterMyLikeTodoList = userTodo?.filter((todoItem: Partial<userTodo>) =>
-    todoItem?.liketest?.includes(uid)
+    todoItem?.liketest?.includes(id)
   );
-  //   console.log(filterMyLikeTodoList);
   if (!userTodo) {
     <div> 정보를 가져오고 있습니다..</div>;
   }
   return (
     <div>
-      {uid !== (null || undefined) && activeMyTodos === "좋아요한 일" && (
+      {id !== (null || undefined) && activeMyTodos === "좋아요한 일" && (
         <article>
           {filterMyLikeTodoList?.map((todoItem: Partial<userTodo>) => {
             const {

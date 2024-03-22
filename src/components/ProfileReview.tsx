@@ -2,11 +2,7 @@
 import { useRouter } from "next/navigation";
 import { queryKey } from "@/query/queryKey";
 import { useQuery } from "@tanstack/react-query";
-import {
-  getLocalStorageJSON,
-  readMyTodo,
-  readUsersInfo,
-} from "@/supabase/myPage/profileImage";
+import { readMyTodo } from "@/supabase/myPage/profileImage";
 import useStoreState from "@/app/shared/store";
 import type { userTodo } from "@/app/types/type";
 import ProfileReviewTab from "./ProfileReviewTab";
