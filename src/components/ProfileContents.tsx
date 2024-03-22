@@ -1,46 +1,41 @@
 "use client";
-import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
+import { supabase } from "@/supabase/supabase";
+import { useRouter } from "next/navigation";
 import {
-  readUsersInfo,
   updateUserAccounts,
+  uploadImage,
 } from "@/supabase/myPage/profileImage";
+import type { Edit, UserData } from "@/app/types/type";
 import useStoreState from "@/app/shared/store";
-import { Edit, UserData, UserInfo } from "@/app/types/type";
 
 const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
-  const myAccount = { email: "1234@qwer.com" };
-  const userEmail = myAccount.email;
+  const router = useRouter();
 
-  const { nickname, contents, email } = useStoreState<Partial<UserData>>(
-    (store) => store.userAccount
-  );
+  const {
+    userInfo,
+    defaultImg,
+    selectFile,
+    userAccount,
+    setDefaultImg,
+    setUserAccount,
+  } = useStoreState();
+  const { email, id } = userInfo || "";
+  const { nickname, contents, avatar }: Partial<UserData> = userAccount;
 
-  const setUserAccount = useStoreState((store) => store.setUserAccount);
-  const [editValue, setEditValue] = useState<Partial<UserData>>({
+  const [editValue, setEditValue] = useState<UserData>({
     nickname,
     contents,
     email,
   });
-
   const editValueNickname = editValue.nickname;
   const editValueContents = editValue.contents;
-
-  useEffect(() => {
-    userMyPage();
-  }, []);
-
-  const userMyPage = async () => {
-    const data = await readUsersInfo();
-    if (data) {
-      const [filterUserData] = data.filter((item) => item.email === userEmail);
-      setUserAccount(filterUserData);
-    }
-  };
 
   const editValueChangeHandler = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     e.preventDefault();
+
     const { name, value } = e.target;
     setEditValue({ ...editValue, [name]: value });
   };
@@ -48,40 +43,71 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const editContentsHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEdit(true);
-    setEditValue({ nickname, contents, email: userEmail });
+    setEditValue({ nickname, contents, email });
+    if (avatar) {
+      setDefaultImg(avatar);
+    }
   };
-
-  const editSaveHandler = (e: FormEvent<HTMLFormElement>) => {
+  // 이미지, 닉네임, 소개 편집
+  const editSaveHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // 유효성;
     const editSaveCheck = window.confirm("수정내용을 저장하시겠습니까?");
-    if (
-      editSaveCheck === true &&
-      editValueNickname === nickname &&
-      editValueContents === contents
-    ) {
-      alert("수정된 내용이 없습니다");
-      return;
-    }
-
     if (editSaveCheck === false) {
       alert("수정을 취소하셨습니다.");
+      if (avatar) {
+        setDefaultImg(avatar);
+      }
       setIsEdit(false);
       return;
     }
 
-    setUserAccount(editValue);
+    if (!selectFile || !defaultImg) return;
+    //이미지 등록
+    const uuid = crypto.randomUUID();
+    const filePath = `userImage/${id}+${uuid}`;
+    try {
+      const data = await uploadImage(filePath, selectFile);
+      // 해당 콜렉션에 있는 문서 파일 url 가져오기
+      if (data !== null) {
+        const { data: imageUrl } = supabase.storage
+          .from("userImage")
+          .getPublicUrl(data.path);
+        // 스토리지에 있는 blob이미지를 일반 이미지 url로 변경
+        const ImgDbUrl = imageUrl.publicUrl;
+        if (ImgDbUrl) {
+          await updateUserAccounts({ ...editValue, avatar: ImgDbUrl });
+          alert("수정이 완료됐습니다.");
 
+          setUserAccount({ ...editValue, avatar: ImgDbUrl });
+          setDefaultImg(ImgDbUrl);
+        } else {
+          alert("이미지 URL을 가져올 수 없습니다.");
+        }
+      }
+    } catch (error) {
+      console.error("이미지가 업로드되지 않았어용", error);
+      alert("이미지가 업로드 되지 않았어용! 다시 등록해주세용!");
+    }
+
+    // DB에 저장
     const userAccountEditHandler = async () => {
       await updateUserAccounts(editValue);
     };
     userAccountEditHandler();
+
     setIsEdit(false);
+    setEditValue({ nickname, contents, email });
   };
 
   const editCancelHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    alert("수정을 취소하셨습니다.");
     setIsEdit(false);
+    if (isEdit && selectFile !== defaultImg) setDefaultImg(avatar);
+    // if (isEdit && selectFile !== defaultImg) {
+    //   setDefaultImg(avatar);
+    // }
   };
 
   return (
@@ -102,6 +128,9 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
               </div>
               <div>
                 <button onClick={editContentsHandler}>수정</button>
+                <button onClick={() => router.replace(`feed/newtodo`)}>
+                  할 일 등록
+                </button>
               </div>
             </article>
           ) : (
@@ -126,10 +155,10 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
                   rows={2}
                   value={editValueContents}
                   onChange={editValueChangeHandler}
-                  maxLength={100}
+                  maxLength={30}
                   placeholder={
                     editValueContents === ""
-                      ? "자신을 소개해주세요 (100글자 이내)"
+                      ? "자신을 소개해주세요 (30글자 이내)"
                       : editValueContents
                   }
                 ></textarea>
