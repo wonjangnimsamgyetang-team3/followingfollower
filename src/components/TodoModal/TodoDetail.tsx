@@ -3,7 +3,7 @@ import { TodoType } from "../TodoCard";
 import { supabase } from "@/supabase/supabase";
 import TodoBar from "../TodoBar";
 import CommentForm from "./CommentForm";
-import useStoreState from "@/app/shared/store";
+import useStore from "@/app/shared/store"; // 수정된 부분: useStore import
 
 export type CommentData = {
   nickname: string;
@@ -29,7 +29,7 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
   const [editedContent, setEditedContent] = useState(todo.contents);
 
   // Zustand hook
-  const { userInfo } = useStoreState();
+  const { userInfo } = useStore(); // 수정된 부분: useStore로부터 가져오기
   console.log("로그인한 유저정보", userInfo);
   const nickname = userInfo?.nickname;
   const userAvatar = userInfo?.avatar;
@@ -99,7 +99,7 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
   };
 
   const handleTodoEdit = async () => {
-    if (editedTitle === todo.title || editedContent === todo.contents) {
+    if (editedTitle === todo.title && editedContent === todo.contents) {
       alert("수정된 부분이 없습니다.");
       return;
     }
@@ -130,7 +130,6 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
       }
     }
   };
-
   return (
     <div>
       <div className="flex w-full h-full">
