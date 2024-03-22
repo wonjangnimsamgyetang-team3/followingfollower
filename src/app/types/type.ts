@@ -53,7 +53,3 @@ export type userTodo = {
   liketest: string[];
   email: string;
 };
-
-export type SessionSupabase = {
-  SUPABASE_URL: string;
-};
