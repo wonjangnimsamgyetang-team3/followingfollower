@@ -4,8 +4,9 @@ import HeartFillIcon from "../icons/HeartFillIcon";
 import { HeartIcon } from "@/icons/HeartIcon";
 import { supabase } from "@/supabase/supabase";
 import { TodoType } from "./TodoCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineComment } from "react-icons/ai";
+import useStoreState from "@/app/shared/store";
 
 type Props = {
   todo: TodoType;
@@ -13,33 +14,65 @@ type Props = {
 };
 
 const TodoBar = ({ todo, commentCount }: Props) => {
-  const [likes, setLikes] = useState(todo.liked);
-  const [liketest, setLiketest] = useState<string[]>(todo.liketest || []);
+  const { userInfo } = useStoreState();
+  const { id } = userInfo || "";
+  console.log(id);
+  const [likes, setLikes] = useState<boolean | null>(null);
+  const [liketest, setLiketest] = useState<string[]>([]);
+
+  useEffect(() => {
+    const likedStatus = async () => {
+      if (!id) return;
+
+      const { data: likedUser, error } = await supabase
+        .from("TodoList")
+        .select("liketest")
+        .eq("todoId", todo.todoId)
+        .single();
+
+      if (error) {
+        console.error("정보를 가져오지 못 하고 있습니다.", error);
+        return;
+      }
+
+      if (likedUser?.liketest && likedUser.liketest.includes(id)) {
+        setLikes(true);
+      } else {
+        setLikes(false);
+      }
+      setLiketest(likedUser?.liketest || []);
+    };
+
+    likedStatus();
+  }, [id, todo.todoId]);
+
+  console.log(likes);
 
   const handleLikeToggle = async () => {
-    const getUserId = async () => {
-      const { data: user } = await supabase.auth.getUser();
-      return user?.user?.id;
-    };
-    const userId = await getUserId();
+    const userId = id;
+    if (!userId) return;
+    // const userId = "15";
+    // const getUserId = async () => {
+    //   const { data: user } = await supabase.auth.getUser();
+    //   return user?.user?.id;
+    // };
+    // const userId = await getUserId();
 
     if (likes) {
-      await removeLikedUser(todo.todoId);
+      await removeLikedUser(todo.todoId, userId);
+      setLikes(false);
       setLiketest((prevLiketest) => prevLiketest.filter((id) => id !== userId));
     } else {
-      await addLikedUser(todo.todoId);
+      await addLikedUser(todo.todoId, userId);
+      setLikes(true);
       setLiketest((prevLiketest) => [...prevLiketest, userId]);
     }
     setLikes(!likes);
   };
 
-  const addLikedUser = async (todoId: string) => {
+  const addLikedUser = async (todoId: string, userId: string) => {
     // const userId = '15';
-    const getUserId = async () => {
-      const { data: user } = await supabase.auth.getUser();
-      return user?.user?.id;
-    };
-    const userId = await getUserId();
+
     const { data, error } = await supabase
       .from("TodoList")
       .update({ liketest: [...liketest, userId] })
@@ -51,13 +84,8 @@ const TodoBar = ({ todo, commentCount }: Props) => {
     }
   };
 
-  const removeLikedUser = async (todoId: string) => {
+  const removeLikedUser = async (todoId: string, userId: string) => {
     // const userId = '15';
-    const getUserId = async () => {
-      const { data: user } = await supabase.auth.getUser();
-      return user?.user?.id;
-    };
-    const userId = await getUserId();
     const { data, error } = await supabase
       .from("TodoList")
       .update({ liketest: liketest.filter((id) => id !== userId) })
