@@ -1,22 +1,26 @@
 "use client";
-import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
+import { supabase } from "@/supabase/supabase";
+import { useRouter } from "next/navigation";
 import {
   updateUserAccounts,
   uploadImage,
 } from "@/supabase/myPage/profileImage";
-import useStoreState from "@/app/shared/store";
-import { Edit, UserData } from "@/app/types/type";
-import { supabase } from "@/supabase/supabase";
-import { useRouter } from "next/navigation";
+import type { Edit, UserData } from "@/app/types/type";
 
 const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const router = useRouter();
-  const { userInfo, defaultImg, selectFile, setDefaultImg, setUserAccount } =
-    useStoreState();
+
+  const {
+    userInfo,
+    defaultImg,
+    selectFile,
+    userAccount,
+    setDefaultImg,
+    setUserAccount,
+  } = useStoreState();
   const { email, id } = userInfo || "";
-  const { nickname, contents, avatar } = useStoreState(
-    (store) => store.userAccount
-  );
+  const { nickname, contents, avatar }: Partial<UserData> = userAccount;
 
   const [editValue, setEditValue] = useState<UserData>({
     nickname,
