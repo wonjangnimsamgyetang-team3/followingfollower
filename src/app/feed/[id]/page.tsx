@@ -1,7 +1,5 @@
-import NewTodo from "@/components/NewTodo";
-
 const page = () => {
-  return <div></div>;
+  return <div>page</div>;
 };
 
 export default page;
