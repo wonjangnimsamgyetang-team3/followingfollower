@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { FaGithub } from 'react-icons/fa6';
-import { SiKakaotalk } from 'react-icons/si';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from "react";
+import { FaGithub } from "react-icons/fa6";
+import { SiKakaotalk } from "react-icons/si";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-import { supabase } from '@/supabase/supabase';
-import useStoreState from '@/app/shared/store';
+import { supabase } from "@/supabase/supabase";
+import useStoreState from "@/shared/store";
 
 const LoginPage = () => {
-  const [loginEmail, setLoginEmail] = useState<string>('');
-  const [loginPw, setLoginPw] = useState<string>('');
+  const [loginEmail, setLoginEmail] = useState<string>("");
+  const [loginPw, setLoginPw] = useState<string>("");
   const router = useRouter();
   const { addUser } = useStoreState();
 
@@ -27,7 +27,7 @@ const LoginPage = () => {
     });
 
     if (!loginEmail || !loginPw) {
-      alert('빈칸 없이 작성해주세요');
+      alert("빈칸 없이 작성해주세요");
       return;
     }
 
@@ -40,9 +40,9 @@ const LoginPage = () => {
       const authEmail = session.data.session?.user.email;
       const authId = session.data.session?.user.id;
 
-      localStorage.setItem('avatar', authAvatar);
-      localStorage.setItem('contents', authContents);
-      localStorage.setItem('nickname', authNickname);
+      localStorage.setItem("avatar", authAvatar);
+      localStorage.setItem("contents", authContents);
+      localStorage.setItem("nickname", authNickname);
 
       addUser({
         avatar: authAvatar,
@@ -53,7 +53,7 @@ const LoginPage = () => {
       });
 
       const { data: insertData, error: insetError } = await supabase
-        .from('usersAccounts')
+        .from("usersAccounts")
         .insert([
           {
             avatar: authAvatar,
@@ -68,25 +68,37 @@ const LoginPage = () => {
     }
     //현재 페이지를 새로고침
     if (loginUser) {
-      router.push('/');
+      router.push("/");
       router.refresh();
     }
   };
 
   //소셜 로그인
   const githubSignInHandler = async () => {
-    let { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'github',
-      options: {
-        redirectTo: `${location.origin}/auth/callback`,
-      },
-    });
+    try {
+      const { data: git, error } = await supabase.auth.signInWithOAuth({
+        provider: "github",
+        options: {
+          queryParams: {
+            access_type: "offline",
+            prompt: "consent",
+          },
+          redirectTo: `${location.origin}/auth/callback`,
+        },
+      });
+    } catch (error) {
+      if (error) console.log(error);
+    }
   };
 
   const kakaoSignInHandler = async () => {
-    let { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'kakao',
+    let { data: kakao, error } = await supabase.auth.signInWithOAuth({
+      provider: "kakao",
       options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
+        },
         redirectTo: `${location.origin}/auth/callback`,
       },
     });
@@ -95,16 +107,15 @@ const LoginPage = () => {
   //비밀번호 찾기
   const findPasswordHandler = async () => {
     if (!loginEmail) {
-      alert('이메일을 입력해주세요!');
+      alert("이메일을 입력해주세요!");
       return;
     }
     let { data, error } = await supabase.auth.resetPasswordForEmail(loginEmail);
-    alert('비밀번호 복구 메일이 발송됐습니다!');
+    alert("비밀번호 복구 메일이 발송됐습니다!");
   };
   return (
     <div>
       <div>
-        {' '}
         <button onClick={githubSignInHandler}>
           <FaGithub size={50} />
         </button>

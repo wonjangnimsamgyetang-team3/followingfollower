@@ -6,7 +6,7 @@ import { supabase } from "@/supabase/supabase";
 import { TodoType } from "./TodoCard";
 import { useEffect, useState } from "react";
 import { AiOutlineComment } from "react-icons/ai";
-import useStoreState from "@/app/shared/store";
+import useStoreState from "@/shared/store";
 
 type Props = {
   todo: TodoType;
