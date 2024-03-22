@@ -13,12 +13,12 @@ const NewTodo = () => {
   const { userInfo } = useStoreState();
   console.log("로그인한 유저정보", userInfo);
   const nickname = userInfo?.nickname;
+  const userAvatar = userInfo?.avatar;
 
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File>();
   const router = useRouter();
 
-  // 이미지 파일 업로드, 드롭
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const files = e.target?.files;
@@ -54,14 +54,30 @@ const NewTodo = () => {
     e.preventDefault();
     if (!file) return;
 
+    const { data: user } = await supabase.auth.getUser();
+    const userEmail = user?.user?.email;
+    const userId = user?.user?.id;
+
     const uuid = crypto.randomUUID();
     const filePath = `todoImage/${uuid}`;
 
     const formData = new FormData();
-    formData.append("title", e.currentTarget["title"].value);
-    formData.append("contents", e.currentTarget["contents"].value);
-    formData.append("start", e.currentTarget["start"].value);
-    formData.append("end", e.currentTarget["end"].value);
+    formData.append(
+      "title",
+      (document.getElementById("title") as HTMLInputElement).value
+    );
+    formData.append(
+      "contents",
+      (document.getElementById("input-contents") as HTMLInputElement).value
+    );
+    formData.append(
+      "start",
+      (document.getElementById("start") as HTMLInputElement).value
+    );
+    formData.append(
+      "end",
+      (document.getElementById("end") as HTMLInputElement).value
+    );
     formData.append("imageFile", file);
 
     const uploadImage = async (filePath: string, file: File) => {
@@ -95,6 +111,9 @@ const NewTodo = () => {
           start: formData.get("start"),
           end: formData.get("end"),
           imageFile: ImgDbUrl,
+          email: userEmail,
+          nickname: nickname,
+          userId: userId,
         },
       ]);
 
@@ -108,17 +127,21 @@ const NewTodo = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col flex items-center flex justify-center bg-[#e3e3e3]">
+    <div className="w-full h-full flex flex-col flex items-center flex justify-center">
       <section className="w-[700px] h-[900px] outline-none flex flex-col items-center justify-center mt-20 mb-20 bg-white border-2 border-solid border-subColor2 rounded-[30px] p-[40px]">
-        <div className="text-lg text-[#fb8494] mb-[20px]">{nickname}</div>
+        <div className="flex flex items-center flex justify-center mb-[10px]">
+          <img className="w-[50px] h-[50px] mr-[15px]" src={userAvatar} />
+          <div className="text-lg text-[#fb8494] ">{nickname}</div>
+        </div>
         <form className="w-full flex flex-col mt-2" onSubmit={handleSubmit}>
           <textarea
             className="w-15 h-12 outline-none text-lg border-2 border-[#fb8494] rounded-[30px] resize-none p-[8px] pl-[15px]"
             name="title"
-            id="input-title"
+            id="title"
             required
             rows={1}
             placeholder="제목을 입력하세요."
+            maxLength={20}
           />
           <div className="mt-[30px] mb-[30px]">
             <input
@@ -168,6 +191,7 @@ const NewTodo = () => {
             required
             rows={10}
             placeholder="할 일 자세히 입력( 100글자 이내 )"
+            maxLength={100}
           />
           <div className="flex p-[10px] mt-[20px]">
             <div className="mr-[30px]">

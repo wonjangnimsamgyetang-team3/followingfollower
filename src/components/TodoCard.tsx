@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { supabase } from '@/supabase/supabase';
-import ModalPotal from './TodoModal/ModalPortal';
-import TodoModal from './TodoModal/TodoModal';
-import TodoDetail from './TodoModal/TodoDetail';
-import TodoBar from './TodoBar';
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { supabase } from "@/supabase/supabase";
+import TodoBar from "./TodoBar";
+import ModalPotal from "./TodoModal/ModalPortal";
+import TodoModal from "./TodoModal/TodoModal";
+import TodoDetail from "./TodoModal/TodoDetail";
+import useStoreState from "@/app/shared/store";
 
 export type TodoType = {
   contents: string;
@@ -12,39 +15,62 @@ export type TodoType = {
   imageFile: string;
   likeCount: number;
   liked: boolean;
-  liketest: string[];
   nickname: string;
   start: string;
   title: string;
   todoId: string;
+  liketest: string[];
+  email: string;
+  userId: string;
 };
 
 const TodoCard = ({ todo }: { todo: TodoType }) => {
   const [openModal, setOpenModal] = useState(false);
   const [commentCount, setCommentCount] = useState(0);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  //zustand
+  const { userInfo } = useStoreState();
+  // console.log('로그인한 유저정보', userInfo);
+  const nickname = userInfo?.nickname;
+
+  const getUserEmail = async () => {
+    const { data: user } = await supabase.auth.getUser();
+    return user?.user?.id;
+  };
+
+  const isCurrentUserTodo = userId === todo.userId;
+
+  useEffect(() => {
+    getUserEmail();
+  }, [userInfo]);
 
   useEffect(() => {
     fetchCommentCount(todo.todoId);
-  }, []);
+  }, [todo.todoId]);
 
   const fetchCommentCount = async (todoId: string) => {
     const { data, error } = await supabase
-      .from('commentList')
-      .select('count', { count: 'exact' })
-      .eq('todoId', todoId);
+      .from("commentList")
+      .select("count", { count: "exact" })
+      .eq("todoId", todoId);
 
     if (error) {
       throw error;
     }
+
     setCommentCount(data[0]?.count || 0);
   };
 
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const modalLink = `/feed/${todo.todoId}`;
+
   return (
     <div className="bg-white m-[15px] border-2 border-solid border-subColor2 rounded-[30px] p-[30px] flex flex-col items-center justify-center">
-      <div
-        className="cursor-pointer hover:pointer"
-        onClick={() => setOpenModal(true)}
-      >
+      <div onClick={() => setOpenModal(true)}>
         <div className="flex flex-col items-center flex justify-center">
           <h2 className="font-bold text-lg mb-[10px]">{todo.title}</h2>
           <img
@@ -55,8 +81,10 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
           />
         </div>
         <div className="w-full">
-          <p className="mb-[10px]">{todo.nickname}</p>
-          <p className="mb-[20px]">{todo.contents}</p>
+          <p className="mb-[10px]">
+            {isCurrentUserTodo ? nickname : todo.nickname}
+          </p>
+          <p className="mb-[20px] overflow-ellipsis">{todo.contents}</p>
         </div>
       </div>
       <div className="w-full">

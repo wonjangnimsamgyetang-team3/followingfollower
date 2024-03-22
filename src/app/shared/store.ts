@@ -1,7 +1,7 @@
-import { create, SetState } from "zustand";
-import { persist } from "zustand/middleware";
-import defaultImg from "@/assets/profile.png";
-import { UserData } from "../types/type";
+import { create, SetState } from 'zustand';
+import { persist } from 'zustand/middleware';
+import defaultImg from '@/assets/profile.png';
+import { UserData } from '../types/type';
 
 export interface USER {
   avatar: string;
@@ -32,13 +32,13 @@ interface State {
 const initialState = {
   like: 0,
   userInfo: null,
-  activeCategory: "내가 할 일",
+  activeCategory: '내가 할 일',
   userAccount: {
-    avatar: "",
-    nickname: "",
-    contents: "",
+    avatar: '',
+    nickname: '',
+    contents: '',
     id: 0,
-    email: "",
+    email: '',
   },
 };
 
@@ -64,7 +64,7 @@ const useStoreState = create(
         })),
       setCategory: (category: string) => set({ activeCategory: category }),
     }),
-    { name: "loginedUser" }
+    { name: 'loginedUser' }
   )
 );
 
