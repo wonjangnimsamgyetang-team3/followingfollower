@@ -6,7 +6,7 @@ import TodoBar from './TodoBar';
 import ModalPotal from './TodoModal/ModalPortal';
 import TodoModal from './TodoModal/TodoModal';
 import TodoDetail from './TodoModal/TodoDetail';
-import useStoreState from '@/app/shared/store';
+import useStoreState from '@/shared/store';
 import Image from 'next/image';
 
 export type TodoType = {
@@ -33,8 +33,8 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
   //zustand
   const { userInfo } = useStoreState();
   // console.log('로그인한 유저정보', userInfo);
-  const { email: myEmail } = userInfo;
   const nickname = userInfo?.nickname;
+  const myEmail = userInfo?.email;
 
   const getUserEmail = async () => {
     const { data: user } = await supabase.auth.getUser();
@@ -64,6 +64,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
     setCommentCount(data[0]?.count || 0);
   };
 
+  //follow test
   const followHandler = () => {
     alert(`${todo.email}, ${myEmail}`);
   };

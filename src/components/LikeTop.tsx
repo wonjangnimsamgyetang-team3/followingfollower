@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import React from "react";
-import { supabase } from "@/supabase/supabase";
-import { useQuery } from "@tanstack/react-query";
-import profile from "@/assets/profile.png";
-import Image from "next/image";
+import React from 'react';
+import { supabase } from '@/supabase/supabase';
+import { useQuery } from '@tanstack/react-query';
+import profile from '@/assets/profile.png';
+import Image from 'next/image';
 
-import type { Todo } from "@/app/types/type";
+import type { Todo } from '@/types/type';
 
 const LikeTop = () => {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["todoed"],
+    queryKey: ['todoed'],
     queryFn: async () => {
       const response = await supabase
-        .from("TodoList")
-        .select("*")
+        .from('TodoList')
+        .select('*')
         .order(`likeCount`, { ascending: false })
         .range(0, 2);
       // LikeCount 가 높은 순서대로

@@ -3,7 +3,8 @@ import { TodoType } from "../TodoCard";
 import { supabase } from "@/supabase/supabase";
 import TodoBar from "../TodoBar";
 import CommentForm from "./CommentForm";
-import useStore from "@/app/shared/store"; // 수정된 부분: useStore import
+import useStoreState from "@/shared/store";
+import Image from "next/image";
 
 export type CommentData = {
   nickname: string;
@@ -29,7 +30,7 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
   const [editedContent, setEditedContent] = useState(todo.contents);
 
   // Zustand hook
-  const { userInfo } = useStore(); // 수정된 부분: useStore로부터 가져오기
+  const { userInfo } = useStoreState();
   console.log("로그인한 유저정보", userInfo);
   const nickname = userInfo?.nickname;
   const userAvatar = userInfo?.avatar;
@@ -99,7 +100,7 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
   };
 
   const handleTodoEdit = async () => {
-    if (editedTitle === todo.title && editedContent === todo.contents) {
+    if (editedTitle === todo.title || editedContent === todo.contents) {
       alert("수정된 부분이 없습니다.");
       return;
     }
@@ -135,10 +136,12 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
       <div className="flex w-full h-full">
         <div className="w-[500px] h-[650px] border-solid border-r-2 border-[#fb8494] p-8 mb-5 mr-10 mt-3">
           <div className="flex items-center ml-[5px] mb-[15px]">
-            <img
+            <Image
               className="w-[50px] h-[50px] mr-[15px]"
               src={userAvatar}
               alt="userAvatar"
+              width={100}
+              height={100}
             />
             <p className="font-bold text-xl ml-[5px]">
               {" "}
@@ -146,10 +149,12 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
             </p>
           </div>
           <div>
-            <img
+            <Image
               className="rounded-[30px] mb-[20px] w-full h-full"
               src={todo.imageFile}
               alt="todoImage"
+              width={100}
+              height={100}
             />
           </div>
           {isEditMode ? (
@@ -222,11 +227,13 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
                 className="border-b-2 border-solid border-subColor2 p-4"
                 key={comment.id}
               >
-                <div className="flex flex items-center">
-                  <img
+                <div className="flex items-center">
+                  <Image
                     className="w-[70px] h-[70px] mr-[15px]"
                     alt="avatar"
                     src={comment.avatar}
+                    width={100}
+                    height={100}
                   />
                   <div className="flex flex-col ml-[15px] w-full">
                     <span className="mb-[10px]">

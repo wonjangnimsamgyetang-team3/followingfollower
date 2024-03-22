@@ -1,11 +1,9 @@
-import { supabase } from "@/supabase/supabase";
-import React, { useEffect, useState } from "react";
 import AllCard from "@/components/AllCard";
 import NewCard from "@/components/NewCard";
 import Banner from "@/components/Banner";
 import LikeTop from "@/components/LikeTop";
 
-const MainPage = () => {
+const MainPage = async () => {
   return (
     <main>
       <Banner />
