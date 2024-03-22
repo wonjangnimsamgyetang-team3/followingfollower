@@ -10,7 +10,10 @@ import ProfileReviewLike from "./ProfileReviewLike";
 import defaultImg from "@/assets/profile.png";
 
 const ProfileReview = () => {
-  const email = "1234@qwer.com";
+  const { userInfo } = useStoreState();
+  const { email } = userInfo;
+  console.log(email);
+  // const email = "1234@qwer.com";
   const router = useRouter();
   const {
     isLoading,
@@ -18,7 +21,7 @@ const ProfileReview = () => {
     isError,
     data: userTodo,
   } = useQuery({
-    queryKey: [queryKey.usersAccounts],
+    queryKey: [queryKey.TodoList],
     queryFn: readMyTodo,
   });
   const activeMyTodos: string = useStoreState((store) => store.activeCategory);
