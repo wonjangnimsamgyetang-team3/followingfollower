@@ -20,12 +20,13 @@ const FeedPage = () => {
         user?.user_metadata.preferred_username ??
         user?.user_metadata.userNickname;
       const withContents = user?.user_metadata.contents;
+      const authId = user?.id; //authId 생성해주시면 됩니당
       addUser({
         avatar: withAvatar,
         nickname: withName,
         contents: '',
-        // id: authId,
-        // email: withEmail,
+        id: authId,
+        email: withEmail,
       });
 
       if (user) {
