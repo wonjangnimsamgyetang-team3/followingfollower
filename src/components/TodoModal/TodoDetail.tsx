@@ -77,7 +77,7 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
         .delete()
         .eq("todoId", todo.todoId);
       if (error) {
-        console.error("Todo 삭제 중 오류 발생:", error.message);
+        console.error("todo삭제 오류:", error.message);
       } else {
         window.location.reload();
       }
@@ -91,7 +91,7 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
         .delete()
         .eq("id", commentId);
       if (error) {
-        console.error("댓글 삭제 중 오류 발생:", error.message);
+        console.error("댓글 삭제 오류:", error.message);
       } else {
         fetchComments(todo.todoId);
       }
@@ -115,7 +115,7 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
       .select();
 
     if (error) {
-      console.error("Todo 수정 중 오류 발생:", error.message);
+      console.error("Todo 수정 오류:", error.message);
     } else {
       const { data: updatedTodo } = await supabase
         .from("TodoList")
@@ -155,24 +155,26 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
           </div>
           {isEditMode ? (
             <>
-              <input
-                className="font-bold text-xl pb-[20px] outline-none border-b-2 border-solid border-[#fb8494] w-full"
+              <textarea
+                className="font-bold text-xl outline-none resize-none border-2 border-solid border-[#fb8494] w-full h-[45px] p-[5px] mb-[5px] rounded-[10px]"
                 value={editedTitle}
                 onChange={(e) => setEditedTitle(e.target.value)}
               />
               <textarea
-                className="outline-none pb-[20px] resize-none border-b-2 border-solid border-[#fb8494] w-full"
+                className="outline-none resize-none border-2 border-solid border-[#fb8494] w-full h-[100px] p-[5px] rounded-[10px]"
                 value={editedContent}
                 onChange={(e) => setEditedContent(e.target.value)}
               />
             </>
           ) : (
             <div>
-              <p className="font-bold text-xl pb-[20px]">{todo.title}</p>
-              <p>{todo.contents}</p>
+              <p className="font-bold text-xl w-full h-[45px] p-[5px]">
+                {todo.title}
+              </p>
+              <p className="w-full h-[110px] p-[5px]">{todo.contents}</p>
             </div>
           )}
-          <div className="pt-[100px]">
+          <div className="pt-[30px]">
             <TodoBar todo={todo} commentCount={commentData.length} />
           </div>
           {userId === todo.userId && (
