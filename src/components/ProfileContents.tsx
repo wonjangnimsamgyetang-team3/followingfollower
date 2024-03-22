@@ -121,12 +121,10 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     e.preventDefault();
     setIsEdit(false);
     console.log(1);
-    setDefaultImg(avatar ? avatar : defaultImg);
-    // if (isEdit && selectFile !== defaultImg) {
-    //   setDefaultImg(avatar ? avatar : defaultImg);
-    // } else {
-    //   setDefaultImg(defaultImg);
-    // }
+    // setDefaultImg(avatar ? avatar : defaultImg);
+    if (isEdit && selectFile !== defaultImg) {
+      setDefaultImg(defaultImg);
+    }
   };
 
   return (

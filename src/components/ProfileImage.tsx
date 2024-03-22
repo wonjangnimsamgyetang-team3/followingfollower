@@ -46,14 +46,29 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
         </label>
       ) : (
         <div>
+          {/* {
+            selectFile ?
+            // {selectFile ?
+              // ( */}
           <Image
-            src={`${defaultImg}`}
+            src={`${selectFile ? selectFile : defaultImg}`}
             alt="유저이미지"
             width={130}
             height={0}
             sizes="130px"
             className="rounded-full"
           />
+          {/* // ) : (
+          //   <Image */}
+          {/* //     src={`${defaultImg}`}
+          //     alt="유저이미지"
+          //     width={130}
+          //     height={0}
+          //     sizes="130px"
+          //     className="rounded-full"
+          //   />
+          //   )
+            } */}
         </div>
       )}
       <input
