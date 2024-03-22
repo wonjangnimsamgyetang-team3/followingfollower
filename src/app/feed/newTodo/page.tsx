@@ -1,11 +1,10 @@
-import NewTodo from '../../../components/NewTodo';
+import NewTodo from "../../../components/NewTodo";
 
-const NewPostPage = async () => {
+const NewPostPage = () => {
   return (
     <div>
       <NewTodo />
     </div>
   );
 };
-
 export default NewPostPage;

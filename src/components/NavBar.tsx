@@ -2,6 +2,7 @@ import { User } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import Image from "next/image";
 import FFlogo from "@/assets/FFlogo.png";
+import LogOut from "./LogOut";
 
 const NavBar = ({ user }: { user: User | null }) => {
   return (
@@ -27,6 +28,7 @@ const NavBar = ({ user }: { user: User | null }) => {
             </Link>
           )}
 
+<<<<<<< HEAD
           {user ? (
             <Link href="/login" className="p-4">
               로그아웃
@@ -37,6 +39,15 @@ const NavBar = ({ user }: { user: User | null }) => {
             </Link>
           )}
         </div>
+=======
+        {user ? (
+          <LogOut />
+        ) : (
+          <Link href="/login" className="p-4">
+            로그인
+          </Link>
+        )}
+>>>>>>> 27f3735f2d7bc4f60737912c2c83e00995197b07
       </div>
       <div className="w-full h-2 bg-gradient-to-b from-subColor2"></div>
     </nav>
