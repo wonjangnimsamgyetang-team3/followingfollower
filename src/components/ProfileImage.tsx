@@ -80,7 +80,20 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
 
   return (
     <div className="bg-subColor4">
-      <label htmlFor="imgFileChoice">
+      {isEdit ? (
+        <label htmlFor="imgFileChoice">
+          <div>
+            <Image
+              src={defaultImg}
+              alt="유저이미지"
+              width={130}
+              height={0}
+              sizes="130px"
+              className="rounded-full"
+            />
+          </div>
+        </label>
+      ) : (
         <div>
           <Image
             src={defaultImg}
@@ -91,7 +104,7 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
             className="rounded-full"
           />
         </div>
-      </label>
+      )}
       <input
         type="file"
         accept="image/*"
