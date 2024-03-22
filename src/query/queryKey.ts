@@ -1,1 +1,5 @@
-export const queryKey = { usersAccounts: "usersAccounts" };
+export const queryKey = {
+  usersAccounts: "usersAccounts",
+  myPageUser: "myPageUser",
+  TodoList: "TodoList",
+};
