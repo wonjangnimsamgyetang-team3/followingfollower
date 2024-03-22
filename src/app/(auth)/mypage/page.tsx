@@ -12,14 +12,14 @@ const MyPage = () => {
   const myAccount = { email: '1234@qwer.com' };
   const userEmail = myAccount.email;
   const [isEdit, setIsEdit] = useState(false);
-  const {
-    isPending,
-    isError,
-    data: userInfo,
-  } = useQuery({
-    queryKey: [queryKey.usersAccounts],
-    queryFn: readUsersInfo,
-  });
+  // const {
+  //   isPending,
+  //   isError,
+  //   data: userInfo,
+  // } = useQuery({
+  //   queryKey: [queryKey.usersAccounts],
+  //   queryFn: readUsersInfo,
+  // });
 
   return (
     <section>
