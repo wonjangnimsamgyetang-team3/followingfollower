@@ -28,28 +28,15 @@ const NavBar = ({ user }: { user: User | null }) => {
             </Link>
           )}
 
-<<<<<<< HEAD
           {user ? (
-            <Link href="/login" className="p-4">
-              로그아웃
-            </Link>
+            <LogOut />
           ) : (
             <Link href="/login" className="p-4">
               로그인
             </Link>
           )}
         </div>
-=======
-        {user ? (
-          <LogOut />
-        ) : (
-          <Link href="/login" className="p-4">
-            로그인
-          </Link>
-        )}
->>>>>>> 27f3735f2d7bc4f60737912c2c83e00995197b07
       </div>
-      <div className="w-full h-2 bg-gradient-to-b from-subColor2"></div>
     </nav>
   );
 };
