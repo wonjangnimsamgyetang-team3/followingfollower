@@ -5,10 +5,10 @@ import { UserData } from "../types/type";
 
 export interface USER {
   avatar: string;
-  nickname: string | undefined;
+  nickname: string;
   contents: string;
-  id: string | undefined;
-  email: string | undefined;
+  id: string;
+  email: string;
 }
 
 interface State {
@@ -18,12 +18,13 @@ interface State {
   userInfo: USER;
   addUser: (UserInfo: USER) => void;
   removeUser: () => void;
+
   // MyPage-ProfileImage.tsx
   defaultImg: string;
   selectFile: string;
   userAccount: Partial<UserData>;
   activeCategory: string;
-  setSelectFile: (selectImg: string) => void;
+  setSelectFile: (selectImg: File) => void;
   setDefaultImg: (selectImg: string) => void;
   setUserAccount: (newUserData: Partial<UserData>) => void;
   setCategory: (payload: string) => void;
@@ -40,6 +41,8 @@ const initialState = {
     id: 0,
     email: "",
   },
+  defaultImg: defaultImg,
+  selectFile: defaultImg,
 };
 
 const useStoreState = create(
@@ -52,9 +55,8 @@ const useStoreState = create(
       addUser: (userInfo: USER) => set({ userInfo }),
       removeUser: () => set((state) => ({ userInfo: null })),
       // MyPage-ProfileImage.tsx
-      defaultImg: defaultImg.src,
-      selectFile: defaultImg.src,
-      setSelectFile: (selectImg: string) =>
+
+      setSelectFile: (selectImg: File) =>
         set((prev) => ({ ...prev, selectFile: selectImg })),
       setDefaultImg: (selectImg: string) =>
         set((prev) => ({ ...prev, defaultImg: selectImg })),
