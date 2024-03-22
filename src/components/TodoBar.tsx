@@ -1,12 +1,11 @@
-'use Client';
-import ToggleButton from './ToggleButton';
-import HeartFillIcon from '../icons/HeartFillIcon';
-import { HeartIcon } from '@/icons/HeartIcon';
-import { supabase } from '@/supabase/supabase';
-import { TodoType } from './TodoCard';
-import { useState } from 'react';
-import { FaRegCommentDots } from 'react-icons/fa';
-import { AiOutlineComment } from 'react-icons/ai';
+"use Client";
+import ToggleButton from "./ToggleButton";
+import HeartFillIcon from "../icons/HeartFillIcon";
+import { HeartIcon } from "@/icons/HeartIcon";
+import { supabase } from "@/supabase/supabase";
+import { TodoType } from "./TodoCard";
+import { useState } from "react";
+import { AiOutlineComment } from "react-icons/ai";
 
 type Props = {
   todo: TodoType;
@@ -42,9 +41,9 @@ const TodoBar = ({ todo, commentCount }: Props) => {
     };
     const userId = await getUserId();
     const { data, error } = await supabase
-      .from('TodoList')
+      .from("TodoList")
       .update({ liketest: [...liketest, userId] })
-      .eq('todoId', todoId)
+      .eq("todoId", todoId)
       .select();
 
     if (error) {
@@ -60,9 +59,9 @@ const TodoBar = ({ todo, commentCount }: Props) => {
     };
     const userId = await getUserId();
     const { data, error } = await supabase
-      .from('TodoList')
+      .from("TodoList")
       .update({ liketest: liketest.filter((id) => id !== userId) })
-      .eq('todoId', todoId)
+      .eq("todoId", todoId)
       .select();
 
     if (error) {
@@ -73,10 +72,10 @@ const TodoBar = ({ todo, commentCount }: Props) => {
   return (
     <div className="flex w-full justify-between">
       <p className="text-gray-400">
-        {new Date(todo.created_at).toLocaleDateString('ko-KR', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
+        {new Date(todo.created_at).toLocaleDateString("ko-KR", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
         })}
       </p>
       <div className="flex">

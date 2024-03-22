@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { supabase } from '@/supabase/supabase';
-import TodoBar from './TodoBar';
-import ModalPotal from './TodoModal/ModalPortal';
-import TodoModal from './TodoModal/TodoModal';
-import TodoDetail from './TodoModal/TodoDetail';
-import useStoreState from '@/app/shared/store';
+import React, { useEffect, useState } from "react";
+import { supabase } from "@/supabase/supabase";
+import TodoBar from "./TodoBar";
+import ModalPotal from "./TodoModal/ModalPortal";
+import TodoModal from "./TodoModal/TodoModal";
+import TodoDetail from "./TodoModal/TodoDetail";
+import useStoreState from "@/app/shared/store";
 
 export type TodoType = {
   contents: string;
@@ -27,7 +27,6 @@ export type TodoType = {
 const TodoCard = ({ todo }: { todo: TodoType }) => {
   const [openModal, setOpenModal] = useState(false);
   const [commentCount, setCommentCount] = useState(0);
-  // const [userEmail, setUserEmail] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
 
   //zustand
@@ -52,9 +51,9 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
 
   const fetchCommentCount = async (todoId: string) => {
     const { data, error } = await supabase
-      .from('commentList')
-      .select('count', { count: 'exact' })
-      .eq('todoId', todoId);
+      .from("commentList")
+      .select("count", { count: "exact" })
+      .eq("todoId", todoId);
 
     if (error) {
       throw error;
@@ -62,6 +61,12 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
 
     setCommentCount(data[0]?.count || 0);
   };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const modalLink = `/feed/${todo.todoId}`;
 
   return (
     <div className="bg-white m-[15px] border-2 border-solid border-subColor2 rounded-[30px] p-[30px] flex flex-col items-center justify-center">
@@ -79,7 +84,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
           <p className="mb-[10px]">
             {isCurrentUserTodo ? nickname : todo.nickname}
           </p>
-          <p className="mb-[20px]">{todo.contents}</p>
+          <p className="mb-[20px] overflow-ellipsis">{todo.contents}</p>
         </div>
       </div>
       <div className="w-full">
