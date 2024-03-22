@@ -1,9 +1,10 @@
 import { User } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
+import LogOut from "./LogOut";
 
 const NavBar = ({ user }: { user: User | null }) => {
   return (
-    <nav className="flex justify-center">
+    <nav className="flex flex-col place-items-center">
       <div className="flex">
         <Link href="/" className="p-4">
           FF
@@ -25,15 +26,14 @@ const NavBar = ({ user }: { user: User | null }) => {
         )}
 
         {user ? (
-          <Link href="/login" className="p-4">
-            로그아웃
-          </Link>
+          <LogOut />
         ) : (
           <Link href="/login" className="p-4">
             로그인
           </Link>
         )}
       </div>
+      <div className="w-full h-2 bg-gradient-to-b from-subColor2"></div>
     </nav>
   );
 };

@@ -9,19 +9,10 @@ import { supabase } from '@/supabase/supabase';
 import useStoreState from '@/app/shared/store';
 
 const NewTodo = () => {
-  useEffect(() => {
-    const getUserInfo = async () => {
-      const { data: user, error } = await supabase.auth.getUser();
-      console.log('사용자 정보:', user);
-    };
-    getUserInfo();
-  }, []);
-
   //zustand
   const { userInfo } = useStoreState();
   console.log('로그인한 유저정보', userInfo);
   const nickname = userInfo?.nickname;
-  const userAvatar = userInfo?.avatar;
 
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File>();
