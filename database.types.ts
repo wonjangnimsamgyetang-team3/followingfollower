@@ -37,7 +37,7 @@ export type Database = {
           liked: boolean | null;
           nickname: string | null;
           start: string;
-          title: string;
+          title: string | null;
           todoId: string;
           liketest: string[];
           email?: string;

@@ -7,6 +7,7 @@ import TodoBar from './TodoBar';
 import ModalPotal from './TodoModal/ModalPortal';
 import TodoModal from './TodoModal/TodoModal';
 import TodoDetail from './TodoModal/TodoDetail';
+import useStoreState from '@/app/shared/store';
 
 export type TodoType = {
   contents: string;
@@ -20,11 +21,31 @@ export type TodoType = {
   title: string;
   todoId: string;
   liketest: string[];
+  email: string;
+  userId: string;
 };
 
 const TodoCard = ({ todo }: { todo: TodoType }) => {
   const [openModal, setOpenModal] = useState(false);
   const [commentCount, setCommentCount] = useState(0);
+  // const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  //zustand
+  const { userInfo } = useStoreState();
+  // console.log('로그인한 유저정보', userInfo);
+  const nickname = userInfo?.nickname;
+
+  const getUserEmail = async () => {
+    const { data: user } = await supabase.auth.getUser();
+    return user?.user?.id;
+  };
+
+  const isCurrentUserTodo = userId === todo.userId;
+
+  useEffect(() => {
+    getUserEmail();
+  }, [userInfo]);
 
   useEffect(() => {
     fetchCommentCount(todo.todoId);
@@ -56,7 +77,9 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
           />
         </div>
         <div className="w-full">
-          <p className="mb-[10px]">{todo.nickname}</p>
+          <p className="mb-[10px]">
+            {isCurrentUserTodo ? nickname : todo.nickname}
+          </p>
           <p className="mb-[20px]">{todo.contents}</p>
         </div>
       </div>

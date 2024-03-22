@@ -3,6 +3,7 @@
 import { supabase } from '@/supabase/supabase';
 import React, { FormEvent, useState } from 'react';
 import { TodoType } from '../TodoCard';
+import useStoreState from '@/app/shared/store';
 
 type Props = {
   todo: TodoType;
@@ -12,19 +13,37 @@ type Props = {
 const CommentForm = ({ todo, onCommentSuccess }: Props) => {
   const [comment, setComment] = useState('');
   const buttonDisabled = comment.length === 0;
+
+  //zustand
+  const { userInfo } = useStoreState();
+  console.log('로그인한 유저정보', userInfo);
+  const nickname = userInfo?.nickname;
+  const userAvatar = userInfo?.avatar;
+  // const email = userinfo?.email;
+  // const id = userInfo?.id;
+
   const handleCommentSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const { data: user } = await supabase.auth.getUser();
+    const userEmail = user?.user?.email;
+    const userId = user?.user?.id;
+
     const formData = new FormData();
     formData.append('comment', comment);
     const { data } = await supabase.from('commentList').insert([
       {
+        nickname: nickname,
         comment: comment,
         todoId: todo.todoId,
+        email: userEmail,
+        userId: userId,
       },
     ]);
     onCommentSuccess();
     setComment('');
   };
+
   return (
     <form onSubmit={handleCommentSubmit}>
       <input

@@ -18,7 +18,12 @@ const TodoBar = ({ todo, commentCount }: Props) => {
   const [liketest, setLiketest] = useState<string[]>(todo.liketest || []);
 
   const handleLikeToggle = async () => {
-    const userId = '15';
+    const getUserId = async () => {
+      const { data: user } = await supabase.auth.getUser();
+      return user?.user?.id;
+    };
+    const userId = await getUserId();
+
     if (likes) {
       await removeLikedUser(todo.todoId);
       setLiketest((prevLiketest) => prevLiketest.filter((id) => id !== userId));
@@ -30,7 +35,12 @@ const TodoBar = ({ todo, commentCount }: Props) => {
   };
 
   const addLikedUser = async (todoId: string) => {
-    const userId = '15';
+    // const userId = '15';
+    const getUserId = async () => {
+      const { data: user } = await supabase.auth.getUser();
+      return user?.user?.id;
+    };
+    const userId = await getUserId();
     const { data, error } = await supabase
       .from('TodoList')
       .update({ liketest: [...liketest, userId] })
@@ -43,7 +53,12 @@ const TodoBar = ({ todo, commentCount }: Props) => {
   };
 
   const removeLikedUser = async (todoId: string) => {
-    const userId = '15';
+    // const userId = '15';
+    const getUserId = async () => {
+      const { data: user } = await supabase.auth.getUser();
+      return user?.user?.id;
+    };
+    const userId = await getUserId();
     const { data, error } = await supabase
       .from('TodoList')
       .update({ liketest: liketest.filter((id) => id !== userId) })
