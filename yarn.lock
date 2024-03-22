@@ -294,6 +294,7 @@
   integrity sha512-/DdYuDBSsA21Qbcder1R8Cr/3Nx0ZnA2lgtqKsLMvov8wL4+g0HBz/gWYZPlIsof7iyfQafyhg4wUVUsS3vWZw==
   dependencies:
     "@tanstack/query-core" "5.28.6"
+    "@tanstack/query-core" "5.28.6"
 
 "@types/json5@^0.0.29":
   version "0.0.29"

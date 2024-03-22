@@ -18,7 +18,6 @@ const NewTodo = () => {
   const [file, setFile] = useState<File>();
   const router = useRouter();
 
-  // 이미지 파일 업로드, 드롭
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const files = e.target?.files;

@@ -1,7 +1,11 @@
 'use client';
 
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/supabase/supabase';
+
+import TodoBar from './TodoBar';
 
 import TodoBar from './TodoBar';
 import ModalPotal from './TodoModal/ModalPortal';
@@ -50,6 +54,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
   useEffect(() => {
     fetchCommentCount(todo.todoId);
   }, [todo.todoId]);
+  }, [todo.todoId]);
 
   const fetchCommentCount = async (todoId: string) => {
     const { data, error } = await supabase
@@ -61,11 +66,13 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
       throw error;
     }
 
+
     setCommentCount(data[0]?.count || 0);
   };
 
   return (
     <div className="bg-white m-[15px] border-2 border-solid border-subColor2 rounded-[30px] p-[30px] flex flex-col items-center justify-center">
+      <div onClick={() => setOpenModal(true)}>
       <div onClick={() => setOpenModal(true)}>
         <div className="flex flex-col items-center flex justify-center">
           <h2 className="font-bold text-lg mb-[10px]">{todo.title}</h2>
