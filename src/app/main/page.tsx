@@ -1,8 +1,6 @@
-import { supabase } from "@/supabase/supabase";
-import React, { useEffect, useState } from "react";
 import AllCard from "@/components/AllCard";
 import NewCard from "@/components/NewCard";
-
+import useStoreState from "@/app/shared/store";
 import type { Todo } from "../types/type";
 
 const MainPage = () => {

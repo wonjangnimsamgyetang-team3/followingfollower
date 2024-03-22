@@ -48,8 +48,8 @@ const LoginPage = () => {
         avatar: authAvatar,
         nickname: authNickname,
         contents: authContents,
-        id: authId,
-        email: authEmail,
+        // id: authId,
+        // email: authEmail,
       });
 
       const { data: insertData, error: insetError } = await supabase
@@ -75,18 +75,30 @@ const LoginPage = () => {
 
   //소셜 로그인
   const githubSignInHandler = async () => {
-    let { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "github",
-      options: {
-        redirectTo: `${location.origin}/auth/callback`,
-      },
-    });
+    try {
+      const { data: git, error } = await supabase.auth.signInWithOAuth({
+        provider: "github",
+        options: {
+          queryParams: {
+            access_type: "offline",
+            prompt: "consent",
+          },
+          redirectTo: `${location.origin}/auth/callback`,
+        },
+      });
+    } catch (error) {
+      if (error) console.log(error);
+    }
   };
 
   const kakaoSignInHandler = async () => {
-    let { data, error } = await supabase.auth.signInWithOAuth({
+    let { data: kakao, error } = await supabase.auth.signInWithOAuth({
       provider: "kakao",
       options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
+        },
         redirectTo: `${location.origin}/auth/callback`,
       },
     });
@@ -104,7 +116,6 @@ const LoginPage = () => {
   return (
     <div>
       <div>
-        {" "}
         <button onClick={githubSignInHandler}>
           <FaGithub size={50} />
         </button>

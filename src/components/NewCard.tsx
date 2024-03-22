@@ -15,7 +15,7 @@ const NewCard = () => {
     },
   });
 
-  console.log(data);
+  // console.log(data);
 
   if (isLoading) {
     <div>로딩 중 입니다...</div>;

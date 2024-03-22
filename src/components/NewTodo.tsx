@@ -9,10 +9,13 @@ import { supabase } from "@/supabase/supabase";
 import useStoreState from "@/app/shared/store";
 
 const NewTodo = () => {
-  //zustand
   const { userInfo } = useStoreState();
+
+  //zustand
+
   console.log("로그인한 유저정보", userInfo);
-  const nickname = userInfo?.nickname;
+  const nickname = userInfo?.nickname; //닉네임 없을 경우 팔팔이
+  const userImg = userInfo?.avatar; //이미지 추가 안할 경우 기본이미지 제공
 
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File>();
@@ -111,6 +114,7 @@ const NewTodo = () => {
     <div className="w-full h-full flex flex-col flex items-center flex justify-center bg-[#e3e3e3]">
       <section className="w-[700px] h-[900px] outline-none flex flex-col items-center justify-center mt-20 mb-20 bg-white border-2 border-solid border-subColor2 rounded-[30px] p-[40px]">
         <div className="text-lg text-[#fb8494] mb-[20px]">{nickname}</div>
+
         <form className="w-full flex flex-col mt-2" onSubmit={handleSubmit}>
           <textarea
             className="w-15 h-12 outline-none text-lg border-2 border-[#fb8494] rounded-[30px] resize-none p-[8px] pl-[15px]"
@@ -200,6 +204,8 @@ const NewTodo = () => {
           </button>
         </form>
       </section>
+      {/* 이미지 테스트용 추가 확인후 지우셔도됩니다  */}
+      <img src={userImg} />
     </div>
   );
 };
