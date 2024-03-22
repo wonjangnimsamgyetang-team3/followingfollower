@@ -1,12 +1,13 @@
-'use Client';
+"use Client";
 
-import ToggleButton from './ToggleButton';
-import HeartFillIcon from '../icons/HeartFillIcon';
-import { HeartIcon } from '@/icons/HeartIcon';
-import { supabase } from '@/supabase/supabase';
-import { TodoType } from './TodoCard';
-import { useState } from 'react';
-import { AiOutlineComment } from 'react-icons/ai';
+import ToggleButton from "./ToggleButton";
+import HeartFillIcon from "../icons/HeartFillIcon";
+import { HeartIcon } from "@/icons/HeartIcon";
+import { supabase } from "@/supabase/supabase";
+import { TodoType } from "./TodoCard";
+import { useEffect, useState } from "react";
+import { AiOutlineComment } from "react-icons/ai";
+import useStoreState from "@/app/shared/store";
 
 type Props = {
   todo: TodoType;
@@ -14,11 +15,22 @@ type Props = {
 };
 
 const TodoBar = ({ todo, commentCount }: Props) => {
+  const { userInfo } = useStoreState();
+  const { id } = userInfo || "";
+  console.log(id);
   const [likes, setLikes] = useState(todo.liked);
   const [liketest, setLiketest] = useState<string[]>(todo.liketest);
 
+  useEffect(() => {
+    setLikes(todo.liked);
+    setLiketest(todo.liketest);
+  }, [todo.liked, todo.liketest]);
+
+  console.log(todo.liked);
+
   const handleLikeToggle = async () => {
-    const userId = '15';
+    const userId = id;
+    // const userId = "15";
     if (likes) {
       await removeLikedUser(todo.todoId);
       if (liketest !== null) {
@@ -37,11 +49,11 @@ const TodoBar = ({ todo, commentCount }: Props) => {
     setLikes(!likes);
   };
   const addLikedUser = async (todoId: string) => {
-    const userId = '15';
+    const userId = "15";
     const { data, error } = await supabase
-      .from('TodoList')
+      .from("TodoList")
       .update({ liketest: [...liketest, userId] })
-      .eq('todoId', todoId)
+      .eq("todoId", todoId)
       .select();
 
     if (error) {
@@ -50,11 +62,11 @@ const TodoBar = ({ todo, commentCount }: Props) => {
   };
 
   const removeLikedUser = async (todoId: string) => {
-    const userId = '15';
+    const userId = "15";
     const { data, error } = await supabase
-      .from('TodoList')
+      .from("TodoList")
       .update({ liketest: liketest.filter((id) => id !== userId) })
-      .eq('todoId', todoId)
+      .eq("todoId", todoId)
       .select();
 
     if (error) {
@@ -64,10 +76,10 @@ const TodoBar = ({ todo, commentCount }: Props) => {
   return (
     <div className="flex w-full justify-between">
       <p className="text-gray-400">
-        {new Date(todo.created_at).toLocaleDateString('ko-KR', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
+        {new Date(todo.created_at).toLocaleDateString("ko-KR", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
         })}
       </p>
       <div className="flex">

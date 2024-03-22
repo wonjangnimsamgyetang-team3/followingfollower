@@ -91,12 +91,6 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
       alert("이미지가 업로드 되지 않았어용! 다시 등록해주세용!");
     }
 
-    // DB에 저장
-    const userAccountEditHandler = async () => {
-      await updateUserAccounts(editValue);
-    };
-    userAccountEditHandler();
-
     setIsEdit(false);
     setEditValue({ nickname, contents, email });
   };
@@ -106,9 +100,6 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     alert("수정을 취소하셨습니다.");
     setIsEdit(false);
     if (isEdit && selectFile !== defaultImg) setDefaultImg(avatar);
-    // if (isEdit && selectFile !== defaultImg) {
-    //   setDefaultImg(avatar);
-    // }
   };
 
   return (
