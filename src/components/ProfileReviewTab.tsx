@@ -1,13 +1,12 @@
-import React, { MouseEventHandler } from "react";
+import React, { MouseEvent } from "react";
 import useStoreState from "@/app/shared/store";
 
 const ProfileReviewTab = () => {
   const activeMyTodos: string = useStoreState((store) => store.activeCategory);
   const setCategory = useStoreState((store) => store.setCategory);
 
-  const activeCategoryHandler = (e: MouseEventHandler<HTMLLIElement>) => {
+  const activeCategoryHandler = (e: MouseEvent<HTMLButtonElement>) => {
     console.log(activeMyTodos);
-    // console.log(e.currentTarget);
     setCategory(e.currentTarget.id);
   };
   return (

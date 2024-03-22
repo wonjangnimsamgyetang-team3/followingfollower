@@ -1,26 +1,76 @@
 "use client";
 import useStoreState from "@/app/shared/store";
-import { Edit } from "@/app/types/type";
+import { Edit, UserData } from "@/app/types/type";
+import {
+  readUsersInfo,
+  updateUserAccounts,
+} from "@/supabase/myPage/profileImage";
 import Image from "next/image";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useEffect, useRef } from "react";
+import LogOut from "./LogOut";
+import { useRouter } from "next/navigation";
 
 const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
-  const imgRef = useRef<HTMLInputElement>(null);
-  const { userInfo, defaultImg, selectFile, setSelectFile, setDefaultImg } =
-    useStoreState();
-  const { avatar } = userInfo;
+  const router = useRouter();
+  // const imgRef = useRef<HTMLInputElement>(null);
+  const {
+    userInfo,
+    userAccount,
+    defaultImg,
+    selectFile,
+    setSelectFile,
+    setDefaultImg,
+    setUserAccount,
+  } = useStoreState();
+  const { email, id } = userInfo || "";
+  const { nickname, contents, avatar } = userAccount;
+  console.log(avatar);
+  const userMyPage = async () => {
+    // DB - myPageAccount
+    const userDatas = await readUsersInfo(email);
+    // 현재 유저 정보
+    const datas = userDatas?.find((item: UserData) => item.email === email);
+    if (datas) {
+      const nickname = datas.nickname || "";
+      const avatar = datas.avatar || "";
+      const contents = datas.contents || "";
+      const userData: UserData = {
+        id,
+        nickname,
+        email,
+        avatar,
+        contents,
+      };
+      console.log(id, email, nickname, avatar, contents);
+      setUserAccount(userData);
+      updateUserAccounts(userData);
+      setDefaultImg(avatar);
+
+      if (!userInfo || !avatar) {
+        console.log("유저정보가 존재하지 않습니다.");
+        alert("로그인 유저만 사용가능합니다. 로그인 해주세요");
+        <LogOut />;
+        router.replace("/");
+      }
+    }
+  };
+  // 마이페이지 프로필 렌더링
+  useEffect(() => {
+    userMyPage();
+  }, [nickname, contents, avatar]);
   // 이미지 미리보기
   const addImgHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!isEdit) return;
+    // if (!isEdit) return;
+    if (selectFile === null) return;
+
     if (e.target.files !== null) {
       const imgFile = e.target.files[0];
-
+      if (!imgFile) return;
       if (imgFile) {
+        setSelectFile(imgFile);
         const imgUrl = URL.createObjectURL(imgFile);
-        setSelectFile(imgUrl);
         setDefaultImg(imgUrl);
-
-        if (!isEdit) setDefaultImg(defaultImg);
+        // if (!isEdit) setDefaultImg(defaultImg);
         //'blob:http://localhost:3000/329cda24-452f-4d4e-9954-bdeade2b2c23'
         // console.log(imgFile.name); //'6db4f811-2968-4d4b-87d8-b9a955e64193.png'
       } else {
@@ -31,51 +81,24 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
 
   return (
     <div className="bg-subColor4">
-      {isEdit ? (
-        <label htmlFor="imgFileChoice">
-          <div>
-            <Image
-              src={`${defaultImg}`}
-              alt="유저이미지"
-              width={130}
-              height={0}
-              sizes="130px"
-              className="rounded-full"
-            />
-          </div>
-        </label>
-      ) : (
+      <label htmlFor="imgFileChoice">
         <div>
-          {/* {
-            selectFile ?
-            // {selectFile ?
-              // ( */}
           <Image
-            src={`${selectFile ? selectFile : defaultImg}`}
+            src={defaultImg}
+            // src={`${defaultImg}`}
             alt="유저이미지"
             width={130}
             height={0}
             sizes="130px"
             className="rounded-full"
           />
-          {/* // ) : (
-          //   <Image */}
-          {/* //     src={`${defaultImg}`}
-          //     alt="유저이미지"
-          //     width={130}
-          //     height={0}
-          //     sizes="130px"
-          //     className="rounded-full"
-          //   />
-          //   )
-            } */}
         </div>
-      )}
+      </label>
       <input
         type="file"
         accept="image/*"
         id="imgFileChoice"
-        ref={imgRef}
+        // ref={imgRef}
         onChange={addImgHandler}
         className="hidden"
       />
@@ -84,3 +107,29 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
 };
 
 export default ProfileImage;
+
+// <div>
+//   {/* {
+//             selectFile ?
+//             // {selectFile ?
+//               // ( */}
+//   <Image
+//     src={`${selectFile ? selectFile : defaultImg}`}
+//     alt="유저이미지"
+//     width={130}
+//     height={0}
+//     sizes="130px"
+//     className="rounded-full"
+//   />
+//   {/* // ) : (
+//           //   <Image */}
+//   {/* //     src={`${defaultImg}`}
+//           //     alt="유저이미지"
+//           //     width={130}
+//           //     height={0}
+//           //     sizes="130px"
+//           //     className="rounded-full"
+//           //   />
+//           //   )
+//             } */}
+// </div>;

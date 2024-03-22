@@ -1,7 +1,6 @@
 "use client";
 import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
 import {
-  readUsersInfo,
   updateUserAccounts,
   uploadImage,
 } from "@/supabase/myPage/profileImage";
@@ -14,7 +13,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const router = useRouter();
   const { userInfo, defaultImg, selectFile, setDefaultImg, setUserAccount } =
     useStoreState();
-  const { email, id } = userInfo;
+  const { email, id } = userInfo || "";
   const { nickname, contents, avatar } = useStoreState(
     (store) => store.userAccount
   );
@@ -27,37 +26,11 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const editValueNickname = editValue.nickname;
   const editValueContents = editValue.contents;
 
-  const userMyPage = async () => {
-    // DB - myPageAccount
-    const userDatas = await readUsersInfo(email);
-    // 현재 유저 정보
-    const datas = userDatas?.find((item: UserData) => item.email === email);
-    const nickname = datas.nickname || "";
-    const avatar = datas.avatar || "";
-    const contents = datas.contents || "";
-    const userData: UserData = {
-      id,
-      nickname,
-      email,
-      avatar,
-      contents,
-    };
-    console.log(id, email, nickname, avatar, contents);
-    if (userInfo) {
-      setUserAccount(userData);
-      updateUserAccounts(userData);
-
-      setDefaultImg(avatar);
-    }
-  };
-  useEffect(() => {
-    userMyPage();
-  }, [nickname, contents, avatar]);
-
   const editValueChangeHandler = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     e.preventDefault();
+
     const { name, value } = e.target;
     setEditValue({ ...editValue, [name]: value });
   };
@@ -65,47 +38,53 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const editContentsHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEdit(true);
-    console.log({});
     setEditValue({ nickname, contents, email });
+    if (avatar) {
+      setDefaultImg(avatar);
+    }
   };
-
+  // 이미지, 닉네임, 소개 편집
   const editSaveHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // 유효성;
     const editSaveCheck = window.confirm("수정내용을 저장하시겠습니까?");
-
     if (editSaveCheck === false) {
       alert("수정을 취소하셨습니다.");
+      if (avatar) {
+        setDefaultImg(avatar);
+      }
       setIsEdit(false);
-      setDefaultImg(avatar ? avatar : defaultImg);
       return;
     }
     // store에 저장
-    setUserAccount(editValue);
 
-    if (selectFile === null) return;
+    if (!selectFile || !defaultImg) return;
+    //이미지 등록
     const uuid = crypto.randomUUID();
     const filePath = `userImage/${id}+${uuid}`;
     try {
-      const data = await uploadImage(filePath, defaultImg);
+      const data = await uploadImage(filePath, selectFile);
       // 해당 콜렉션에 있는 문서 파일 url 가져오기
       if (data !== null) {
         const { data: imageUrl } = supabase.storage
           .from("userImage")
           .getPublicUrl(data.path);
         const ImgDbUrl = imageUrl.publicUrl;
-        await updateUserAccounts({ ...editValue, avatar: ImgDbUrl });
-        if (!imageUrl) {
-          alert("사진을 등록해주세요!");
+        if (ImgDbUrl) {
+          console.log(ImgDbUrl);
+
+          await updateUserAccounts({ ...editValue, avatar: ImgDbUrl });
+          alert("수정이 완료됐습니다.");
+
+          setUserAccount({ ...editValue, avatar: ImgDbUrl });
+          setDefaultImg(ImgDbUrl);
         } else {
-          alert("사진 등록이 완료됐습니다.");
+          alert("이미지 URL을 가져올 수 없습니다.");
         }
-        setUserAccount({ avatar: ImgDbUrl });
       }
     } catch (error) {
       console.error("이미지가 업로드되지 않았어용", error);
       alert("이미지가 업로드 되지 않았어용! 다시 등록해주세용!");
-      return null;
     }
 
     // DB에 저장
@@ -113,18 +92,21 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
       await updateUserAccounts(editValue);
     };
     userAccountEditHandler();
+
     setIsEdit(false);
     setEditValue({ nickname, contents, email });
   };
 
   const editCancelHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    alert("수정을 취소하셨습니다.");
     setIsEdit(false);
+    if (isEdit && selectFile !== defaultImg) setDefaultImg(avatar);
     console.log(1);
-    // setDefaultImg(avatar ? avatar : defaultImg);
-    if (isEdit && selectFile !== defaultImg) {
-      setDefaultImg(defaultImg);
-    }
+    //  setDefaultImg(avatar ? avatar : defaultImg);
+    // if (isEdit && selectFile !== defaultImg) {
+    //   setDefaultImg(avatar);
+    // }
   };
 
   return (
