@@ -48,8 +48,8 @@ const LoginPage = () => {
         avatar: authAvatar,
         nickname: authNickname,
         contents: authContents,
-        // id: authId,
-        // email: authEmail,
+        id: authId,
+        email: authEmail,
       });
 
       const { data: insertData, error: insetError } = await supabase
