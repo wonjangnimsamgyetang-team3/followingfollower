@@ -1,5 +1,5 @@
 import React, { MouseEvent } from "react";
-import useStoreState from "@/app/shared/store";
+import useStoreState from "@/shared/store";
 
 const ProfileReviewTab = () => {
   const activeMyTodos: string = useStoreState((store) => store.activeCategory);

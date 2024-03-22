@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { TodoType } from "../TodoCard";
-import { supabase } from "@/supabase/supabase";
-import TodoBar from "../TodoBar";
-import CommentForm from "./CommentForm";
-import useStoreState from "@/app/shared/store";
+import React, { useEffect, useState } from 'react';
+import { TodoType } from '../TodoCard';
+import { supabase } from '@/supabase/supabase';
+import TodoBar from '../TodoBar';
+import CommentForm from './CommentForm';
+import useStoreState from '@/shared/store';
+import Image from 'next/image';
 
 export type CommentData = {
   nickname: string;
@@ -30,7 +31,7 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
 
   // Zustand hook
   const { userInfo } = useStoreState();
-  console.log("로그인한 유저정보", userInfo);
+  console.log('로그인한 유저정보', userInfo);
   const nickname = userInfo?.nickname;
   const userAvatar = userInfo?.avatar;
 
@@ -58,9 +59,9 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
 
   async function fetchComments(todoId: string) {
     const { data: commentList, error } = await supabase
-      .from("commentList")
-      .select("nickname, comment, created_at, userId, email, id, avatar")
-      .eq("todoId", todoId);
+      .from('commentList')
+      .select('nickname, comment, created_at, userId, email, id, avatar')
+      .eq('todoId', todoId);
 
     if (error) {
       throw error;
@@ -71,13 +72,13 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
   }
 
   const handleTodoDelete = async () => {
-    if (window.confirm("todo를 삭제하시겠습니까?")) {
+    if (window.confirm('todo를 삭제하시겠습니까?')) {
       const { error } = await supabase
-        .from("TodoList")
+        .from('TodoList')
         .delete()
-        .eq("todoId", todo.todoId);
+        .eq('todoId', todo.todoId);
       if (error) {
-        console.error("todo삭제 오류:", error.message);
+        console.error('todo삭제 오류:', error.message);
       } else {
         window.location.reload();
       }
@@ -85,13 +86,13 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
   };
 
   const handleCommentDelete = async (commentId: string) => {
-    if (window.confirm("댓글을 삭제하시겠습니까?")) {
+    if (window.confirm('댓글을 삭제하시겠습니까?')) {
       const { error } = await supabase
-        .from("commentList")
+        .from('commentList')
         .delete()
-        .eq("id", commentId);
+        .eq('id', commentId);
       if (error) {
-        console.error("댓글 삭제 오류:", error.message);
+        console.error('댓글 삭제 오류:', error.message);
       } else {
         fetchComments(todo.todoId);
       }
@@ -100,27 +101,27 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
 
   const handleTodoEdit = async () => {
     if (editedTitle === todo.title || editedContent === todo.contents) {
-      alert("수정된 부분이 없습니다.");
+      alert('수정된 부분이 없습니다.');
       return;
     }
     const { data, error } = await supabase
-      .from("TodoList")
+      .from('TodoList')
       .update([
         {
           title: editedTitle,
           contents: editedContent,
         },
       ])
-      .eq("todoId", todo.todoId)
+      .eq('todoId', todo.todoId)
       .select();
 
     if (error) {
-      console.error("Todo 수정 오류:", error.message);
+      console.error('Todo 수정 오류:', error.message);
     } else {
       const { data: updatedTodo } = await supabase
-        .from("TodoList")
-        .select("*")
-        .eq("todoId", todo.todoId)
+        .from('TodoList')
+        .select('*')
+        .eq('todoId', todo.todoId)
         .single();
 
       if (updatedTodo) {
@@ -136,21 +137,25 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
       <div className="flex w-full h-full">
         <div className="w-[500px] h-[650px] border-solid border-r-2 border-[#fb8494] p-8 mb-5 mr-10 mt-3">
           <div className="flex items-center ml-[5px] mb-[15px]">
-            <img
+            <Image
               className="w-[50px] h-[50px] mr-[15px]"
               src={userAvatar}
               alt="userAvatar"
+              width={100}
+              height={100}
             />
             <p className="font-bold text-xl ml-[5px]">
-              {" "}
+              {' '}
               {userId === todo.userId ? nickname : todo.nickname}
             </p>
           </div>
           <div>
-            <img
+            <Image
               className="rounded-[30px] mb-[20px] w-full h-full"
               src={todo.imageFile}
               alt="todoImage"
+              width={100}
+              height={100}
             />
           </div>
           {isEditMode ? (
@@ -223,11 +228,13 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
                 className="border-b-2 border-solid border-subColor2 p-4"
                 key={comment.id}
               >
-                <div className="flex flex items-center">
-                  <img
+                <div className="flex items-center">
+                  <Image
                     className="w-[70px] h-[70px] mr-[15px]"
                     alt="avatar"
                     src={comment.avatar}
+                    width={100}
+                    height={100}
                   />
                   <div className="flex flex-col ml-[15px] w-full">
                     <span className="mb-[10px]">
@@ -237,11 +244,11 @@ const TodoDetail = ({ todo, onCommentCountChange }: Props) => {
                     <div className="w-full flex justify-between">
                       <div className="text-gray-400">
                         {new Date(comment.created_at).toLocaleDateString(
-                          "ko-KR",
+                          'ko-KR',
                           {
-                            year: "numeric",
-                            month: "2-digit",
-                            day: "2-digit",
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
                           }
                         )}
                       </div>
