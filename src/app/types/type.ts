@@ -1,4 +1,4 @@
-export interface Todo {
+export type Todo = {
   todoId: string;
   nickname: string;
   title: string;
@@ -7,7 +7,7 @@ export interface Todo {
   end: Date;
   likeCount: number;
   created_at: string;
-}
+};
 
 export type Edit = {
   isEdit: boolean;
