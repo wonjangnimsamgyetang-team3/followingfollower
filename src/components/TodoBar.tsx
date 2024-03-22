@@ -31,7 +31,7 @@ const TodoBar = ({ todo, commentCount }: Props) => {
         .single();
 
       if (error) {
-        console.error("Error fetching liked status:", error);
+        console.error("정보를 가져오지 못 하고 있습니다.", error);
         return;
       }
 
@@ -44,9 +44,9 @@ const TodoBar = ({ todo, commentCount }: Props) => {
     };
 
     likedStatus();
-  }, [todo.liked, todo.liketest]);
+  }, [id, todo.todoId]);
 
-  console.log(todo.liked);
+  console.log(likes);
 
   const handleLikeToggle = async () => {
     const userId = id;
