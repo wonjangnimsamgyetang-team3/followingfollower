@@ -1,6 +1,6 @@
-import NewTodo from "@/components/NewTodo";
+import NewTodo from '@/components/NewTodo';
 
-const page = () => {
+const DetailTodoPage = () => {
   return (
     <div>
       <NewTodo />
@@ -8,4 +8,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default DetailTodoPage;

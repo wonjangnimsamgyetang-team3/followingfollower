@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { supabase } from "@/supabase/supabase";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import { supabase } from '@/supabase/supabase';
+import { useRouter } from 'next/navigation';
 
 const SingUpPage = () => {
-  const [userEmail, setUserEmail] = useState<string>("");
-  const [userPw, setUserPw] = useState<string>("");
-  const [userCkPw, setUserCkPw] = useState<string>("");
-  const [userNickname, setUserNickname] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string>('');
+  const [userPw, setUserPw] = useState<string>('');
+  const [userCkPw, setUserCkPw] = useState<string>('');
+  const [userNickname, setUserNickname] = useState<string>('');
   const router = useRouter();
 
   // 회원가입
@@ -18,12 +18,12 @@ const SingUpPage = () => {
     e.preventDefault();
 
     if (!userEmail || !userPw || !userNickname) {
-      alert("빈칸 없이 작성해주세요!");
+      alert('빈칸 없이 작성해주세요!');
       return;
     }
 
     if (userPw !== userCkPw) {
-      alert("비밀번호가 일치하지 않습니다.");
+      alert('비밀번호가 일치하지 않습니다.');
       return;
     }
 
@@ -36,14 +36,14 @@ const SingUpPage = () => {
           data: {
             userNickname: userNickname,
             //디폴트 이미지
-            avatar: "/profile.png",
-            contents: "",
+            avatar: '/profile.png',
+            contents: '',
           },
         },
       });
       //로그인 중복 가입 방지
       if (data?.user?.identities?.length === 0) {
-        alert("이미 존재하는 아이디입니다.");
+        alert('이미 존재하는 아이디입니다.');
       }
 
       const {
@@ -61,15 +61,15 @@ const SingUpPage = () => {
       }
     }
 
-    setUserEmail("");
-    setUserPw("");
-    setUserCkPw("");
-    setUserNickname("");
-    router.push("/login");
+    setUserEmail('');
+    setUserPw('');
+    setUserCkPw('');
+    setUserNickname('');
+    router.push('/login');
   };
 
   const singInHandler = () => {
-    router.push("/login");
+    router.push('/login');
   };
 
   return (
@@ -89,7 +89,7 @@ const SingUpPage = () => {
             />
           </div>
           <div className=" flex justify-center h-1/4">
-            {" "}
+            {' '}
             <input
               className="w-10/12 h-4/5 content-center border border-solid border-subColor1 rounded-[15px]"
               type="password"
@@ -99,7 +99,7 @@ const SingUpPage = () => {
             />
           </div>
           <div className="flex justify-center h-1/4">
-            {" "}
+            {' '}
             <input
               className="w-10/12 h-4/5 content-center border border-solid border-subColor1 rounded-[15px]"
               type="password"
@@ -109,7 +109,7 @@ const SingUpPage = () => {
             />
           </div>
           <div className="flex justify-center h-1/4">
-            {" "}
+            {' '}
             <input
               className=" w-10/12 h-4/5 content-center border border-solid border-subColor1 rounded-[15px]"
               type="text"
@@ -119,7 +119,7 @@ const SingUpPage = () => {
             />
           </div>
           <div className="flex justify-center h-1/4 ">
-            {" "}
+            {' '}
             <button
               className=" w-10/12 h-4/5 content-center bg-subColor2 rounded-xl hover:drop-shadow rounded-[15px]"
               type="submit"

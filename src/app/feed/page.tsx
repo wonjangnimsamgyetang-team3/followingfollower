@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
-import PostList from "@/components/TodoList";
-import Link from "next/link";
-import useStoreState from "@/app/shared/store";
-import { supabase } from "@/supabase/supabase";
+import React, { useEffect } from 'react';
+import PostList from '@/components/TodoList';
+import Link from 'next/link';
+import useStoreState from '@/shared/store';
+import { supabase } from '@/supabase/supabase';
 
-const page = () => {
+const FeedPage = () => {
   const { addUser } = useStoreState();
   useEffect(() => {
     const getUser = async () => {
@@ -23,14 +23,14 @@ const page = () => {
       addUser({
         avatar: withAvatar,
         nickname: withName,
-        contents: "",
+        contents: '',
         // id: authId,
         // email: withEmail,
       });
 
       if (user) {
         const { data: insertData, error: insetError } = await supabase
-          .from("usersAccounts")
+          .from('usersAccounts')
           .insert([
             {
               avatar: withAvatar,
@@ -46,11 +46,11 @@ const page = () => {
   }, []);
 
   return (
-    <div className="w-full h-full flex items-center flex justify-center">
+    <div className="w-full h-full flex items-center justify-center">
       <Link href="/feed/newTodo">newTodo</Link>
       <PostList />
     </div>
   );
 };
 
-export default page;
+export default FeedPage;
