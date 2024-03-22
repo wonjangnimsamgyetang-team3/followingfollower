@@ -12,7 +12,6 @@ import { useRouter } from "next/navigation";
 
 const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
   const router = useRouter();
-  // const imgRef = useRef<HTMLInputElement>(null);
   const {
     userInfo,
     userAccount,
@@ -24,7 +23,7 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
   } = useStoreState();
   const { email, id } = userInfo || "";
   const { nickname, contents, avatar } = userAccount;
-  console.log(avatar);
+
   const userMyPage = async () => {
     // DB - myPageAccount
     const userDatas = await readUsersInfo(email);
@@ -85,7 +84,6 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
         <div>
           <Image
             src={defaultImg}
-            // src={`${defaultImg}`}
             alt="유저이미지"
             width={130}
             height={0}
@@ -98,7 +96,6 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
         type="file"
         accept="image/*"
         id="imgFileChoice"
-        // ref={imgRef}
         onChange={addImgHandler}
         className="hidden"
       />

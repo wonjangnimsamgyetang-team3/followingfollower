@@ -56,7 +56,6 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
       setIsEdit(false);
       return;
     }
-    // store에 저장
 
     if (!selectFile || !defaultImg) return;
     //이미지 등록
@@ -69,10 +68,9 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
         const { data: imageUrl } = supabase.storage
           .from("userImage")
           .getPublicUrl(data.path);
+        // 스토리지에 있는 blob이미지를 일반 이미지 url로 변경
         const ImgDbUrl = imageUrl.publicUrl;
         if (ImgDbUrl) {
-          console.log(ImgDbUrl);
-
           await updateUserAccounts({ ...editValue, avatar: ImgDbUrl });
           alert("수정이 완료됐습니다.");
 
@@ -102,8 +100,6 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     alert("수정을 취소하셨습니다.");
     setIsEdit(false);
     if (isEdit && selectFile !== defaultImg) setDefaultImg(avatar);
-    console.log(1);
-    //  setDefaultImg(avatar ? avatar : defaultImg);
     // if (isEdit && selectFile !== defaultImg) {
     //   setDefaultImg(avatar);
     // }
