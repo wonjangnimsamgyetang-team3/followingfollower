@@ -20,7 +20,8 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     setDefaultImg,
     setUserAccount,
   } = useStoreState();
-  const { email, id } = userInfo || '';
+  const email = userInfo?.email;
+  const id = userInfo?.id;
   const { nickname, contents, avatar }: Partial<UserData> = userAccount;
 
   const [editValue, setEditValue] = useState<UserData>({

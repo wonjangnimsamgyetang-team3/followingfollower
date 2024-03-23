@@ -7,8 +7,8 @@ export interface USER {
   avatar: string;
   nickname: string | undefined;
   contents: string;
-  // id: string | undefined;
-  // email: string | undefined;
+  id: string | undefined;
+  email: string | undefined;
 }
 
 interface State {
