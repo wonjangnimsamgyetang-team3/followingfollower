@@ -32,6 +32,7 @@ export default async function RootLayout({
           {children}
           <Footer />
           <div id="portal" />
+          <div id="pwPortal" />
         </body>
       </QueryProvider>
     </html>
