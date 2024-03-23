@@ -23,7 +23,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const email = userInfo?.email;
   const id = userInfo?.id;
   const { nickname, contents, avatar }: Partial<UserData> = userAccount;
-
+  console.log(selectFile);
   const [editValue, setEditValue] = useState<UserData>({
     nickname,
     contents,

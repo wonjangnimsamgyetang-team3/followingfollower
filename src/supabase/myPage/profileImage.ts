@@ -1,7 +1,5 @@
 import { UserData, UserInfo } from "@/types/type";
 import { supabase } from "../supabase";
-import { StaticImageData } from "next/image";
-import { FileOptions } from "buffer";
 
 // DB - myPageAccount 테이블 업데이트
 export const updateUserAccounts = async ({
@@ -64,7 +62,7 @@ export const readMyTodo = async () => {
 
 export const uploadImage = async (
   filePath: string,
-  image: File | StaticImageData
+  image: string | Blob | File | Uint8Array | ArrayBuffer
 ) => {
   const { data, error } = await supabase.storage
     .from("userImage")

@@ -1,3 +1,5 @@
+import { StaticImageData } from "next/image";
+
 export type Todo = {
   todoId: string;
   nickname: string;
@@ -52,4 +54,8 @@ export type userTodo = {
   todoId: string;
   liketest: string[];
   email: string;
+};
+
+export type Image = {
+  image: string | Blob | File | Uint8Array | ArrayBuffer;
 };

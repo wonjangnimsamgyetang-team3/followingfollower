@@ -22,10 +22,12 @@ interface State {
   removeUser: () => void;
   // MyPage-ProfileImage.tsx
   defaultImg: string;
-  selectFile: File | StaticImageData;
+  selectFile: string | Blob | File | Uint8Array | ArrayBuffer;
   userAccount: Partial<UserData>;
   activeCategory: string;
-  setSelectFile: (selectImg: File) => void;
+  setSelectFile: (
+    selectImg: string | Blob | File | Uint8Array | ArrayBuffer
+  ) => void;
   setDefaultImg: (defaultImg: string) => void;
   setUserAccount: (newUserData: Partial<UserData>) => void;
   setCategory: (payload: string) => void;
@@ -64,9 +66,10 @@ export const useStoreState = create(
       removeUser: () => set({ userInfo: defaultState }),
       // MyPage-ProfileImage.tsx
       defaultImg: defaultImg.src,
-      selectFile: defaultImg,
-      setSelectFile: (selectImg: File | StaticImageData) =>
-        set((prev) => ({ ...prev, selectFile: selectImg })),
+      selectFile: defaultImg.src,
+      setSelectFile: (
+        selectImg: string | Blob | File | Uint8Array | ArrayBuffer | undefined
+      ) => set((prev) => ({ ...prev, selectFile: selectImg })),
       setDefaultImg: (defaultImg: string) =>
         set((prev) => ({ ...prev, defaultImg: defaultImg })),
       setUserAccount: (newUserData: Partial<UserData>) =>
