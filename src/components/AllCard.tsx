@@ -37,7 +37,6 @@ const AllCard = () => {
           <h3 className="text-lg">{card.title}</h3>
           <h4>{card.nickname}</h4>
           <p>{card.contents}</p>
-          <TodoBar />
         </section>
       </article>
     );
