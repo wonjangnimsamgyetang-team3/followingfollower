@@ -26,7 +26,7 @@ interface State {
   userAccount: Partial<UserData>;
   activeCategory: string;
   setSelectFile: (selectImg: File) => void;
-  setDefaultImg: (selectImg: string) => void;
+  setDefaultImg: (defaultImg: string) => void;
   setUserAccount: (newUserData: Partial<UserData>) => void;
   setCategory: (payload: string) => void;
 }
@@ -67,8 +67,8 @@ export const useStoreState = create(
       selectFile: defaultImg,
       setSelectFile: (selectImg: File | StaticImageData) =>
         set((prev) => ({ ...prev, selectFile: selectImg })),
-      setDefaultImg: (selectImg: string) =>
-        set((prev) => ({ ...prev, defaultImg: selectImg })),
+      setDefaultImg: (defaultImg: string) =>
+        set((prev) => ({ ...prev, defaultImg: defaultImg })),
       setUserAccount: (newUserData: Partial<UserData>) =>
         set(() => ({
           userAccount: newUserData,

@@ -106,7 +106,8 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     e.preventDefault();
     alert("수정을 취소하셨습니다.");
     setIsEdit(false);
-    if (isEdit && selectFile !== defaultImg) setDefaultImg(avatar);
+    // if ((isEdit && selectFile) !== defaultImg)
+    setDefaultImg(avatar ?? defaultImg);
     // if (isEdit && selectFile !== defaultImg) {
     //   setDefaultImg(avatar);
     // }
