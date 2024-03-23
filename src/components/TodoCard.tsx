@@ -31,11 +31,6 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
   const [userId, setUserId] = useState<string | null>(null);
   const [editedTodo, setEditedTodo] = useState<TodoType>(todo);
 
-  console.log("todo.contents:", todo.contents);
-  console.log("todo.title:", todo.title);
-  console.log("editedTodo.title:", editedTodo.title);
-  console.log("editedTodo.contents", editedTodo.contents);
-
   //zustand
   const { userInfo } = useStoreState();
   // console.log('로그인한 유저정보', userInfo);
@@ -87,10 +82,10 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
   };
 
   return (
-    <div className="bg-white m-[15px] border-2 border-solid border-subColor2 rounded-[30px] p-[30px] flex flex-col items-center justify-center">
+    <div className="bg-white m-[15px] border-2 border-solid border-subColor2 rounded-[30px] p-[30px] flex flex-col items-center justify-center drop-shadow">
       <div>
         <div className="flex flex-col items-center justify-center">
-          <h2 className="font-bold text-lg mb-[10px]">{editedTodo.title}</h2>
+          <h2 className="font-bold text-lg mb-[10px]">{todo.title}</h2>
           {todo.imageFile ? (
             <Image
               src={todo.imageFile}
@@ -111,7 +106,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
             className="mb-[20px] overflow-ellipsis cursor-pointer"
             onClick={() => setOpenModal(true)}
           >
-            {editedTodo.contents}
+            {todo.contents}
           </p>
         </div>
       </div>

@@ -16,7 +16,7 @@ type Props = {
 const TodoBar = ({ todo, commentCount }: Props) => {
   const { userInfo } = useStoreState();
   const { id } = userInfo || "";
-  console.log(id);
+  // console.log(id);
   const [likes, setLikes] = useState<boolean | null>(null);
   const [liketest, setLiketest] = useState<string[]>([]);
 
@@ -46,7 +46,7 @@ const TodoBar = ({ todo, commentCount }: Props) => {
     likedStatus();
   }, [id, todo.todoId]);
 
-  console.log(likes);
+  // console.log(likes);
 
   const handleLikeToggle = async () => {
     const userId = id;
@@ -71,8 +71,6 @@ const TodoBar = ({ todo, commentCount }: Props) => {
   };
 
   const addLikedUser = async (todoId: string, userId: string) => {
-    // const userId = '15';
-
     const { data, error } = await supabase
       .from("TodoList")
       .update({ liketest: [...liketest, userId] })
@@ -85,7 +83,6 @@ const TodoBar = ({ todo, commentCount }: Props) => {
   };
 
   const removeLikedUser = async (todoId: string, userId: string) => {
-    // const userId = '15';
     const { data, error } = await supabase
       .from("TodoList")
       .update({ liketest: liketest.filter((id) => id !== userId) })

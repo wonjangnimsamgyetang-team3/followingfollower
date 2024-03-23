@@ -28,7 +28,6 @@ const TodoDetail = ({
   todo,
   onCommentCountChange,
   onDetailContentChange,
-  editedTodo,
 }: Props) => {
   const [commentData, setCommentData] = useState<CommentData[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
@@ -188,21 +187,21 @@ const TodoDetail = ({
               <p className="w-full h-[110px] p-[5px]">{editedContent}</p>
             </div>
           )}
-          <div className="pt-[30px]">
+          <div className="pt-[20px]">
             <TodoBar todo={todo} commentCount={commentData.length} />
           </div>
           {userId === todo.userId && (
-            <div>
+            <div className="flex items-center justify-center pt-[20px]">
               {!isEditMode ? (
                 <button
-                  className="font-bold pt-2 pb-2 pl-4 pr-4 border-2 border-solid rounded-[10px] border-gray-500 mt-[30px]"
+                  className="font-bold pt-3 pb-3 pl-8 pr-8 border-2 border-solid rounded-[10px] border-subColor2 bg-subColor2 flex items-center justify-center font-bold hover:drop-shadow mr-[80px]"
                   onClick={() => setIsEditMode(true)}
                 >
                   수정
                 </button>
               ) : (
                 <button
-                  className="font-bold pt-2 pb-2 pl-4 pr-4 border-2 border-solid rounded-[10px] border-gray-500 mt-[30px]"
+                  className="font-bold pt-3 pb-3 pl-8 pr-8 border-2 border-solid rounded-[10px] border-subColor2 hover:drop-shadow bg-white mr-[50px]"
                   onClick={handleTodoEdit}
                 >
                   수정 완료
@@ -211,7 +210,7 @@ const TodoDetail = ({
               {isEditMode ? (
                 <>
                   <button
-                    className="font-bold pt-2 pb-2 pl-4 pr-4 border-2 border-solid rounded-[10px] border-gray-500 mt-[30px]"
+                    className="font-bold pt-3 pb-3 pl-8 pr-8 border-2 border-solid rounded-[10px] border-subColor3 bg-white hover:drop-shadow"
                     onClick={() => setIsEditMode(false)}
                   >
                     취소
@@ -220,7 +219,7 @@ const TodoDetail = ({
               ) : (
                 <>
                   <button
-                    className="font-bold pt-2 pb-2 pl-4 pr-4 border-2 border-solid rounded-[10px] border-gray-500 mt-[30px]"
+                    className="font-bold pt-3 pb-3 pl-8 pr-8 border-2 border-solid rounded-[10px] border-subColor3 bg-white hover:drop-shadow"
                     onClick={handleTodoDelete}
                   >
                     삭제

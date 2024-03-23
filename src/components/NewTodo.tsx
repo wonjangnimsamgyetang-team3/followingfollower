@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import React, { ChangeEvent, FormEvent, useState, useEffect } from 'react';
-import { FaPhotoVideo } from 'react-icons/fa';
-import { useRouter } from 'next/navigation';
-import { supabase } from '@/supabase/supabase';
+import Image from "next/image";
+import React, { ChangeEvent, FormEvent, useState, useEffect } from "react";
+import { FaPhotoVideo } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/supabase/supabase";
 //zustand
-import useStoreState from '@/shared/store';
+import useStoreState from "@/shared/store";
 
 const NewTodo = () => {
   //zustand
   const { userInfo } = useStoreState();
-  console.log('로그인한 유저정보', userInfo);
+  console.log("로그인한 유저정보", userInfo);
   const nickname = userInfo?.nickname;
-  const userAvatar = userInfo?.avatar || '';
+  const userAvatar = userInfo?.avatar || "";
 
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File>();
@@ -28,9 +28,9 @@ const NewTodo = () => {
   };
 
   const handleDrag = (e: React.DragEvent) => {
-    if (e.type === 'dragenter') {
+    if (e.type === "dragenter") {
       setDragging(true);
-    } else if (e.type === 'dragleave') {
+    } else if (e.type === "dragleave") {
       setDragging(false);
     }
   };
@@ -63,33 +63,33 @@ const NewTodo = () => {
 
     const formData = new FormData();
     formData.append(
-      'title',
-      (document.getElementById('title') as HTMLInputElement).value
+      "title",
+      (document.getElementById("title") as HTMLInputElement).value
     );
     formData.append(
-      'contents',
-      (document.getElementById('input-contents') as HTMLInputElement).value
+      "contents",
+      (document.getElementById("input-contents") as HTMLInputElement).value
     );
     formData.append(
-      'start',
-      (document.getElementById('start') as HTMLInputElement).value
+      "start",
+      (document.getElementById("start") as HTMLInputElement).value
     );
     formData.append(
-      'end',
-      (document.getElementById('end') as HTMLInputElement).value
+      "end",
+      (document.getElementById("end") as HTMLInputElement).value
     );
-    formData.append('imageFile', file);
+    formData.append("imageFile", file);
 
     const uploadImage = async (filePath: string, file: File) => {
       const { data, error } = await supabase.storage
-        .from('todoImage')
+        .from("todoImage")
         .upload(filePath, file, {
-          cacheControl: '3600',
+          cacheControl: "3600",
           upsert: true,
         });
 
       if (error) {
-        console.error('업로드 오류', error.message);
+        console.error("업로드 오류", error.message);
         throw error;
       }
 
@@ -97,19 +97,19 @@ const NewTodo = () => {
     };
     const data = await uploadImage(filePath, file);
     const { data: imageUrl } = supabase.storage
-      .from('todoImage')
+      .from("todoImage")
       .getPublicUrl(data.path);
     const ImgDbUrl = imageUrl.publicUrl;
 
     // Todo 생성
     const { data: insertedData, error: insertError } = await supabase
-      .from('TodoList')
+      .from("TodoList")
       .insert([
         {
-          title: formData.get('title'),
-          contents: formData.get('contents'),
-          start: formData.get('start'),
-          end: formData.get('end'),
+          title: formData.get("title"),
+          contents: formData.get("contents"),
+          start: formData.get("start"),
+          end: formData.get("end"),
           imageFile: ImgDbUrl,
           email: userEmail,
           nickname: nickname,
@@ -118,12 +118,12 @@ const NewTodo = () => {
       ]);
 
     if (insertError) {
-      console.error('insert error', insertError);
+      console.error("insert error", insertError);
       return;
     }
 
-    alert('등록 완료!');
-    router.push('/feed');
+    alert("등록 완료!");
+    router.push("/feed");
   };
 
   return (
@@ -160,7 +160,7 @@ const NewTodo = () => {
             />
             <label
               className={`w-full h-60 flex flex-col items-center justify-center rounded-[20px] ${
-                !file && 'border-2 rounded-[20px] border-gray-500 border-dashed'
+                !file && "border-2 rounded-[20px] border-gray-500 border-dashed"
               }`}
               htmlFor="input-upload"
               onDragEnter={handleDrag}
@@ -225,7 +225,7 @@ const NewTodo = () => {
               />
             </div>
           </div>
-          <button className="h-[50px] bg-[#fb8494] rounded-[15px] text-white font-bold mt-[30px]">
+          <button className="h-[50px] bg-[#fb8494] rounded-[15px] text-white font-bold mt-[30px] hover:drop-shadow transition-all duration-200">
             할 일 등록
           </button>
         </form>
