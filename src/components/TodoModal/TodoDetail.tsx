@@ -34,6 +34,8 @@ const TodoDetail = ({
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedTitle, setEditedTitle] = useState(todo.title);
   const [editedContent, setEditedContent] = useState(todo.contents);
+  const [originalTitle, setOriginalTitle] = useState(todo.title);
+  const [originalContent, setOriginalContent] = useState(todo.contents);
 
   // Zustand hook
   const { userInfo } = useStoreState();
@@ -137,6 +139,12 @@ const TodoDetail = ({
     }
   };
 
+  const handleCancelEdit = () => {
+    setEditedTitle(originalTitle);
+    setEditedContent(originalContent);
+    setIsEditMode(false);
+  };
+
   return (
     <div>
       <div className="flex w-full h-full">
@@ -155,14 +163,14 @@ const TodoDetail = ({
               {userId === todo.userId ? nickname : todo.nickname}
             </p>
           </div>
-          <div>
+          <div className="w-[400px] object-fit rounded-[30px]">
             {todo.imageFile ? (
               <Image
-                className="rounded-[30px] mb-[20px] w-full h-full"
+                className="object-cover rounded-[30px] mb-[20px] h-[280px]"
                 src={todo.imageFile}
                 alt="todoImage"
-                height={500}
-                width={500}
+                height={0}
+                width={400}
               />
             ) : null}
           </div>
@@ -172,11 +180,13 @@ const TodoDetail = ({
                 className="font-bold text-xl outline-none resize-none border-2 border-solid border-[#fb8494] w-full h-[45px] p-[5px] mb-[5px] rounded-[10px]"
                 value={editedTitle}
                 onChange={(e) => setEditedTitle(e.target.value)}
+                maxLength={20}
               />
               <textarea
                 className="outline-none resize-none border-2 border-solid border-[#fb8494] w-full h-[100px] p-[5px] rounded-[10px]"
                 value={editedContent}
                 onChange={(e) => setEditedContent(e.target.value)}
+                maxLength={100}
               />
             </>
           ) : (
@@ -211,7 +221,7 @@ const TodoDetail = ({
                 <>
                   <button
                     className="font-bold pt-3 pb-3 pl-8 pr-8 border-2 border-solid rounded-[10px] border-subColor3 bg-white hover:drop-shadow"
-                    onClick={() => setIsEditMode(false)}
+                    onClick={handleCancelEdit}
                   >
                     취소
                   </button>
