@@ -48,6 +48,19 @@ const SingUpPage = () => {
       },
     });
 
+    //회원가입 시 디비에 데이터 추가
+    const { data: insertData, error: insetError } = await supabase
+      .from("usersAccounts")
+      .insert([
+        {
+          avatar: "/profile.png",
+          contents: "",
+          nickname: userNickname,
+          email: userEmail,
+        },
+      ])
+      .select();
+
     //로그인 중복 가입 방지
     if (data?.user?.identities?.length === 0) {
       alert("이미 존재하는 아이디입니다.");

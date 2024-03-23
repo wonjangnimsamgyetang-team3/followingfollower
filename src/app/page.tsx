@@ -31,20 +31,6 @@ const MainPage = () => {
         id: authId ?? "",
         email: withEmail,
       });
-
-      if (user) {
-        const { data: insertData, error: insetError } = await supabase
-          .from("usersAccounts")
-          .insert([
-            {
-              avatar: withAvatar,
-              contents: withContents,
-              nickname: withName,
-              email: withEmail,
-            },
-          ])
-          .select();
-      }
     };
     getUser();
   }, []);

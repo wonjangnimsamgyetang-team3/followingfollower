@@ -13,7 +13,7 @@ const LogOut = () => {
     const authEmail: string | undefined = session.data.session?.user.email;
     if (authEmail) {
       const { error: dbError } = await supabase
-        .from("usersAccounts")
+        .from("myPageAccount")
         .delete()
         .eq("email", authEmail);
     }

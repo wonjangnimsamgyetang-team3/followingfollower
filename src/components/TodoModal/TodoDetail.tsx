@@ -39,7 +39,7 @@ const TodoDetail = ({
 
   // Zustand hook
   const { userInfo } = useStoreState();
-  console.log("로그인한 유저정보", userInfo);
+  console.log("로그인한 유저정보1", userInfo);
   const nickname = userInfo?.nickname;
   const userAvatar = userInfo?.avatar;
 

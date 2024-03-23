@@ -12,7 +12,6 @@ const NavBar = ({ user }: { user: User | null }) => {
           <Image src={FFlogo} alt="" width={60} height={40} />
         </Link>
         <div>
-          {" "}
           <Link href="/about" className="p-4">
             서비스 소개
           </Link>

@@ -47,38 +47,8 @@ const LoginPage = () => {
     //로그인 했을 경우
     if (loginUser) {
       const session = await supabase.auth.getSession();
-      const authAvatar = session.data.session?.user.user_metadata.avatar;
-      const authContents = session.data.session?.user.user_metadata.contents;
       const authNickname =
         session.data.session?.user.user_metadata.userNickname;
-      const authEmail = session.data.session?.user.email;
-      const authId = session.data.session?.user.id;
-
-      localStorage.setItem("avatar", authAvatar);
-      localStorage.setItem("contents", authContents);
-      localStorage.setItem("nickname", authNickname);
-
-      //로그인 유저 정보를 zustand로 관리 -> main 페이지로 이동
-      // addUser({
-      //   avatar: authAvatar,
-      //   nickname: authNickname,
-      //   contents: authContents,
-      //   id: authId,
-      //   email: authEmail,
-      // });
-
-      const { data: insertData, error: insetError } = await supabase
-        .from("usersAccounts")
-        .insert([
-          {
-            avatar: authAvatar,
-            contents: authContents,
-            nickname: authNickname,
-            email: authEmail,
-          },
-        ])
-        .select();
-
       alert(`안녕하세요. ${authNickname}님!`);
     }
 
