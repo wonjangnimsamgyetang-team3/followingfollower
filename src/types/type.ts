@@ -16,8 +16,8 @@ export type Edit = {
 
 export type UserData = {
   avatar?: string;
-  nickname: string;
-  contents: string;
+  nickname: string | undefined;
+  contents: string | undefined;
   id?: string;
   email: string;
 };

@@ -1,13 +1,13 @@
-'use client';
-import { ChangeEvent, FormEvent, MouseEvent, useState } from 'react';
-import { supabase } from '@/supabase/supabase';
-import { useRouter } from 'next/navigation';
+"use client";
+import { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
+import { supabase } from "@/supabase/supabase";
+import { useRouter } from "next/navigation";
 import {
   updateUserAccounts,
   uploadImage,
-} from '@/supabase/myPage/profileImage';
-import type { Edit, UserData } from '@/types/type';
-import useStoreState from '@/shared/store';
+} from "@/supabase/myPage/profileImage";
+import type { Edit, UserData } from "@/types/type";
+import useStoreState from "@/shared/store";
 
 const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const router = useRouter();
@@ -53,9 +53,9 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const editSaveHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // 유효성;
-    const editSaveCheck = window.confirm('수정내용을 저장하시겠습니까?');
+    const editSaveCheck = window.confirm("수정내용을 저장하시겠습니까?");
     if (editSaveCheck === false) {
-      alert('수정을 취소하셨습니다.');
+      alert("수정을 취소하셨습니다.");
       if (avatar) {
         setDefaultImg(avatar);
       }
@@ -73,23 +73,23 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
       // 해당 콜렉션에 있는 문서 파일 url 가져오기
       if (data !== null) {
         const { data: imageUrl } = supabase.storage
-          .from('userImage')
+          .from("userImage")
           .getPublicUrl(data.path);
         // 스토리지에 있는 blob이미지를 일반 이미지 url로 변경
         const ImgDbUrl = imageUrl.publicUrl;
         if (ImgDbUrl) {
           await updateUserAccounts({ ...editValue, avatar: ImgDbUrl });
-          alert('수정이 완료됐습니다.');
+          alert("수정이 완료됐습니다.");
 
           setUserAccount({ ...editValue, avatar: ImgDbUrl });
           setDefaultImg(ImgDbUrl);
         } else {
-          alert('이미지 URL을 가져올 수 없습니다.');
+          alert("이미지 URL을 가져올 수 없습니다.");
         }
       }
     } catch (error) {
-      console.error('이미지가 업로드되지 않았어용', error);
-      alert('이미지가 업로드 되지 않았어용! 다시 등록해주세용!');
+      console.error("이미지가 업로드되지 않았어용", error);
+      alert("이미지가 업로드 되지 않았어용! 다시 등록해주세용!");
     }
 
     // DB에 저장
@@ -104,7 +104,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
 
   const editCancelHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    alert('수정을 취소하셨습니다.');
+    alert("수정을 취소하셨습니다.");
     setIsEdit(false);
     if (isEdit && selectFile !== defaultImg) setDefaultImg(avatar);
     // if (isEdit && selectFile !== defaultImg) {
@@ -145,8 +145,8 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
                     onChange={editValueChangeHandler}
                     maxLength={10}
                     placeholder={
-                      editValueNickname === ''
-                        ? '닉네임을 적어주세요 (10글자 이내)'
+                      editValueNickname === ""
+                        ? "닉네임을 적어주세요 (10글자 이내)"
                         : editValueNickname
                     }
                   />
@@ -159,8 +159,8 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
                   onChange={editValueChangeHandler}
                   maxLength={30}
                   placeholder={
-                    editValueContents === ''
-                      ? '자신을 소개해주세요 (30글자 이내)'
+                    editValueContents === ""
+                      ? "자신을 소개해주세요 (30글자 이내)"
                       : editValueContents
                   }
                 ></textarea>
