@@ -5,17 +5,18 @@ import { UserData } from '../types/type';
 
 export interface USER {
   avatar: string;
-  nickname: string | undefined;
+  nickname: string;
   contents: string;
-  id: string | undefined;
-  email: string | undefined;
+  id: string;
+  email: string;
 }
 
 interface State {
   like: number;
   increaseLike: () => void;
   removeAllLikes: () => void;
-  userInfo: USER | null;
+  userInfo: USER;
+
   addUser: (UserInfo: USER) => void;
   removeUser: () => void;
   // MyPage-ProfileImage.tsx
@@ -29,6 +30,14 @@ interface State {
   setCategory: (payload: string) => void;
 }
 
+const defaultState = {
+  avatar: '',
+  nickname: '',
+  contents: '',
+  id: '',
+  email: '',
+};
+
 const initialState = {
   like: 0,
   userInfo: null,
@@ -37,7 +46,7 @@ const initialState = {
     avatar: '',
     nickname: '',
     contents: '',
-    id: 0,
+    id: '',
     email: '',
   },
 };
@@ -49,8 +58,9 @@ const useStoreState = create(
       increaseLike: () => set((state) => ({ like: state.like + 1 })),
       removeAllLikes: () => set({ like: 0 }),
 
+      userInfo: defaultState,
       addUser: (userInfo: USER) => set({ userInfo }),
-      removeUser: () => set((state) => ({ userInfo: null })),
+      removeUser: () => set({ userInfo: defaultState }),
       // MyPage-ProfileImage.tsx
       defaultImg: defaultImg.src,
       selectFile: defaultImg.src,

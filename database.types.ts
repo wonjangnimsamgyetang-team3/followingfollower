@@ -76,7 +76,7 @@ export type Database = {
         Row: {
           avatar: string;
           contents: string | null;
-          id: number;
+          id: string;
           nickname: string | null;
           uid: string;
           email: string;
@@ -104,7 +104,7 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: 'users';
             referencedColumns: ['id'];
-          }
+          },
         ];
       };
     };
