@@ -1,7 +1,7 @@
 import { User } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import Image from "next/image";
-import FFlogo from "@/assets/FFlogo.png";
+import FFlogo from "@/assets/FF2.png";
 import LogOut from "./LogOut";
 
 const NavBar = ({ user }: { user: User | null }) => {
@@ -9,9 +9,9 @@ const NavBar = ({ user }: { user: User | null }) => {
     <nav className="flex flex-col place-items-center text-xl">
       <div className="flex items-center justify-between w-full">
         <Link href="/" className="p-4">
-          <Image src={FFlogo} alt="" width={60} height={40} />
+          <Image src={FFlogo} alt="" width={100} />
         </Link>
-        <div>
+        <div className="flex gap-8 pr-7">
           <Link href="/about" className="p-4">
             서비스 소개
           </Link>

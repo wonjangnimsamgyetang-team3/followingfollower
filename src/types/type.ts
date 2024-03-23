@@ -9,6 +9,7 @@ export type Todo = {
   end: Date;
   likeCount: number;
   created_at: string;
+  liked: boolean;
 };
 
 export type Edit = {
