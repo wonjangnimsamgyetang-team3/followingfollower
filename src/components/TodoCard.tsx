@@ -82,7 +82,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
   };
 
   return (
-    <div className="bg-white m-[15px] border-2 border-solid border-subColor2 rounded-[30px] p-[30px] flex flex-col items-center justify-center drop-shadow">
+    <div className="bg-white m-[15px] border-2 border-solid border-subColor2 rounded-[30px] p-[30px] flex flex-col items-center justify-center drop-shadow-todo">
       <div>
         <div className="flex flex-col items-center justify-center">
           <h2 className="font-bold text-lg mb-[10px]">{todo.title}</h2>
@@ -90,7 +90,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
             <Image
               src={todo.imageFile}
               alt="todoImage"
-              className="object-cover rounded-[30px] mb-[20px] cursor-pointer"
+              className="object-fit rounded-[30px] mb-[20px] cursor-pointer"
               onClick={() => setOpenModal(true)}
               height={300}
               width={300}

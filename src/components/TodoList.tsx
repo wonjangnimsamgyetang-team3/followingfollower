@@ -58,7 +58,7 @@ const TodoList = () => {
 
   return (
     <div>
-      <div className="mt-[30px] flex justify-between w-full pl-[30px] pr-[30px]">
+      <div className="mt-[30px] flex justify-between pl-[30px] pr-[30px]">
         <details className="dropdown" onClick={handleDropdownClick}>
           <summary className="m-1 btn w-[100px] p-3">▼ 최신 순</summary>
           <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-full">
@@ -77,7 +77,7 @@ const TodoList = () => {
           투두 작성하기
         </Link>
       </div>
-      <div className="grid grid-cols-3 mb-[30px] mt-[10px]">
+      <div className="grid grid-cols-3 mb-[30px] mt-[10px] w-[1200px]">
         {todoData.map((item, index) => (
           <TodoCard key={index} todo={item} />
         ))}
