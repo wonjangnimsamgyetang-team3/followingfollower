@@ -1,7 +1,10 @@
+"use client";
+
 import AllCard from "@/components/AllCard";
 import NewCard from "@/components/NewCard";
 import useStoreState from "@/app/shared/store";
-import type { Todo } from "../types/type";
+import React, { useEffect } from "react";
+import { supabase } from "@/supabase/supabase";
 
 const MainPage = () => {
   return (

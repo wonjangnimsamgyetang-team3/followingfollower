@@ -1,21 +1,22 @@
-import { create, SetState } from 'zustand';
-import { persist } from 'zustand/middleware';
-import defaultImg from '@/assets/profile.png';
-import { UserData } from '../types/type';
+import { create, SetState } from "zustand";
+import { persist } from "zustand/middleware";
+import defaultImg from "@/assets/profile.png";
+import { UserData } from "../types/type";
 
 export interface USER {
   avatar: string;
-  nickname: string | undefined;
+  nickname: string;
   contents: string;
-  // id: string | undefined;
-  // email: string | undefined;
+  id: string;
+  email: string;
 }
 
 interface State {
   like: number;
   increaseLike: () => void;
   removeAllLikes: () => void;
-  userInfo: USER | null;
+  userInfo: USER;
+
   addUser: (UserInfo: USER) => void;
   removeUser: () => void;
   // MyPage-ProfileImage.tsx
@@ -29,16 +30,24 @@ interface State {
   setCategory: (payload: string) => void;
 }
 
+const defaultState = {
+  avatar: "",
+  nickname: "",
+  contents: "",
+  id: "",
+  email: "",
+};
+
 const initialState = {
   like: 0,
   userInfo: null,
-  activeCategory: '내가 할 일',
+  activeCategory: "내가 할 일",
   userAccount: {
-    avatar: '',
-    nickname: '',
-    contents: '',
+    avatar: "",
+    nickname: "",
+    contents: "",
     id: 0,
-    email: '',
+    email: "",
   },
 };
 
@@ -49,8 +58,9 @@ const useStoreState = create(
       increaseLike: () => set((state) => ({ like: state.like + 1 })),
       removeAllLikes: () => set({ like: 0 }),
 
+      userInfo: defaultState,
       addUser: (userInfo: USER) => set({ userInfo }),
-      removeUser: () => set((state) => ({ userInfo: null })),
+      removeUser: () => set({ userInfo: defaultState }),
       // MyPage-ProfileImage.tsx
       defaultImg: defaultImg.src,
       selectFile: defaultImg.src,
@@ -64,7 +74,7 @@ const useStoreState = create(
         })),
       setCategory: (category: string) => set({ activeCategory: category }),
     }),
-    { name: 'loginedUser' }
+    { name: "loginedUser" }
   )
 );
 

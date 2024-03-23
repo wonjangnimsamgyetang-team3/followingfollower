@@ -3,7 +3,6 @@
 import { supabase } from "@/supabase/supabase";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import React from "react";
 
 import type { Todo } from "@/app/types/type";
 

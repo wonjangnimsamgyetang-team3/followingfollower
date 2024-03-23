@@ -11,7 +11,7 @@ const ProfileReviewLike = ({ userTodo }: ReviewLike) => {
   const activeMyTodos: string = useStoreState((store) => store.activeCategory);
   const { userInfo } = useStoreState();
   const { id } = userInfo || "";
-  console.log(id);
+  // console.log(id);
   // const { id }: Partial<UserData> = useStoreState((store) => store.userAccount);
   // console.log(id);
   // const id = "15";
