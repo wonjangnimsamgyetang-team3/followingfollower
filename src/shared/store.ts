@@ -2,7 +2,6 @@ import { create, SetState } from "zustand";
 import { persist } from "zustand/middleware";
 import defaultImg from "@/assets/profile.png";
 import { UserData } from "../types/type";
-import { SetStateAction } from "react";
 import { StaticImageData } from "next/image";
 
 export interface USER {
@@ -18,8 +17,18 @@ interface State {
   increaseLike: () => void;
   removeAllLikes: () => void;
   userInfo: USER;
+
   addUser: (UserInfo: USER) => void;
   removeUser: () => void;
+  // MyPage-ProfileImage.tsx
+  defaultImg: string;
+  selectFile: File | StaticImageData;
+  userAccount: Partial<UserData>;
+  activeCategory: string;
+  setSelectFile: (selectImg: File) => void;
+  setDefaultImg: (selectImg: string) => void;
+  setUserAccount: (newUserData: Partial<UserData>) => void;
+  setCategory: (payload: string) => void;
 }
 
 const defaultState = {
@@ -33,6 +42,14 @@ const defaultState = {
 const initialState = {
   like: 0,
   userInfo: null,
+  activeCategory: "내가 할 일",
+  userAccount: {
+    avatar: "",
+    nickname: "",
+    contents: "",
+    id: "",
+    email: "",
+  },
 };
 
 export const useStoreState = create(
@@ -45,41 +62,21 @@ export const useStoreState = create(
       userInfo: defaultState,
       addUser: (userInfo: USER) => set({ userInfo }),
       removeUser: () => set({ userInfo: defaultState }),
+      // MyPage-ProfileImage.tsx
+      defaultImg: defaultImg.src,
+      selectFile: defaultImg,
+      setSelectFile: (selectImg: File | StaticImageData) =>
+        set((prev) => ({ ...prev, selectFile: selectImg })),
+      setDefaultImg: (selectImg: string) =>
+        set((prev) => ({ ...prev, defaultImg: selectImg })),
+      setUserAccount: (newUserData: Partial<UserData>) =>
+        set(() => ({
+          userAccount: newUserData,
+        })),
+      setCategory: (category: string) => set({ activeCategory: category }),
     }),
     { name: "loginedUser" }
   )
 );
 
-interface MyPageState {
-  // MyPage-ProfileImage.tsx
-  defaultImg: string;
-  selectFile: File | StaticImageData;
-  userAccount: Partial<UserData>;
-  activeCategory: string;
-  setSelectFile: (selectImg: File) => void;
-  setDefaultImg: (selectImg: string) => void;
-  setUserAccount: (newUserData: Partial<UserData>) => void;
-  setCategory: (payload: string) => void;
-}
-
-export const useMyPageStore = create<MyPageState>((set, get) => ({
-  activeCategory: "내가 할 일",
-  userAccount: {
-    avatar: "",
-    nickname: "",
-    contents: "",
-    id: "",
-    email: "",
-  },
-  defaultImg: defaultImg.src,
-  selectFile: defaultImg,
-  setSelectFile: (selectImg: File | StaticImageData) =>
-    set((prev) => ({ ...prev, selectFile: selectImg })),
-  setDefaultImg: (selectImg: string) =>
-    set((prev) => ({ ...prev, defaultImg: selectImg })),
-  setUserAccount: (newUserData: Partial<UserData>) =>
-    set(() => ({
-      userAccount: newUserData,
-    })),
-  setCategory: (category: string) => set({ activeCategory: category }),
-}));
+export default useStoreState;

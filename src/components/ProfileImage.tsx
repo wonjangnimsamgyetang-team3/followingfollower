@@ -5,22 +5,22 @@ import {
   updateUserAccounts,
 } from "@/supabase/myPage/profileImage";
 import Image from "next/image";
-import { ChangeEvent, useEffect, useRef } from "react";
+import { ChangeEvent, useEffect } from "react";
 import LogOut from "./LogOut";
 import { useRouter } from "next/navigation";
-import { useMyPageStore, useStoreState } from "@/shared/store";
+import { useStoreState } from "@/shared/store";
 
 const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
   const router = useRouter();
   const {
+    userInfo,
     userAccount,
     defaultImg,
     selectFile,
     setSelectFile,
     setDefaultImg,
     setUserAccount,
-  } = useMyPageStore();
-  const { userInfo } = useStoreState();
+  } = useStoreState();
   const email = userInfo?.email;
   const id = userInfo?.id;
   const { nickname, contents, avatar } = userAccount;
@@ -32,9 +32,7 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
     const datas = userDatas?.find((item: UserData) => item.email === email);
     if (datas) {
       const { nickname, avatar, contents } = datas;
-      // const nickname = datas.nickname || "";
-      // const avatar = datas.avatar || "";
-      // const contents = datas.contents || "";
+
       const userData: UserData = {
         id,
         nickname,
