@@ -162,8 +162,8 @@ const TodoDetail = ({
                 className="rounded-[30px] mb-[20px] w-full h-full"
                 src={todo.imageFile}
                 alt="todoImage"
-                height={100}
-                width={100}
+                height={500}
+                width={500}
               />
             ) : null}
           </div>
