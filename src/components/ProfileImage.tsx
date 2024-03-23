@@ -1,5 +1,4 @@
 "use client";
-import useStoreState from "@/shared/store";
 import { Edit, UserData } from "@/types/type";
 import {
   readUsersInfo,
@@ -9,18 +8,19 @@ import Image from "next/image";
 import { ChangeEvent, useEffect, useRef } from "react";
 import LogOut from "./LogOut";
 import { useRouter } from "next/navigation";
+import { useMyPageStore, useStoreState } from "@/shared/store";
 
 const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
   const router = useRouter();
   const {
-    userInfo,
     userAccount,
     defaultImg,
     selectFile,
     setSelectFile,
     setDefaultImg,
     setUserAccount,
-  } = useStoreState();
+  } = useMyPageStore();
+  const { userInfo } = useStoreState();
   const email = userInfo?.email;
   const id = userInfo?.id;
   const { nickname, contents, avatar } = userAccount;

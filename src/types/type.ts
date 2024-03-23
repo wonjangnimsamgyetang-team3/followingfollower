@@ -15,18 +15,18 @@ export type Edit = {
 };
 
 export type UserData = {
-  avatar?: string | undefined;
-  nickname: string | undefined;
-  contents: string | undefined;
+  avatar?: string;
+  nickname: string;
+  contents: string;
   id?: string;
-  email: string | undefined;
+  email: string;
 };
 
 export interface UserInfo {
-  nickname: string | undefined;
+  nickname: string;
   contents: string;
-  avatar?: string | undefined;
-  email: string | undefined;
+  avatar?: string;
+  email: string;
 }
 
 // nickname: userInfo.nickname,
