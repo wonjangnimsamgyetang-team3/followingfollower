@@ -1,14 +1,14 @@
-'use client';
-import { queryKey } from '@/query/queryKey';
-import { useQuery } from '@tanstack/react-query';
-import { readMyTodo } from '@/supabase/myPage/profileImage';
-import type { userTodo } from '@/types/type';
-import useStoreState from '@/shared/store';
-import ProfileReviewTab from './ProfileReviewTab';
-import ProfileReviewLike from './ProfileReviewLike';
-import defaultImg from '@/assets/profile.png';
-import HeartFillIcon from '@/icons/HeartFillIcon';
-import Image from 'next/image';
+"use client";
+import { queryKey } from "@/query/queryKey";
+import { useQuery } from "@tanstack/react-query";
+import { readMyTodo } from "@/supabase/myPage/profileImage";
+import type { userTodo } from "@/types/type";
+import useStoreState from "@/shared/store";
+import ProfileReviewTab from "./ProfileReviewTab";
+import ProfileReviewLike from "./ProfileReviewLike";
+import defaultImg from "@/assets/profile.png";
+import HeartFillIcon from "@/icons/HeartFillIcon";
+import Image from "next/image";
 
 const ProfileReview = () => {
   const { userInfo } = useStoreState();
@@ -40,7 +40,7 @@ const ProfileReview = () => {
       {/* 내가 한 일 */}
       <ProfileReviewTab />
       <div>
-        {activeMyTodos === '내가 할 일' && email !== (null || undefined) && (
+        {activeMyTodos === "내가 할 일" && email !== (null || undefined) && (
           <article>
             {filterUserTodo?.map((todoItem) => {
               const {
@@ -73,7 +73,7 @@ const ProfileReview = () => {
                     />
                   )}
                   <div>{title}</div>
-                  <div>{nickname ? nickname : 'no name'}</div>
+                  <div>{nickname ? nickname : "no name"}</div>
                   <div>
                     <p>{contents}</p>
                     <p>{contents}</p>
