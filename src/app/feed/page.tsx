@@ -1,13 +1,14 @@
-'use client';
+"use client";
 
-import React, { useEffect } from 'react';
-import PostList from '@/components/TodoList';
-import Link from 'next/link';
-import useStoreState from '@/shared/store';
-import { supabase } from '@/supabase/supabase';
+import React, { useEffect } from "react";
+import Link from "next/link";
+import useStoreState from "@/shared/store";
+import { supabase } from "@/supabase/supabase";
+import TodoList from "@/components/TodoList";
 
 const FeedPage = () => {
   const { addUser } = useStoreState();
+  //useEffect 부분만 수정하면됩니다!
   useEffect(() => {
     const getUser = async () => {
       const {
@@ -24,14 +25,14 @@ const FeedPage = () => {
       addUser({
         avatar: withAvatar,
         nickname: withName,
-        contents: '',
+        contents: "",
         id: authId,
         email: withEmail,
       });
 
       if (user) {
         const { data: insertData, error: insetError } = await supabase
-          .from('usersAccounts')
+          .from("usersAccounts")
           .insert([
             {
               avatar: withAvatar,
@@ -45,11 +46,9 @@ const FeedPage = () => {
     };
     getUser();
   }, []);
-
   return (
-    <div className="w-full h-full flex items-center justify-center">
-      <Link href="/feed/newTodo">newTodo</Link>
-      <PostList />
+    <div className="w-full h-full grid grid-cols-1 place-items-center">
+      <TodoList />
     </div>
   );
 };

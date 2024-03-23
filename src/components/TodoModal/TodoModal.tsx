@@ -3,8 +3,8 @@ type Props = {
   onClose: () => void;
 };
 
-import CloseIcon from '@/icons/CloseIcon';
-import React from 'react';
+import CloseIcon from "@/icons/CloseIcon";
+import React from "react";
 
 export default function TodoModal({ onClose, children }: Props) {
   return (

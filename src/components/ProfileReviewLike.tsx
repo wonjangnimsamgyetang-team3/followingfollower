@@ -1,8 +1,8 @@
-import React from 'react';
-import { UserData, userTodo } from '@/types/type';
-import defaultImg from '@/assets/profile.png';
-import useStoreState, { USER } from '@/shared/store';
-import Image from 'next/image';
+import React from "react";
+import { userTodo } from "@/types/type";
+import defaultImg from "@/assets/profile.png";
+import useStoreState from "@/shared/store";
+import Image from "next/image";
 
 export type ReviewLike = {
   userTodo: userTodo[];
@@ -11,7 +11,7 @@ export type ReviewLike = {
 const ProfileReviewLike = ({ userTodo }: ReviewLike) => {
   const activeMyTodos: string = useStoreState((store) => store.activeCategory);
   const { userInfo } = useStoreState();
-  const { id } = userInfo || '';
+  const { id } = userInfo;
   console.log(id);
   // const { id }: Partial<UserData> = useStoreState((store) => store.userAccount);
   // console.log(id);
@@ -26,7 +26,7 @@ const ProfileReviewLike = ({ userTodo }: ReviewLike) => {
   }
   return (
     <div>
-      {id !== (null || undefined) && activeMyTodos === '좋아요한 일' && (
+      {id !== (null || undefined) && activeMyTodos === "좋아요한 일" && (
         <article>
           {filterMyLikeTodoList?.map((todoItem: Partial<userTodo>) => {
             const {
@@ -59,7 +59,7 @@ const ProfileReviewLike = ({ userTodo }: ReviewLike) => {
                   />
                 )}
                 <div>{title}</div>
-                <div>{nickname ? nickname : 'no name'}</div>
+                <div>{nickname ? nickname : "no name"}</div>
                 <div>
                   <p>{contents}</p>
                 </div>

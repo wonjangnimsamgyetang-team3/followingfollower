@@ -84,7 +84,7 @@ export type Database = {
         Insert: {
           avatar?: string | null;
           contents?: string | null;
-          id?: number;
+          id?: string;
           nickname?: string | null;
           uid?: string;
           email?: string;
@@ -92,7 +92,7 @@ export type Database = {
         Update: {
           avatar?: string | null;
           contents?: string | null;
-          id?: number;
+          id?: string;
           nickname?: string | null;
           uid?: string;
           email?: string;

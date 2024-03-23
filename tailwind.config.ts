@@ -24,6 +24,12 @@ const config: Config = {
       dropShadow: {
         DEFAULT: "2px 2px 0 #890105",
       },
+      dropShadowTodo: {
+        DEFAULT: "10px 10px 0 #FFD7DB",
+      },
+      dropShadowGray: {
+        DEFAULT: "2px 2px 0 #890105",
+      },
       borderRadius: {
         lg: "50px",
       },

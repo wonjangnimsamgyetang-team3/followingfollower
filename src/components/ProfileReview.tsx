@@ -13,7 +13,6 @@ import Image from 'next/image';
 const ProfileReview = () => {
   const { userInfo } = useStoreState();
   const email = userInfo?.email;
-  console.log(email);
   const {
     isLoading,
     isPending,

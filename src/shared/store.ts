@@ -21,11 +21,13 @@ interface State {
   removeUser: () => void;
   // MyPage-ProfileImage.tsx
   defaultImg: string;
-  selectFile: string;
+  selectFile: string | Blob | File | Uint8Array | ArrayBuffer;
   userAccount: Partial<UserData>;
   activeCategory: string;
-  setSelectFile: (selectImg: string) => void;
-  setDefaultImg: (selectImg: string) => void;
+  setSelectFile: (
+    selectImg: string | Blob | File | Uint8Array | ArrayBuffer
+  ) => void;
+  setDefaultImg: (defaultImg: string) => void;
   setUserAccount: (newUserData: Partial<UserData>) => void;
   setCategory: (payload: string) => void;
 }
@@ -51,7 +53,7 @@ const initialState = {
   },
 };
 
-const useStoreState = create(
+export const useStoreState = create(
   persist<State>(
     (set, get) => ({
       ...initialState,
@@ -64,10 +66,11 @@ const useStoreState = create(
       // MyPage-ProfileImage.tsx
       defaultImg: defaultImg.src,
       selectFile: defaultImg.src,
-      setSelectFile: (selectImg: string) =>
-        set((prev) => ({ ...prev, selectFile: selectImg })),
-      setDefaultImg: (selectImg: string) =>
-        set((prev) => ({ ...prev, defaultImg: selectImg })),
+      setSelectFile: (
+        selectImg: string | Blob | File | Uint8Array | ArrayBuffer | undefined
+      ) => set((prev) => ({ ...prev, selectFile: selectImg })),
+      setDefaultImg: (defaultImg: string) =>
+        set((prev) => ({ ...prev, defaultImg: defaultImg })),
       setUserAccount: (newUserData: Partial<UserData>) =>
         set(() => ({
           userAccount: newUserData,
