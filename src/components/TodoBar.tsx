@@ -6,7 +6,7 @@ import { supabase } from "@/supabase/supabase";
 import { TodoType } from "./TodoCard";
 import { useEffect, useState } from "react";
 import { AiOutlineComment } from "react-icons/ai";
-import useStoreState from "@/app/shared/store";
+import useStoreState from "@/shared/store";
 
 type Props = {
   todo: TodoType;
@@ -46,6 +46,8 @@ const TodoBar = ({ todo, commentCount }: Props) => {
     likedStatus();
   }, [id, todo.todoId]);
 
+  // console.log(likes);
+
   const handleLikeToggle = async () => {
     const userId = id;
     if (!userId) return;
@@ -69,8 +71,6 @@ const TodoBar = ({ todo, commentCount }: Props) => {
   };
 
   const addLikedUser = async (todoId: string, userId: string) => {
-    // const userId = '15';
-
     const { data, error } = await supabase
       .from("TodoList")
       .update({ liketest: [...liketest, userId] })
@@ -83,7 +83,6 @@ const TodoBar = ({ todo, commentCount }: Props) => {
   };
 
   const removeLikedUser = async (todoId: string, userId: string) => {
-    // const userId = '15';
     const { data, error } = await supabase
       .from("TodoList")
       .update({ liketest: liketest.filter((id) => id !== userId) })

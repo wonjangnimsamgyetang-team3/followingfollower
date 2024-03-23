@@ -1,4 +1,4 @@
-import { UserData, UserInfo } from "@/app/types/type";
+import { UserData, UserInfo } from "@/types/type";
 import { supabase } from "../supabase";
 
 // DB - myPageAccount 테이블 업데이트
@@ -60,18 +60,20 @@ export const readMyTodo = async () => {
   return data;
 };
 
-export const uploadImage = async (filePath: string, image: string) => {
+export const uploadImage = async (
+  filePath: string,
+  image: string | Blob | File | Uint8Array | ArrayBuffer
+) => {
   const { data, error } = await supabase.storage
     .from("userImage")
     .upload(filePath, image, {
       cacheControl: "3600",
       upsert: true,
     });
-  console.log(data);
 
   if (error) {
     console.error("파일 업로드 오류", error.message);
-    // alert("정보를 받아오지 못하고 있습니다.");
+    alert("정보를 받아오지 못하고 있습니다.");
   }
   return data;
 };

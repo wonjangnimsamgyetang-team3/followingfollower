@@ -6,8 +6,8 @@ import {
   updateUserAccounts,
   uploadImage,
 } from "@/supabase/myPage/profileImage";
-import type { Edit, UserData } from "@/app/types/type";
-import useStoreState from "@/app/shared/store";
+import type { Edit, UserData } from "@/types/type";
+import useStoreState from "@/shared/store";
 
 const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const router = useRouter();
@@ -20,9 +20,10 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     setDefaultImg,
     setUserAccount,
   } = useStoreState();
-  const { email, id } = userInfo || "";
+  const email = userInfo?.email;
+  const id = userInfo?.id;
   const { nickname, contents, avatar }: Partial<UserData> = userAccount;
-
+  console.log(selectFile);
   const [editValue, setEditValue] = useState<UserData>({
     nickname,
     contents,
@@ -66,6 +67,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     //이미지 등록
     const uuid = crypto.randomUUID();
     const filePath = `userImage/${id}+${uuid}`;
+
     try {
       const data = await uploadImage(filePath, selectFile);
       // 해당 콜렉션에 있는 문서 파일 url 가져오기
@@ -104,7 +106,8 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     e.preventDefault();
     alert("수정을 취소하셨습니다.");
     setIsEdit(false);
-    if (isEdit && selectFile !== defaultImg) setDefaultImg(avatar);
+    // if ((isEdit && selectFile) !== defaultImg)
+    setDefaultImg(avatar ?? defaultImg);
     // if (isEdit && selectFile !== defaultImg) {
     //   setDefaultImg(avatar);
     // }

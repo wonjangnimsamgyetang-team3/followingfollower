@@ -4,7 +4,7 @@ import AllCard from "@/components/AllCard";
 import NewCard from "@/components/NewCard";
 import Banner from "@/components/Banner";
 import LikeTop from "@/components/LikeTop";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { supabase } from "@/supabase/supabase";
 import useStoreState from "./shared/store";
 
@@ -28,7 +28,7 @@ const MainPage = () => {
         avatar: withAvatar,
         nickname: withName,
         contents: "",
-        id: authId,
+        id: authId ?? "",
         email: withEmail,
       });
 

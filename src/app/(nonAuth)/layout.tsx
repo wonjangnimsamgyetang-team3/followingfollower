@@ -4,13 +4,13 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "@/supabase/supabase";
 import { useRouter } from "next/navigation";
 
-const SessionContext = React.createContext(null);
 const NonAuthlayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
   const router = useRouter();
+  const [session, setSession] = useState<boolean>(false);
   useEffect(() => {
     const getUser = async () => {
       const {
@@ -24,19 +24,19 @@ const NonAuthlayout = ({
       }
 
       //수정 필요
-      const session = await supabase.auth.getSession();
-      const token = session.data.session?.access_token;
-      const {
-        data: { subscription },
-      } = supabase.auth.onAuthStateChange((event, session) => {
-        if (session?.access_token !== token) {
-          router.refresh();
-        }
-      });
+      // const session = await supabase.auth.getSession();
+      // const token = session.data.session?.access_token;
+      // const {
+      //   data: { subscription },
+      // } = supabase.auth.onAuthStateChange((event, session) => {
+      //   if (session?.access_token !== token) {
+      //     router.refresh();
+      //   }
+      // });
 
-      return () => {
-        //   subscription.unsubscribe();
-      };
+      // return () => {
+      //   //   subscription.unsubscribe();
+      // };
     };
 
     getUser();
@@ -44,7 +44,7 @@ const NonAuthlayout = ({
 
   return (
     <div>
-      <div>로그아웃 필수 페이지</div>
+      {/*로그아웃 필수 페이지*/}
       {children}
     </div>
   );

@@ -1,7 +1,7 @@
 import { create, SetState } from "zustand";
 import { persist } from "zustand/middleware";
 import defaultImg from "@/assets/profile.png";
-import { UserData } from "@/types/type";
+import { UserData } from "../types/type";
 import { StaticImageData } from "next/image";
 
 export interface USER {

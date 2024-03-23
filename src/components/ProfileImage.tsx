@@ -1,14 +1,14 @@
 "use client";
-import useStoreState from "@/app/shared/store";
-import { Edit, UserData } from "@/app/types/type";
+import { ChangeEvent, useEffect } from "react";
 import {
   readUsersInfo,
   updateUserAccounts,
 } from "@/supabase/myPage/profileImage";
-import Image from "next/image";
-import { ChangeEvent, useEffect, useRef } from "react";
-import LogOut from "./LogOut";
+import { useStoreState } from "@/shared/store";
 import { useRouter } from "next/navigation";
+import type { Edit, UserData } from "@/types/type";
+import LogOut from "./LogOut";
+import Image from "next/image";
 
 const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
   const router = useRouter();
@@ -21,7 +21,8 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
     setDefaultImg,
     setUserAccount,
   } = useStoreState();
-  const { email, id } = userInfo || "";
+  const email = userInfo?.email;
+  const id = userInfo?.id;
   const { nickname, contents, avatar } = userAccount;
 
   const userMyPage = async () => {
@@ -30,9 +31,8 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
     // 현재 유저 정보
     const datas = userDatas?.find((item: UserData) => item.email === email);
     if (datas) {
-      const nickname = datas.nickname || "";
-      const avatar = datas.avatar || "";
-      const contents = datas.contents || "";
+      const { nickname, avatar, contents } = datas;
+
       const userData: UserData = {
         id,
         nickname,
@@ -59,7 +59,6 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
   }, [nickname, contents, avatar]);
   // 이미지 미리보기
   const addImgHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    // if (!isEdit) return;
     if (selectFile === null) return;
 
     if (e.target.files !== null) {
@@ -67,9 +66,9 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
       if (!imgFile) return;
       if (imgFile) {
         setSelectFile(imgFile);
+        console.log(imgFile);
         const imgUrl = URL.createObjectURL(imgFile);
         setDefaultImg(imgUrl);
-        // if (!isEdit) setDefaultImg(defaultImg);
         //'blob:http://localhost:3000/329cda24-452f-4d4e-9954-bdeade2b2c23'
         // console.log(imgFile.name); //'6db4f811-2968-4d4b-87d8-b9a955e64193.png'
       } else {
@@ -117,29 +116,3 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
 };
 
 export default ProfileImage;
-
-// <div>
-//   {/* {
-//             selectFile ?
-//             // {selectFile ?
-//               // ( */}
-//   <Image
-//     src={`${selectFile ? selectFile : defaultImg}`}
-//     alt="유저이미지"
-//     width={130}
-//     height={0}
-//     sizes="130px"
-//     className="rounded-full"
-//   />
-//   {/* // ) : (
-//           //   <Image */}
-//   {/* //     src={`${defaultImg}`}
-//           //     alt="유저이미지"
-//           //     width={130}
-//           //     height={0}
-//           //     sizes="130px"
-//           //     className="rounded-full"
-//           //   />
-//           //   )
-//             } */}
-// </div>;

@@ -3,7 +3,7 @@
 import React from "react";
 import { supabase } from "@/supabase/supabase";
 import { useRouter } from "next/navigation";
-import useStoreState from "@/app/shared/store";
+import useStoreState from "@/shared/store";
 
 const LogOut = () => {
   const { removeUser } = useStoreState();

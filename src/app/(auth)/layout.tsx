@@ -10,7 +10,7 @@ const AuthLayout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const [session, setSession] = useState(false);
+  const [session, setSession] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -36,7 +36,12 @@ const AuthLayout = ({
     return <Rendering />;
   }
 
-  return <div>{children}</div>;
+  return (
+    <div>
+      {/*로그인 필수 페이지*/}
+      {children}
+    </div>
+  );
 };
 
 export default AuthLayout;

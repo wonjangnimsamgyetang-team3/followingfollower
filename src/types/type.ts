@@ -1,3 +1,5 @@
+import { StaticImageData } from "next/image";
+
 export type Todo = {
   todoId: string;
   nickname: string;
@@ -15,18 +17,18 @@ export type Edit = {
 };
 
 export type UserData = {
-  avatar?: string | undefined;
+  avatar?: string;
   nickname: string | undefined;
   contents: string | undefined;
-  id?: number;
-  email: string | undefined;
+  id?: string;
+  email: string;
 };
 
 export interface UserInfo {
-  nickname: string | undefined;
+  nickname: string;
   contents: string;
-  avatar?: string | undefined;
-  email: string | undefined;
+  avatar?: string;
+  email: string;
 }
 
 // nickname: userInfo.nickname,
@@ -52,4 +54,8 @@ export type userTodo = {
   todoId: string;
   liketest: string[];
   email: string;
+};
+
+export type Image = {
+  image: string | Blob | File | Uint8Array | ArrayBuffer;
 };

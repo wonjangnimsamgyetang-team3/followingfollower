@@ -1,18 +1,11 @@
-"use client";
+import TodoList from "@/components/TodoList";
 
-import react, { useEffect } from "react";
-import PostList from "@/components/TodoList";
-import Link from "next/link";
-import useStoreState from "@/app/shared/store";
-import { supabase } from "@/supabase/supabase";
-
-const page = () => {
+const FeedPage = async () => {
   return (
-    <div className="w-full h-full flex items-center flex justify-center">
-      <Link href="/feed/newTodo">newTodo</Link>
-      <PostList />
+    <div className="w-full h-full grid grid-cols-1 place-items-center">
+      <TodoList />
     </div>
   );
 };
 
-export default page;
+export default FeedPage;

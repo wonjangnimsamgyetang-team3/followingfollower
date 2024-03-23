@@ -2,17 +2,17 @@
 import { queryKey } from "@/query/queryKey";
 import { useQuery } from "@tanstack/react-query";
 import { readMyTodo } from "@/supabase/myPage/profileImage";
-import type { userTodo } from "@/app/types/type";
-import useStoreState from "@/app/shared/store";
+import type { userTodo } from "@/types/type";
+import useStoreState from "@/shared/store";
 import ProfileReviewTab from "./ProfileReviewTab";
 import ProfileReviewLike from "./ProfileReviewLike";
 import defaultImg from "@/assets/profile.png";
 import HeartFillIcon from "@/icons/HeartFillIcon";
+import Image from "next/image";
 
 const ProfileReview = () => {
   const { userInfo } = useStoreState();
   const email = userInfo?.email;
-  // console.log(email);
   const {
     isLoading,
     isPending,
@@ -56,14 +56,20 @@ const ProfileReview = () => {
               return (
                 <div key={todoId}>
                   {imageFile ? (
-                    <img
+                    <Image
                       src={imageFile}
                       className="w-[130px] h-[130px] object-fit"
+                      alt="투두 이미지"
+                      width={100}
+                      height={100}
                     />
                   ) : (
-                    <img
+                    <Image
                       src={defaultImg.src}
                       className="w-[130px] h-[130px] object-fit"
+                      alt="투두 이미지"
+                      width={100}
+                      height={100}
                     />
                   )}
                   <div>{title}</div>
