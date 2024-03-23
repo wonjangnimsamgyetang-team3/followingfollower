@@ -31,8 +31,6 @@ const Calendar = () => {
     })
   );
 
-  // test
-
   return (
     <>
       <section className="w-1/2">
