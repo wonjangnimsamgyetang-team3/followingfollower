@@ -8,6 +8,7 @@ import TodoList from "@/components/TodoList";
 
 const FeedPage = () => {
   const { addUser } = useStoreState();
+  //useEffect 부분만 수정하면됩니다!
   useEffect(() => {
     const getUser = async () => {
       const {
@@ -45,7 +46,6 @@ const FeedPage = () => {
     };
     getUser();
   }, []);
-
   return (
     <div className="w-full h-full grid grid-cols-1 place-items-center">
       <TodoList />

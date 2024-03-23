@@ -76,7 +76,7 @@ export type Database = {
         Row: {
           avatar: string;
           contents: string | null;
-          id: number;
+          id: string;
           nickname: string | null;
           uid: string;
           email: string;
@@ -84,7 +84,7 @@ export type Database = {
         Insert: {
           avatar?: string | null;
           contents?: string | null;
-          id?: number;
+          id?: string;
           nickname?: string | null;
           uid?: string;
           email?: string;
@@ -92,18 +92,18 @@ export type Database = {
         Update: {
           avatar?: string | null;
           contents?: string | null;
-          id?: number;
+          id?: string;
           nickname?: string | null;
           uid?: string;
           email?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'public_usersAccounts_userId_fkey';
-            columns: ['userEmail'];
+            foreignKeyName: "public_usersAccounts_userId_fkey";
+            columns: ["userEmail"];
             isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
           }
         ];
       };
