@@ -73,7 +73,7 @@ export const uploadImage = async (
 
   if (error) {
     console.error("파일 업로드 오류", error.message);
-    // alert("정보를 받아오지 못하고 있습니다.");
+    alert("정보를 받아오지 못하고 있습니다.");
   }
   return data;
 };
