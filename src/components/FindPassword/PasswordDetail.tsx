@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { supabase } from "@/supabase/supabase";
 import Image from "next/image";
-import FFlogo from "@/assets/FFlogo.png";
+import FFlogo from "@/assets/FF2.png";
 import Link from "next/link";
 
 const PasswordDetail = () => {

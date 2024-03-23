@@ -53,7 +53,7 @@ const MainPage = () => {
     <main>
       <Banner />
       <article className="flex gap-10 pb-32">
-        <aside className="flex flex-col place-items-center">
+        <aside className="flex flex-col place-items-center ml-7">
           <div className="m-5 flex text-2xl">인기 유저 TOP 3</div>
           <LikeTop />
         </aside>
