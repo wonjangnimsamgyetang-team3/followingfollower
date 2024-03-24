@@ -7,7 +7,7 @@ import HeartFillIcon from "@/icons/HeartFillIcon";
 import { HeartIcon } from "@/icons/HeartIcon";
 
 export type ReviewLike = {
-  userTodo: userTodo[];
+  userTodo: userTodo[] | null | undefined;
 };
 
 const ProfileReviewLike = ({ userTodo }: ReviewLike) => {
