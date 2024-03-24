@@ -145,7 +145,7 @@ const TodoDetail = ({
   };
 
   return (
-    <div className="flex w-full h-full gap-4">
+    <div className="flex justify-between w-full h-full gap-4">
       <div className="flex flex-col justify-between w-1/2 p-3 pr-6 border-solid border-r-2 border-subColor1">
         <section className="grow">
           <div className="flex items-center ml-[5px] mb-[15px]">

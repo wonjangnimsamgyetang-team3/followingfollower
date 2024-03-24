@@ -73,7 +73,7 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
         />
       )}
       <input
-        className="w-[200px] border-solid border-2 border-gray-200 rounded-[15px] p-[10px]"
+        className="w-[330px] border-solid border-2 border-gray-200 rounded-[15px] p-[10px]"
         name="comment"
         type="text"
         placeholder="댓글을 작성해주세요."
