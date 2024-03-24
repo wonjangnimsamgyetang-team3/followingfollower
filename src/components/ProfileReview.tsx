@@ -1,23 +1,22 @@
 "use client";
+
 import { queryKey } from "@/query/queryKey";
 import { useQuery } from "@tanstack/react-query";
-import { readMyTodo, updateUserAccounts } from "@/supabase/myPage/profileImage";
-import type { UserData, userTodo } from "@/types/type";
+import { readMyTodo } from "@/supabase/myPage/profileImage";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 import useStoreState from "@/shared/store";
+import type { userTodo } from "@/types/type";
+import HeartFillIcon from "@/icons/HeartFillIcon";
+import { HeartIcon } from "@/icons/HeartIcon";
+import defaultImg from "@/assets/profile.png";
 import ProfileReviewTab from "./ProfileReviewTab";
 import ProfileReviewLike from "./ProfileReviewLike";
-import defaultImg from "@/assets/profile.png";
-import HeartFillIcon from "@/icons/HeartFillIcon";
-import Image from "next/image";
-import { HeartIcon } from "@/icons/HeartIcon";
 import Loading from "./Loading";
-import { useRouter } from "next/navigation";
 
 const ProfileReview = () => {
   const { userInfo } = useStoreState();
   const email = userInfo?.email;
-  const router = useRouter();
-  console.log("email", email);
   const {
     isLoading,
     isPending,

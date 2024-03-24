@@ -78,16 +78,16 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
   };
 
   return (
-    <div className="bg-subColor4">
+    <div className=" w-full flex justify-center rounded-t-[56px]">
       {isEdit ? (
         <label htmlFor="imgFileChoice">
-          <div>
+          <div className="w-[280px] sm:w-auto flex justify-center">
             <Image
               src={defaultImg}
               alt="유저이미지"
               width={130}
-              height={0}
-              sizes="130px"
+              height={130}
+              sizes="(max-width: 639px) 50vw, 130px"
               className="rounded-full"
             />
           </div>
@@ -98,8 +98,8 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
             src={defaultImg}
             alt="유저이미지"
             width={130}
-            height={0}
-            sizes="130px"
+            height={130}
+            sizes="280px"
             className="rounded-full"
           />
         </div>

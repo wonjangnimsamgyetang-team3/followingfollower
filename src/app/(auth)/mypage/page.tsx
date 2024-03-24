@@ -5,27 +5,33 @@ import ProfileContents from "@/components/ProfileContents";
 import ProfileImage from "@/components/ProfileImage";
 import ProfileReview from "@/components/ProfileReview";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const MyPage = () => {
   const [isEdit, setIsEdit] = useState(false);
+  const router = useRouter();
 
   return (
     <section className="flex flex-col items-center justify-center bg-subColor4 pt-[46px]">
       <div>
         <p className="text-subColor1 font-bold text-[30px]">마이페이지</p>
       </div>
-      <article className="flex bg-gray-400 w-[1280px] mt-[46px]">
+      <article className="flex items-center justify-center gap-[40px] sm:gap-[20px] sm:w-[600px] lg:w-[1280px] mt-[46px] rounded-[56px]">
         {/* 프로필 */}
-        <section className="flex-col w-[500px] p-[2rem]">
-          <article>
+        <section className="flex flex-col w-[480px] sm:w-[260px] md:w-[300px] h-auto rounded-[56px] gap-[10px]">
+          <article className="flex flex-col gap-[10px] p-[2rem]  bg-white border-[1px] border-solid border-subColor1 rounded-[56px] ">
             <ProfileImage isEdit={isEdit} setIsEdit={setIsEdit} />
-          </article>
-          <article>
             <ProfileContents isEdit={isEdit} setIsEdit={setIsEdit} />
           </article>
+          <button
+            onClick={() => router.replace(`feed/newtodo`)}
+            className="w-full  grid place-items-center border-2 border-solid border-[#fb8494] p-4  h-4/5 content-center bg-subColor1 hover:drop-shadow rounded-[15px] text-white font-bold transition-all duration-100"
+          >
+            할 일 등록
+          </button>
         </section>
         {/* 캘린더 */}
-        <article className="flex-col w-[800px]">
+        <article className="flex flex-row item-center justify-center p-[20px]  rounded-[56px] bg-white md:w-[60%] md:p-[20px] lg:w-[70%]">
           <Calendar />
         </article>
       </article>

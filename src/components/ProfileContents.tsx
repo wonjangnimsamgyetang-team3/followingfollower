@@ -1,7 +1,7 @@
 "use client";
 import { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
 import { supabase } from "@/supabase/supabase";
-import { useRouter } from "next/navigation";
+
 import {
   updateUserAccounts,
   uploadImage,
@@ -10,8 +10,6 @@ import type { Edit, UserData } from "@/types/type";
 import useStoreState from "@/shared/store";
 
 const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
-  const router = useRouter();
-
   const {
     userInfo,
     defaultImg,
@@ -106,39 +104,39 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     e.preventDefault();
     alert("수정을 취소하셨습니다.");
     setIsEdit(false);
-    // if ((isEdit && selectFile) !== defaultImg)
     setDefaultImg(avatar ?? defaultImg);
-    // if (isEdit && selectFile !== defaultImg) {
-    //   setDefaultImg(avatar);
-    // }
   };
 
   return (
     <section>
       <div>
-        <div>
+        <div className="flex flex-col item-center justify-center">
           {!isEdit ? (
-            <article>
-              <div>
+            <article className="flex flex-col gap-[10px]">
+              <div className="flex flex-col gap-[10px]">
                 <div>
-                  <p>{nickname}</p>
+                  <p className="text-center text-[20px] text-subColor1 text-bold">
+                    {nickname}
+                  </p>
                 </div>
                 <div>
-                  <p>
+                  <p className="text-center text-[20px]">
                     <span>{contents}</span>
                   </p>
                 </div>
               </div>
-              <div>
-                <button onClick={editContentsHandler}>수정</button>
-                <button onClick={() => router.replace(`feed/newtodo`)}>
-                  할 일 등록
+              <div className="flex items-center justify-evenly mt-[20px]">
+                <button
+                  onClick={editContentsHandler}
+                  className="w-[100px] border-2 grid place-items-center border-solid border-[#fb8494] p-4  h-4/5 content-center bg-subColor1 hover:drop-shadow rounded-[20px] text-white font-bold transition-all duration-100"
+                >
+                  수정
                 </button>
               </div>
             </article>
           ) : (
-            <form onSubmit={editSaveHandler}>
-              <div>
+            <form onSubmit={editSaveHandler} className="bg-gray-200 w-[280px]">
+              <div className="bg-green-200 w-full">
                 <div>
                   <input
                     name="nickname"
@@ -150,6 +148,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
                         ? "닉네임을 적어주세요 (10글자 이내)"
                         : editValueNickname
                     }
+                    className="h-8 text-[20px] input input-bordered focus:border-1 focus:border-subColor2 focus:border-solid focus:bg-white bg-subColor4 w-full max-w-xs"
                   />
                 </div>
                 <textarea
@@ -164,10 +163,18 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
                       ? "자신을 소개해주세요 (30글자 이내)"
                       : editValueContents
                   }
+                  className="w-full text-[18px] textarea textarea-bordered h-16 focus:border-1 focus:border-subColor2 focus:border-solid focus:bg-white bg-subColor4"
                 ></textarea>
-                <div>
-                  <button>수정완료</button>
-                  <button onClick={editCancelHandler}>수정취소</button>
+                <div className="flex gap-[10px]">
+                  <button className="border-2 grid place-items-center border-solid border-[#fb8494] p-4  h-4/5 content-center bg-subColor2 hover:drop-shadow rounded-[15px] font-bold transition-all duration-100">
+                    수정완료
+                  </button>
+                  <button
+                    onClick={editCancelHandler}
+                    className="border-2 grid place-items-center border-solid border-[#fb8494] p-4  h-4/5 content-center bg-subColor2 hover:drop-shadow rounded-[15px] font-bold transition-all duration-100"
+                  >
+                    수정취소
+                  </button>
                 </div>
               </div>
             </form>
