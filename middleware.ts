@@ -1,7 +1,7 @@
-import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
-import { NextResponse, NextRequest } from "next/server";
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
+import { NextResponse, NextRequest } from 'next/server';
 
-import { Database } from "database.types";
+import { Database } from 'database.types';
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
@@ -14,11 +14,11 @@ export async function middleware(req: NextRequest) {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    return NextResponse.rewrite(new URL("/login", req.url));
+    return NextResponse.rewrite(new URL('/login', req.url));
   }
 
-  if (!session && req.url === "/feed/newTodo") {
-    return NextResponse.rewrite(new URL("/login", req.url));
+  if (!session && req.url === '/feed/newTodo') {
+    return NextResponse.rewrite(new URL('/login', req.url));
   }
 
   return res;
@@ -26,5 +26,5 @@ export async function middleware(req: NextRequest) {
 
 // 미들웨어가 관련 경로에 대해서만 호출되도록 설정합니다.
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };

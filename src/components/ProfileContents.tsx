@@ -6,8 +6,9 @@ import {
   updateUserAccounts,
   uploadImage,
 } from "@/supabase/myPage/profileImage";
-import type { Edit, UserData } from "@/types/type";
 import useStoreState from "@/shared/store";
+
+import type { Edit, UserData } from "@/types/type";
 
 const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const {
@@ -18,6 +19,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     setDefaultImg,
     setUserAccount,
   } = useStoreState();
+
   const email = userInfo?.email;
   const id = userInfo?.id;
   const { nickname, contents, avatar }: Partial<UserData> = userAccount;
@@ -47,10 +49,10 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
       setDefaultImg(avatar);
     }
   };
+
   // 이미지, 닉네임, 소개 편집
   const editSaveHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // 유효성;
     const editSaveCheck = window.confirm("수정내용을 저장하시겠습니까?");
     if (editSaveCheck === false) {
       alert("수정을 취소하셨습니다.");
@@ -62,7 +64,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     }
 
     if (!selectFile || !defaultImg) return;
-    //이미지 등록
+
     const uuid = crypto.randomUUID();
     const filePath = `userImage/${id}+${uuid}`;
 
@@ -73,6 +75,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
         const { data: imageUrl } = supabase.storage
           .from("userImage")
           .getPublicUrl(data.path);
+
         // 스토리지에 있는 blob이미지를 일반 이미지 url로 변경
         const ImgDbUrl = imageUrl.publicUrl;
         if (ImgDbUrl) {
@@ -86,8 +89,8 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
         }
       }
     } catch (error) {
-      console.error("이미지가 업로드되지 않았어용", error);
-      alert("이미지가 업로드 되지 않았어용! 다시 등록해주세용!");
+      console.error("이미지가 업로드되지 않았습니다.", error);
+      alert("이미지가 업로드 되지 않았습니다. 다시 등록해 주세요.");
     }
 
     // DB에 저장

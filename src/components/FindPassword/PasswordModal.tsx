@@ -3,8 +3,7 @@ type Props = {
   onClose: () => void;
 };
 
-import CloseIcon from "@/icons/CloseIcon";
-import React from "react";
+import CloseIcon from '@/icons/CloseIcon';
 
 const PasswordModal = ({ onClose, children }: Props) => {
   return (
@@ -23,7 +22,7 @@ const PasswordModal = ({ onClose, children }: Props) => {
         <CloseIcon />
       </button>
       {/* 모달창 크기 */}
-      <div className="content-center rounded-[30px] bg-white w-1/3 h-4/5 max-w-7xl p-8 border-solid border-2 border-[#fb8494]">
+      <div className="content-center rounded-[30px] bg-white w-1/3 h-4/5 max-w-7xl p-8 border-solid border-2 border-subColor1">
         {children}
       </div>
     </section>

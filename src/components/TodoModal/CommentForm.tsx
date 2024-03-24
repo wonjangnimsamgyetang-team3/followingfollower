@@ -1,11 +1,11 @@
 'use client';
 
 import { supabase } from '@/supabase/supabase';
-import React, { FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { TodoType } from '../TodoCard';
-import useStoreState from '@/shared/store';
 import Image from 'next/image';
-import defaultProfile from '../../assets/profile.png';
+import useStoreState from '@/shared/store';
+import defaultProfile from '@/assets/profile.png';
 
 type Props = {
   todo: TodoType;
@@ -16,14 +16,9 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
   const [comment, setComment] = useState('');
   const buttonDisabled = comment.length === 0;
 
-  //zustand
   const { userInfo } = useStoreState();
-  // console.log("로그인한 유저정보", userInfo);
   const nickname = userInfo?.nickname;
   const userAvatar = userInfo?.avatar || '';
-  // const email = userinfo?.email;
-  // const id = userInfo?.id;
-  // console.log("userAvatar:", userAvatar);
 
   const handleCommentSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,7 +28,7 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
     const userId = user?.user?.id;
 
     if (!userId) {
-      alert('로그인 후 이용해주세요.');
+      alert('로그인 후 이용해 주세요.');
       return;
     }
 
@@ -73,7 +68,7 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
         />
       )}
       <input
-        className="w-[250px] h-[40px] border-solid border-2 border-gray-200 rounded-[10px] p-[10px]"
+        className="w-[330px] border-solid border-2 border-gray-200 rounded-[15px] p-[10px]"
         name="comment"
         type="text"
         placeholder="댓글을 작성해주세요."
@@ -82,7 +77,7 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
         onChange={(e) => setComment(e.target.value)}
         maxLength={50}
       />
-      <button className="font-bold ml-2 rounded-[15px] bg-[#fb8494] w-[120px] h-[40px]">
+      <button className="font-bold ml-2 rounded-[15px] bg-subColor1 w-[120px] h-[40px]">
         작성하기
       </button>
     </form>

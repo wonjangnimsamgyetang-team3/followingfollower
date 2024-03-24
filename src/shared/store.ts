@@ -1,7 +1,7 @@
-import { create, SetState } from 'zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import defaultImg from '@/assets/profile.png';
-import { UserData } from '../types/type';
+import type { UserData } from '../types/type';
 
 export interface USER {
   avatar: string;
@@ -15,11 +15,11 @@ interface State {
   like: number;
   increaseLike: () => void;
   removeAllLikes: () => void;
-  userInfo: USER;
 
+  userInfo: USER;
   addUser: (UserInfo: USER) => void;
+
   removeUser: () => void;
-  // MyPage-ProfileImage.tsx
   defaultImg: string;
   selectFile: string | Blob | File | Uint8Array | ArrayBuffer;
   userAccount: Partial<UserData>;
@@ -27,6 +27,7 @@ interface State {
   setSelectFile: (
     selectImg: string | Blob | File | Uint8Array | ArrayBuffer
   ) => void;
+
   setDefaultImg: (defaultImg: string) => void;
   setUserAccount: (newUserData: Partial<UserData>) => void;
   setCategory: (payload: string) => void;
@@ -62,8 +63,8 @@ export const useStoreState = create(
 
       userInfo: defaultState,
       addUser: (userInfo: USER) => set({ userInfo }),
+
       removeUser: () => set({ userInfo: defaultState }),
-      // MyPage-ProfileImage.tsx
       defaultImg: defaultImg.src,
       selectFile: defaultImg.src,
       setSelectFile: (

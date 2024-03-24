@@ -51,14 +51,16 @@ const ProfileReview = () => {
   }
   return (
     <section className="flex flex-col bg-subColor4 border-[2px] border-solid border-subColor2 rounded-[56px] sm:w-[670px] md:w-[940px] lg:w-[1024px] xl:w-[1280px]">
-      {/* 내가 한 일 */}
       <ProfileReviewTab />
       <div className="bg-white rounded-b-[56px]">
         {activeMyTodos === "내가 할 일" && email !== (null || undefined) && (
           <article className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8 p-8">
             {!filterUserTodo ||
               (filterUserTodo.length === 0 && (
-                <div> 할 일을 등록 해주세요</div>
+                <div className="text-center mt-[60px] text-[24px]">
+                  {" "}
+                  할 일을 등록 해주세요!
+                </div>
               ))}
             {filterUserTodo?.map((todoItem) => {
               const {
@@ -127,12 +129,9 @@ const ProfileReview = () => {
           </article>
         )}
       </div>
-      {/* 좋아요 한 일 */}
       <ProfileReviewLike userTodo={userTodo} />
     </section>
   );
 };
 
 export default ProfileReview;
-
-// filterUserTodo && filterUserTodo.length > 0;
