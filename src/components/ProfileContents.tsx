@@ -91,8 +91,8 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
         }
       }
     } catch (error) {
-      console.error('이미지가 업로드되지 않았어용', error);
-      alert('이미지가 업로드 되지 않았어용! 다시 등록해주세용!');
+      console.error('이미지가 업로드되지 않았습니다.', error);
+      alert('이미지가 업로드 되지 않았습니다. 다시 등록해 주세요.');
     }
 
     // DB에 저장

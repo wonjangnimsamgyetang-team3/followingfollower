@@ -28,7 +28,7 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
     const userId = user?.user?.id;
 
     if (!userId) {
-      alert('로그인 후 이용해주세요.');
+      alert('로그인 후 이용해 주세요.');
       return;
     }
 

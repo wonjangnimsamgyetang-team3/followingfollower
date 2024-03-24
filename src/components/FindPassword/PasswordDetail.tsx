@@ -15,11 +15,11 @@ const PasswordDetail = () => {
     };
 
     if (!findEmail) {
-      alert('이메일을 입력해주세요');
+      alert('이메일을 입력해 주세요.');
       return;
     }
     if (!isValidEmail(findEmail)) {
-      alert('이메일을 정확한 형식으로 입력해주세요');
+      alert('이메일을 정확한 형식으로 입력해 주세요.');
       return;
     }
 
@@ -29,7 +29,7 @@ const PasswordDetail = () => {
       alert(error.message);
     }
 
-    alert('비밀번호 복구 메일이 발송됐습니다!');
+    alert('비밀번호 복구 메일이 발송됐습니다.');
     setFindEmail('');
   };
 

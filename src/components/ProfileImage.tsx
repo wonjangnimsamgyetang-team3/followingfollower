@@ -49,7 +49,7 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
       setDefaultImg(avatar);
 
       if (!userInfo || !avatar) {
-        alert('로그인 유저만 사용가능합니다. 로그인 해주세요');
+        alert('로그인 후 이용해 주세요.');
         <LogOut />;
         router.replace('/');
       }

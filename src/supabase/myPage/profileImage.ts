@@ -16,7 +16,7 @@ export const updateUserAccounts = async ({
     .select('*');
 
   if (error) {
-    console.error('업데이트를 다시 시도해주세요!');
+    console.error('업데이트를 다시 시도해 주세요.');
   }
   return data;
 };
@@ -46,7 +46,7 @@ export const readUsersInfo = async (email: string) => {
     return data;
   }
   if (error) {
-    console.error('오류로 인해 정보를 받아오지 못 하고 있습니다.');
+    console.error('오류로 인해 정보를 받아오지 못하고 있습니다.');
   }
   return data;
 };
@@ -55,7 +55,7 @@ export const readMyTodo = async () => {
   const { data, error } = await supabase.from('TodoList').select('*');
 
   if (error) {
-    alert('오류로 인해 정보를 받아오지 못 하고 있습니다.');
+    alert('오류로 인해 정보를 받아오지 못하고 있습니다.');
   }
   return data;
 };
@@ -73,7 +73,7 @@ export const uploadImage = async (
 
   if (error) {
     console.error('파일 업로드 오류', error.message);
-    alert('정보를 받아오지 못하고 있습니다.');
+    alert('오류로 인해 정보를 받아오지 못하고 있습니다.');
   }
   return data;
 };
@@ -84,12 +84,12 @@ export const downloadImage = async (filePath: string) => {
       .from('userImage')
       .download(filePath);
     if (error) {
-      alert('이미지를 받아오지 못하고 있습니다. 문의해주세요.');
+      alert('오류로 인해 이미지를 받아오지 못하고 있습니다.');
       return;
     }
     return data;
   } catch (error) {
-    alert('이미지를 받아오지 못하고 있습니다.');
+    alert('오류로 인해 이미지를 받아오지 못하고 있습니다.');
   }
 };
 
@@ -97,7 +97,7 @@ export const getLoginUserInfo = async () => {
   const { data } = await supabase.auth.getUser();
 
   if (!data) {
-    console.error('정보를 불러오지 못 하고 있습니다.');
+    console.error('오류로 인해 정보를 불러오지 못 하고 있습니다.');
   }
   return data;
 };
@@ -111,7 +111,7 @@ export const updateUserMetaData = async ({
   });
 
   if (error) {
-    console.error('업데이트를 다시 시도해주세요!');
+    console.error('업데이트를 다시 시도해 주세요.');
   }
   return data;
 };

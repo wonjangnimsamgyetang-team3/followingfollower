@@ -17,7 +17,7 @@ const SingUpPage = () => {
     e.preventDefault();
 
     if (!userEmail || !userPw || !userNickname) {
-      alert('빈칸 없이 작성해주세요!');
+      alert('빈칸 없이 작성해 주세요.');
       return;
     }
 
@@ -27,7 +27,7 @@ const SingUpPage = () => {
     }
 
     if (userPw.length < 6) {
-      alert('비밀번호는 최소 6글자 이상 작성해주세요');
+      alert('비밀번호는 최소 6글자 이상 작성해 주세요');
       return;
     }
 
@@ -62,7 +62,7 @@ const SingUpPage = () => {
       alert('이미 존재하는 아이디입니다.');
     }
 
-    alert(`회원가입이 완료됐습니다. 이메일 인증 후 로그인해주세요!`);
+    alert(`회원가입이 완료됐습니다. 이메일 인증 후 로그인해 주세요.`);
 
     setUserEmail('');
     setUserPw('');

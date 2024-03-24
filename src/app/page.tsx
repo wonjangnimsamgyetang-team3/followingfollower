@@ -16,7 +16,6 @@ const MainPage = () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      console.log('home - 소셜', user);
 
       const withAvatar =
         user?.user_metadata.avatar_url ?? user?.user_metadata.avatar;

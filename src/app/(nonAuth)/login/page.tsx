@@ -24,7 +24,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     if (!loginEmail || !loginPw) {
-      alert('빈칸 없이 작성해주세요');
+      alert('빈칸 없이 작성해 주세요.');
       return;
     }
 
@@ -34,7 +34,7 @@ const LoginPage = () => {
     });
 
     if (error) {
-      alert('아이디나 비밀번호를 확인해주세요');
+      alert('아이디나 비밀번호를 확인해 주세요.');
       return;
     }
 
@@ -43,7 +43,7 @@ const LoginPage = () => {
       const session = await supabase.auth.getSession();
       const authNickname =
         session.data.session?.user.user_metadata.userNickname;
-      alert(`안녕하세요. ${authNickname}님!`);
+      alert(`반갑습니다. ${authNickname}님!`);
     }
 
     //만약 마이페이지에 먼저 접근했을 경우-> 로그인 후 다시 마이페이지로 이동
@@ -62,25 +62,20 @@ const LoginPage = () => {
 
   //소셜 로그인
   const githubSignInHandler = async () => {
-    try {
-      const { data: git, error } = await supabase.auth.signInWithOAuth({
-        provider: 'github',
-        options: {
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent',
-          },
-          redirectTo: `${location.origin}/auth/callback`,
+    const { data: git, error } = await supabase.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
         },
-      });
-    } catch (error) {
-      if (error) console.log(error);
-      return;
-    }
+        redirectTo: `${location.origin}/auth/callback`,
+      },
+    });
   };
 
   const kakaoSignInHandler = async () => {
-    let { data: kakao, error } = await supabase.auth.signInWithOAuth({
+    const { data: kakao, error } = await supabase.auth.signInWithOAuth({
       provider: 'kakao',
       options: {
         queryParams: {
