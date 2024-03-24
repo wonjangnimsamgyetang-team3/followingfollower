@@ -170,30 +170,30 @@ const NewTodo = () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
-      <section className="w-[700px] h-[900px] outline-none flex flex-col items-center justify-center mt-20 mb-20 bg-white border-2 border-solid border-subColor2 rounded-[30px] p-[40px]">
+      <section className="w-[700px] outline-none flex flex-col items-center justify-center my-16 bg-white border-2 border-solid border-subColor2 rounded-[30px] p-[40px]">
         <div className="flex items-center justify-center mb-[10px]">
           <Image
-            className="w-[50px] h-[50px] mr-[15px] rounded-full"
+            className="mr-[15px] rounded-full"
             src={userAvatar}
             alt="유저 이미지"
-            width={100}
-            height={100}
+            width={50}
+            height={50}
           />
           <div className="text-lg text-subColor1">{userNickname}</div>
         </div>
         <form className="w-full flex flex-col mt-2" onSubmit={handleSubmit}>
           <textarea
-            className="w-15 h-12 outline-none text-lg border-2 border-subColor1 rounded-[30px] resize-none p-[8px] pl-[15px]"
+            className="outline-none text-lg border-2 border-subColor1 rounded-[30px] resize-none p-[8px] pl-[15px]"
             name="title"
             id="title"
             required
             rows={1}
-            placeholder="제목을 입력하세요."
+            placeholder="제목을 입력해 주세요."
             maxLength={20}
           />
           <div className="mt-[30px] mb-[30px]">
             <input
-              className="hidden flex items-center flex justify-center"
+              className="hidden items-center justify-center"
               name="input"
               id="input-upload"
               type="file"
@@ -201,7 +201,7 @@ const NewTodo = () => {
               onChange={handleChange}
             />
             <label
-              className={`w-full h-60 flex flex-col items-center justify-center rounded-[20px] ${
+              className={`w-full h-40 flex flex-col items-center justify-center rounded-[20px] ${
                 !file && 'border-2 rounded-[20px] border-gray-500 border-dashed'
               }`}
               htmlFor="input-upload"
@@ -216,32 +216,31 @@ const NewTodo = () => {
               {!file && (
                 <div className="flex flex-col items-center pointer-events-none">
                   <FaPhotoVideo className="w-20 h-20 text-gray-300 mb-[10px]" />
-                  <p>클릭하여 이미지를 등록해주세요.</p>
+                  <p>클릭하여 이미지를 등록해 주세요.</p>
                 </div>
               )}
               {file && (
                 <div className="relative w-full aspect-square">
                   <Image
-                    className="object-cover"
+                    className="object-cover rounded-[20px]"
                     src={URL.createObjectURL(file)}
                     alt="local file"
                     fill
-                    sizes="650px"
                   />
                 </div>
               )}
             </label>
           </div>
           <textarea
-            className="h-[250px] outline-none text-lg resize-none border-2 border-subColor1 rounded-[30px] p-[15px] bg-subColor4"
+            className="outline-none text-lg resize-none border-2 border-subColor1 rounded-[30px] p-[15px] bg-subColor4"
             name="contents"
             id="input-contents"
             required
-            rows={10}
-            placeholder="할 일 자세히 입력( 100글자 이내 )"
+            // rows={10}
+            placeholder="할 일에 대해 자세히 입력해 주세요.(100글자 이내)"
             maxLength={100}
           />
-          <div className="flex p-[10px] mt-[20px]">
+          <div className="flex p-[10px] mt-[20px] justify-center">
             <div className="mr-[30px]">
               <label className="mr-[10px] text-subColor1" htmlFor="start">
                 시작일
