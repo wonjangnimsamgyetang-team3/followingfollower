@@ -19,7 +19,8 @@ const AuthLayout = ({
         data: { user },
       } = await supabase.auth.getUser();
 
-      if (user === null) {
+      console.log("mypage-유저", user);
+      if (!user) {
         alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
         localStorage.setItem("url", "/mypage");
         router.push("/login");

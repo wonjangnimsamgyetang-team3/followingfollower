@@ -17,8 +17,8 @@ const NewCard = () => {
         .order(`likeCount`, { ascending: false })
         .order(`created_at`, { ascending: false })
         .range(0, 4);
-      // LikeCount 가 높은 순서대로
-      return response.data;
+      const { data } = response;
+      return data;
     },
   });
 

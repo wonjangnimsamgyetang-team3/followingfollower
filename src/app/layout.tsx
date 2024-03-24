@@ -26,7 +26,7 @@ export default async function RootLayout({
 
   //로그인 한 유저정보 꺼내기
   const avatar = user?.user_metadata.avatar_url ?? user?.user_metadata.avatar;
-  const email = user?.user_metadata.email ?? user?.user_metadata.email;
+  const email = user?.user_metadata.email;
   const nickname =
     user?.user_metadata.preferred_username ?? user?.user_metadata.userNickname;
   const contents = user?.user_metadata.contents;

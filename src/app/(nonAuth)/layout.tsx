@@ -10,7 +10,6 @@ const NonAuthlayout = ({
   children: React.ReactNode;
 }>) => {
   const router = useRouter();
-  const [session, setSession] = useState<boolean>(false);
   useEffect(() => {
     const getUser = async () => {
       const {

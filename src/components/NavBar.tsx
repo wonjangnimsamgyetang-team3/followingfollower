@@ -1,9 +1,8 @@
 import { User } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import Image from "next/image";
-import FFlogo from "@/assets/FFlogo.png";
+import FFlogo from "@/assets/FF2.png";
 import LogOut from "./LogOut";
-
 const NavBar = ({ user }: { user: User | null }) => {
   return (
     <nav className="flex flex-col place-items-center text-xl">
@@ -34,5 +33,4 @@ const NavBar = ({ user }: { user: User | null }) => {
     </nav>
   );
 };
-
 export default NavBar;
