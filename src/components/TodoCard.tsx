@@ -9,6 +9,7 @@ import TodoDetail from './TodoModal/TodoDetail';
 import useStoreState from '@/shared/store';
 import Image from 'next/image';
 import Loading from './Loading';
+import FollowBtn from './FollowBtn';
 
 export type TodoType = {
   contents: string;
@@ -67,37 +68,6 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
     setCommentCount(data[0]?.count || 0);
   };
 
-  //follow test
-  const followHandler = async () => {
-    const { data: followingData, error: followingError } = await supabase
-      .from('usersAccounts')
-      .select('*')
-      .eq('email', myEmail);
-    console.log('hi', followingData);
-    if (followingData) {
-      // console.log(followingData[0].following);
-      // alert(`${todo.email}, ${myEmail}`);
-      const { data, error } = await supabase
-        .from('usersAccounts')
-        .update({ following: [...followingData[0].following, todo.email] })
-        .eq('email', myEmail)
-        .select();
-    } else {
-      const { data, error } = await supabase
-        .from('usersAccounts')
-        .insert([todo.email])
-        .eq('email', myEmail)
-        .select();
-    }
-
-    if (followingData[0].following.includes(todo.email)) {
-      const { error } = await supabase
-        .from('usersAccounts')
-        .delete()
-        .eq('email', myEmail);
-    }
-  };
-
   const handleDetailContentChange = (
     editedTitle: string,
     editedContent: string
@@ -129,7 +99,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
           <p className="mb-[10px]">
             {isCurrentUserTodo ? nickname : todo.nickname}
           </p>
-          <button onClick={followHandler}>follow</button>
+          <FollowBtn myEmail={myEmail} writerEmail={todo.email} />
           <p
             className="mb-[20px] overflow-ellipsis cursor-pointer"
             onClick={() => setOpenModal(true)}
