@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { supabase } from "@/supabase/supabase";
-import TodoBar from "./TodoBar";
-import ModalPotal from "./TodoModal/ModalPortal";
-import TodoModal from "./TodoModal/TodoModal";
-import TodoDetail from "./TodoModal/TodoDetail";
-import useStoreState from "@/shared/store";
-import Image from "next/image";
+import React, { useEffect, useState } from 'react';
+import { supabase } from '@/supabase/supabase';
+import TodoBar from './TodoBar';
+import ModalPotal from './TodoModal/ModalPortal';
+import TodoModal from './TodoModal/TodoModal';
+import TodoDetail from './TodoModal/TodoDetail';
+import useStoreState from '@/shared/store';
+import Image from 'next/image';
 
 export type TodoType = {
   contents: string;
@@ -54,9 +54,9 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
 
   const fetchCommentCount = async (todoId: string) => {
     const { data, error } = await supabase
-      .from("commentList")
-      .select("count", { count: "exact" })
-      .eq("todoId", todoId);
+      .from('commentList')
+      .select('count', { count: 'exact' })
+      .eq('todoId', todoId);
 
     if (error) {
       throw error;
@@ -66,8 +66,34 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
   };
 
   //follow test
-  const followHandler = () => {
-    alert(`${todo.email}, ${myEmail}`);
+  const followHandler = async () => {
+    const { data: followingData, error: followingError } = await supabase
+      .from('usersAccounts')
+      .select('*')
+      .eq('email', myEmail);
+    console.log('hi', followingData);
+    if (followingData) {
+      // console.log(followingData[0].following);
+      // alert(`${todo.email}, ${myEmail}`);
+      const { data, error } = await supabase
+        .from('usersAccounts')
+        .update({ following: [...followingData[0].following, todo.email] })
+        .eq('email', myEmail)
+        .select();
+    } else {
+      const { data, error } = await supabase
+        .from('usersAccounts')
+        .insert([todo.email])
+        .eq('email', myEmail)
+        .select();
+    }
+
+    if (followingData[0].following.includes(todo.email)) {
+      const { error } = await supabase
+        .from('usersAccounts')
+        .delete()
+        .eq('email', myEmail);
+    }
   };
 
   const handleDetailContentChange = (
