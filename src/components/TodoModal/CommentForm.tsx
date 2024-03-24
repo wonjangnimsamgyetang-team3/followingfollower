@@ -82,7 +82,7 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
         onChange={(e) => setComment(e.target.value)}
         maxLength={50}
       />
-      <button className="font-bold ml-2 rounded-[15px] bg-[#fb8494] w-[120px] h-[40px]">
+      <button className="font-bold ml-2 rounded-[15px] bg-subColor1 w-[120px] h-[40px]">
         작성하기
       </button>
     </form>

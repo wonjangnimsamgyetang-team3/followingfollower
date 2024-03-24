@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { TodoType } from "../TodoCard";
-import { supabase } from "@/supabase/supabase";
-import TodoBar from "../TodoBar";
-import CommentForm from "./CommentForm";
-import useStoreState from "@/shared/store";
-import Image from "next/image";
-import defaultProfile from "../../assets/profile.png";
+import React, { useEffect, useState } from 'react';
+import { TodoType } from '../TodoCard';
+import { supabase } from '@/supabase/supabase';
+import TodoBar from '../TodoBar';
+import CommentForm from './CommentForm';
+import useStoreState from '@/shared/store';
+import Image from 'next/image';
+import defaultProfile from '../../assets/profile.png';
 
 export type CommentData = {
   nickname: string;
@@ -50,7 +50,7 @@ const TodoDetail = ({
   useEffect(() => {
     const fetchUserData = async () => {
       const id = await getUserId();
-      setUserId(id || "");
+      setUserId(id || '');
     };
     fetchUserData();
   }, [userInfo]);
@@ -65,9 +65,9 @@ const TodoDetail = ({
 
   async function fetchComments(todoId: string) {
     const { data: commentList, error } = await supabase
-      .from("commentList")
-      .select("nickname, comment, created_at, userId, email, id, avatar")
-      .eq("todoId", todoId);
+      .from('commentList')
+      .select('nickname, comment, created_at, userId, email, id, avatar')
+      .eq('todoId', todoId);
 
     if (error) {
       throw error;
@@ -78,13 +78,13 @@ const TodoDetail = ({
   }
 
   const handleTodoDelete = async () => {
-    if (window.confirm("todo를 삭제하시겠습니까?")) {
+    if (window.confirm('todo를 삭제하시겠습니까?')) {
       const { error } = await supabase
-        .from("TodoList")
+        .from('TodoList')
         .delete()
-        .eq("todoId", todo.todoId);
+        .eq('todoId', todo.todoId);
       if (error) {
-        console.error("todo삭제 오류:", error.message);
+        console.error('todo삭제 오류:', error.message);
       } else {
         window.location.reload();
       }
@@ -92,13 +92,13 @@ const TodoDetail = ({
   };
 
   const handleCommentDelete = async (commentId: string) => {
-    if (window.confirm("댓글을 삭제하시겠습니까?")) {
+    if (window.confirm('댓글을 삭제하시겠습니까?')) {
       const { error } = await supabase
-        .from("commentList")
+        .from('commentList')
         .delete()
-        .eq("id", commentId);
+        .eq('id', commentId);
       if (error) {
-        console.error("댓글 삭제 오류:", error.message);
+        console.error('댓글 삭제 오류:', error.message);
       } else {
         fetchComments(todo.todoId);
       }
@@ -107,24 +107,24 @@ const TodoDetail = ({
 
   const handleTodoEdit = async () => {
     if (editedTitle === todo.title && editedContent === todo.contents) {
-      alert("수정된 부분이 없습니다.");
+      alert('수정된 부분이 없습니다.');
       return;
     }
 
     try {
       const { data, error } = await supabase
-        .from("TodoList")
+        .from('TodoList')
         .update([
           {
             title: editedTitle,
             contents: editedContent,
           },
         ])
-        .eq("todoId", todo.todoId)
+        .eq('todoId', todo.todoId)
         .select();
 
       if (error) {
-        console.error("Todo 수정 오류:", error.message);
+        console.error('Todo 수정 오류:', error.message);
       } else {
         setEditedTitle(editedTitle);
         setEditedContent(editedContent);
@@ -134,7 +134,7 @@ const TodoDetail = ({
         setIsEditMode(false);
       }
     } catch (error) {
-      console.error("Todo 수정 오류");
+      console.error('Todo 수정 오류');
     }
   };
 
@@ -147,7 +147,7 @@ const TodoDetail = ({
   return (
     <div>
       <div className="flex w-full h-full">
-        <div className="w-[500px] h-[650px] border-solid border-r-2 border-[#fb8494] p-8 mb-5 mr-10 mt-3">
+        <div className="w-[500px] h-[650px] border-solid border-r-2 border-subColor1 p-8 mb-5 mr-10 mt-3 bg-red-500">
           <div className="flex items-center ml-[5px] mb-[15px]">
             {userId === todo.userId ? (
               userAvatar ? (
@@ -194,13 +194,13 @@ const TodoDetail = ({
           {isEditMode ? (
             <>
               <textarea
-                className="font-bold text-xl outline-none resize-none border-2 border-solid border-[#fb8494] w-full h-[45px] p-[5px] mb-[5px] rounded-[10px]"
+                className="font-bold text-xl outline-none resize-none border-2 border-solid border-subColor1 w-full h-[45px] p-[5px] mb-[5px] rounded-[10px]"
                 value={editedTitle}
                 onChange={(e) => setEditedTitle(e.target.value)}
                 maxLength={20}
               />
               <textarea
-                className="outline-none resize-none border-2 border-solid border-[#fb8494] w-full h-[100px] p-[5px] rounded-[10px]"
+                className="outline-none resize-none border-2 border-solid border-subColor1 w-full h-[100px] p-[5px] rounded-[10px]"
                 value={editedContent}
                 onChange={(e) => setEditedContent(e.target.value)}
                 maxLength={100}
@@ -221,7 +221,7 @@ const TodoDetail = ({
             <div className="flex items-center justify-center pt-[20px]">
               {!isEditMode ? (
                 <button
-                  className="font-bold pt-3 pb-3 pl-8 pr-8 border-2 border-solid rounded-[10px] border-subColor2 bg-subColor2 flex items-center justify-center font-bold hover:drop-shadow mr-[80px]"
+                  className="font-bold pt-3 pb-3 pl-8 pr-8 border-2 border-solid rounded-[10px] border-subColor2 bg-subColor2 flex items-center justify-center hover:drop-shadow mr-[80px]"
                   onClick={() => setIsEditMode(true)}
                 >
                   수정
@@ -281,11 +281,11 @@ const TodoDetail = ({
                     <div className="w-full flex justify-between">
                       <div className="text-gray-400">
                         {new Date(comment.created_at).toLocaleDateString(
-                          "ko-KR",
+                          'ko-KR',
                           {
-                            year: "numeric",
-                            month: "2-digit",
-                            day: "2-digit",
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
                           }
                         )}
                       </div>
