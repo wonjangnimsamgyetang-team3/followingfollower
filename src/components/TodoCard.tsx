@@ -8,6 +8,7 @@ import TodoModal from "./TodoModal/TodoModal";
 import TodoDetail from "./TodoModal/TodoDetail";
 import useStoreState from "@/shared/store";
 import Image from "next/image";
+import Loading from "./Loading";
 
 export type TodoType = {
   contents: string;

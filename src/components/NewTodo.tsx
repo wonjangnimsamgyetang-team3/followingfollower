@@ -5,8 +5,8 @@ import React, { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { FaPhotoVideo } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/supabase/supabase";
-//zustand
 import useStoreState from "@/shared/store";
+import whiteSpinner from "../assets/whiteSpinner.svg";
 
 const NewTodo = () => {
   //zustand
@@ -17,14 +17,9 @@ const NewTodo = () => {
   const userId = userInfo?.id;
 
   const [dragging, setDragging] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState<File>();
   const router = useRouter();
-
-  useEffect(() => {
-    if (!userInfo) {
-      router.replace("/login");
-    }
-  }, [userInfo, router]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -59,7 +54,7 @@ const NewTodo = () => {
   // supabase에 todo 저장
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!file) return;
+    if (!file || isLoading) return;
 
     const { data: user } = await supabase.auth.getUser();
     const userEmail = user?.user?.email;
@@ -69,6 +64,8 @@ const NewTodo = () => {
       alert("로그인 후 이용해주세요.");
       return;
     }
+
+    setIsLoading(true);
 
     const uuid = crypto.randomUUID();
     const filePath = `todoImage/${uuid}`;
@@ -133,6 +130,7 @@ const NewTodo = () => {
       console.error("insert error", insertError);
       return;
     }
+    setIsLoading(false);
 
     alert("등록 완료!");
     router.push("/feed");
@@ -222,6 +220,7 @@ const NewTodo = () => {
                 name="start"
                 min="1800-01-01"
                 max="2200-12-31"
+                required
               />
             </div>
             <div className="">
@@ -234,11 +233,26 @@ const NewTodo = () => {
                 name="end"
                 min="1800-01-01"
                 max="2200-12-31"
+                required
               />
             </div>
           </div>
-          <button className="h-[50px] bg-[#fb8494] rounded-[15px] text-white font-bold mt-[30px] hover:drop-shadow transition-all duration-200">
-            할 일 등록
+          <button
+            className="h-[50px] bg-[#fb8494] rounded-[15px] text-white font-bold mt-[30px] hover:drop-shadow transition-all duration-200 flex justify-center items-center"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <div className="w-[50px] h-[50px]">
+                <Image
+                  src={whiteSpinner}
+                  alt="loading"
+                  width={300}
+                  height={300}
+                />
+              </div>
+            ) : (
+              "할 일 등록"
+            )}
           </button>
         </form>
       </section>

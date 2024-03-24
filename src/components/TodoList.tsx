@@ -4,6 +4,7 @@ import TodoCard from "./TodoCard";
 import Link from "next/link";
 import useStoreState from "@/shared/store";
 import { useRouter } from "next/navigation";
+import Loading from "./Loading";
 
 export type TodoData = {
   contents: string;
@@ -73,6 +74,14 @@ const TodoList = () => {
       router.push("/feed/newTodo");
     }
   };
+
+  if (todoData.length === 0) {
+    return (
+      <div className="mb-[30px] mt-[10px]">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div>

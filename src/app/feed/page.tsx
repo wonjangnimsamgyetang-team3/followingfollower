@@ -44,7 +44,7 @@ const FeedPage = () => {
       }
     };
     getUser();
-  }, []);
+  });
 
   return (
     <div className="w-full h-full grid grid-cols-1 place-items-center">
