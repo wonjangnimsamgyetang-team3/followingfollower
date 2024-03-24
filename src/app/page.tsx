@@ -8,33 +8,33 @@ import React, { useEffect } from "react";
 import { supabase } from "@/supabase/supabase";
 import useStoreState from "@/shared/store";
 
-const MainPage = async () => {
-  // const { addUser } = useStoreState();
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     const {
-  //       data: { user },
-  //     } = await supabase.auth.getUser();
-  //     console.log("home - 소셜", user);
+const MainPage = () => {
+  const { addUser } = useStoreState();
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      console.log("home - 소셜", user);
 
-  //     const withAvatar =
-  //       user?.user_metadata.avatar_url ?? user?.user_metadata.avatar;
-  //     const withEmail = user?.user_metadata.email ?? user?.user_metadata.email;
-  //     const withName =
-  //       user?.user_metadata.preferred_username ??
-  //       user?.user_metadata.userNickname;
-  //     const withContents = user?.user_metadata.contents;
-  //     const authId = user?.id;
-  //     addUser({
-  //       avatar: withAvatar,
-  //       nickname: withName,
-  //       contents: "",
-  //       id: authId ?? "",
-  //       email: withEmail,
-  //     });
-  //   };
-  //   getUser();
-  // }, []);
+      const withAvatar =
+        user?.user_metadata.avatar_url ?? user?.user_metadata.avatar;
+      const withEmail = user?.user_metadata.email ?? user?.user_metadata.email;
+      const withName =
+        user?.user_metadata.preferred_username ??
+        user?.user_metadata.userNickname;
+      const withContents = user?.user_metadata.contents;
+      const authId = user?.id;
+      addUser({
+        avatar: withAvatar,
+        nickname: withName,
+        contents: "",
+        id: authId ?? "",
+        email: withEmail,
+      });
+    };
+    getUser();
+  }, []);
 
   return (
     <main>
