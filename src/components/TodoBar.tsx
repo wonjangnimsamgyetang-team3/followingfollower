@@ -108,7 +108,7 @@ const TodoBar = ({ todo, commentCount }: Props) => {
       </p>
       <div className="flex">
         <ToggleButton
-          toggled={likes}
+          toggled={likes ?? false}
           onToggle={handleLikeToggle}
           onIcon={<HeartFillIcon />}
           offIcon={<HeartIcon />}
