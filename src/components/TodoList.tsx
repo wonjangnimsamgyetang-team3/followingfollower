@@ -91,10 +91,10 @@ const TodoList = () => {
           </ul>
         </details>
         <button
-          className="border-2 grid place-items-center border-solid border-subColor1 p-4  h-4/5 content-center bg-subColor2 rounded-box hover:drop-shadow font-bold"
+          className="border-2 grid place-items-center border-solid border-subColor1 p-4  h-4/5 content-center bg-subColor2 rounded-box hover:drop-shadow font-bold transition-all"
           onClick={handleNewTodoClick}
         >
-          투두 작성하기
+          Todo 등록
         </button>
       </div>
       <div className="grid grid-cols-3 mb-[30px] mt-[10px] w-[1200px]">
