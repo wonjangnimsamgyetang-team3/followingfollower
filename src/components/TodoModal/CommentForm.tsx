@@ -31,6 +31,11 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
     const userEmail = user?.user?.email;
     const userId = user?.user?.id;
 
+    if (!userId) {
+      alert("로그인 후 이용해주세요.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("comment", comment);
     const { data } = await supabase.from("commentList").insert([

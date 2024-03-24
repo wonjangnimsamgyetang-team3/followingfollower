@@ -20,12 +20,12 @@ type Props = {
   todo: TodoType;
   editedTodo: TodoType;
   onCommentCountChange: (count: number) => void;
-  comment: CommentData;
   onDetailContentChange: (editedTitle: string, editedContent: string) => void;
 };
 
 const TodoDetail = ({
   todo,
+  editedTodo,
   onCommentCountChange,
   onDetailContentChange,
 }: Props) => {
@@ -58,7 +58,7 @@ const TodoDetail = ({
 
   useEffect(() => {
     fetchComments(todo.todoId);
-  }, [todo.todoId]);
+  });
 
   const handleCommentSuccess = () => {
     fetchComments(todo.todoId);

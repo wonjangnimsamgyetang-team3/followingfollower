@@ -15,8 +15,8 @@ type Props = {
 
 const TodoBar = ({ todo, commentCount }: Props) => {
   const { userInfo } = useStoreState();
-  const { id } = userInfo || "";
-  // console.log(id);
+  const { id } = userInfo || {};
+  console.log(id);
   const [likes, setLikes] = useState<boolean | null>(null);
   const [liketest, setLiketest] = useState<string[]>([]);
 
@@ -50,7 +50,10 @@ const TodoBar = ({ todo, commentCount }: Props) => {
 
   const handleLikeToggle = async () => {
     const userId = id;
-    if (!userId) return;
+    if (!id) {
+      alert("로그인 후 이용해주세요.");
+      return;
+    }
     // const userId = "15";
     // const getUserId = async () => {
     //   const { data: user } = await supabase.auth.getUser();

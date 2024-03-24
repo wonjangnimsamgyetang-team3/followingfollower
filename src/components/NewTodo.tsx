@@ -14,10 +14,17 @@ const NewTodo = () => {
   console.log("로그인한 유저정보", userInfo);
   const nickname = userInfo?.nickname;
   const userAvatar = userInfo?.avatar || "";
+  const userId = userInfo?.id;
 
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File>();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!userInfo) {
+      router.replace("/login");
+    }
+  }, [userInfo, router]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -57,6 +64,11 @@ const NewTodo = () => {
     const { data: user } = await supabase.auth.getUser();
     const userEmail = user?.user?.email;
     const userId = user?.user?.id;
+
+    if (!userId) {
+      alert("로그인 후 이용해주세요.");
+      return;
+    }
 
     const uuid = crypto.randomUUID();
     const filePath = `todoImage/${uuid}`;

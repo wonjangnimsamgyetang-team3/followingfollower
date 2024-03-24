@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "@/supabase/supabase";
 import TodoCard from "./TodoCard";
 import Link from "next/link";
+import useStoreState from "@/shared/store";
+import { useRouter } from "next/navigation";
 
 export type TodoData = {
   contents: string;
@@ -22,6 +24,7 @@ export type TodoData = {
 const TodoList = () => {
   const [todoData, setTodoData] = useState<TodoData[]>([]);
   const [sortedBy, setSortedBy] = useState<string>("created_at");
+  const router = useRouter();
 
   useEffect(() => {
     getRecentTodo();
@@ -56,6 +59,21 @@ const TodoList = () => {
     console.log("현재 정렬 기준:", sortedBy);
   };
 
+  const { userInfo } = useStoreState();
+  console.log("로그인한 유저정보", userInfo);
+  const nickname = userInfo?.nickname;
+  const userAvatar = userInfo?.avatar || "";
+  const userId = userInfo?.id;
+
+  const handleNewTodoClick = () => {
+    if (!userId) {
+      alert("로그인 후 이용해주세요.");
+      router.push("/login");
+    } else {
+      router.push("/feed/newTodo");
+    }
+  };
+
   return (
     <div>
       <div className="mt-[30px] flex justify-between pl-[30px] pr-[30px]">
@@ -70,12 +88,12 @@ const TodoList = () => {
             </li>
           </ul>
         </details>
-        <Link
-          href="/feed/newTodo"
+        <button
           className="border-2 grid place-items-center border-solid border-[#fb8494] p-4  h-4/5 content-center bg-subColor2 rounded-xl hover:drop-shadow rounded-[15px] font-bold transition-all duration-100"
+          onClick={handleNewTodoClick}
         >
           투두 작성하기
-        </Link>
+        </button>
       </div>
       <div className="grid grid-cols-3 mb-[30px] mt-[10px] w-[1200px]">
         {todoData.map((item, index) => (
