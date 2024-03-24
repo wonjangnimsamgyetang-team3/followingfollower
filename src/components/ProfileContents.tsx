@@ -138,8 +138,8 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
               </div>
             </article>
           ) : (
-            <form onSubmit={editSaveHandler} className="bg-gray-200 w-[280px]">
-              <div className="bg-green-200 w-full">
+            <form onSubmit={editSaveHandler} className=" w-full">
+              <div className="w-full">
                 <div>
                   <input
                     name="nickname"
@@ -168,7 +168,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
                   }
                   className="w-full text-[18px] textarea textarea-bordered h-16 focus:border-1 focus:border-subColor2 focus:border-solid focus:bg-white bg-subColor4"
                 ></textarea>
-                <div className="flex gap-[10px]">
+                <div className="flex justify-between w-full gap-[10px]">
                   <button className="border-2 grid place-items-center border-solid border-[#fb8494] p-4  h-4/5 content-center bg-subColor2 hover:drop-shadow rounded-[15px] font-bold transition-all duration-100">
                     수정완료
                   </button>
