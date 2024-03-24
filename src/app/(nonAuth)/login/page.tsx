@@ -17,7 +17,6 @@ const LoginPage = () => {
   //모달오픈 관리
   const [pwOpenModal, setPwOpenModal] = useState(false);
   const router = useRouter();
-  const { addUser } = useStoreState();
 
   //로그인
   const signInHandler = async (
