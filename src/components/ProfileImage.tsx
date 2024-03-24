@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import type { Edit, UserData } from "@/types/type";
 import LogOut from "./LogOut";
 import Image from "next/image";
-import normalImg from "@/assets/profile.png";
 
 const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
   const router = useRouter();
@@ -77,8 +76,7 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
       }
     }
   };
-  console.log(defaultImg);
-  console.log(avatar);
+
   return (
     <div className="bg-subColor4">
       {isEdit ? (
