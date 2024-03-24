@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/supabase/supabase";
 import { useRouter } from "next/navigation";
+import Loading from "@/components/Loading";
 
 const NonAuthlayout = ({
   children,
@@ -10,6 +11,7 @@ const NonAuthlayout = ({
   children: React.ReactNode;
 }>) => {
   const router = useRouter();
+  const [session, setSession] = useState<boolean>(false);
   useEffect(() => {
     const getUser = async () => {
       const {
@@ -20,18 +22,18 @@ const NonAuthlayout = ({
       if (user) {
         alert("이미 로그인 상태입니다. 홈으로 이동합니다.");
         router.push("/");
+      } else {
+        setSession(true);
       }
     };
 
     getUser();
   }, []);
 
-  return (
-    <div>
-      {/*로그아웃 필수 페이지*/}
-      {children}
-    </div>
-  );
+  if (!session) {
+    return <Loading />;
+  }
+  return <div>{children}</div>;
 };
 
 export default NonAuthlayout;
