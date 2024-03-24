@@ -3,12 +3,11 @@
 import { queryKey } from "@/query/queryKey";
 import { useQuery } from "@tanstack/react-query";
 import { readMyTodo } from "@/supabase/myPage/profileImage";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import useStoreState from "@/shared/store";
 import type { userTodo } from "@/types/type";
-import HeartFillIcon from "@/icons/HeartFillIcon";
 import { HeartIcon } from "@/icons/HeartIcon";
+import HeartFillIcon from "@/icons/HeartFillIcon";
 import defaultImg from "@/assets/profile.png";
 import ProfileReviewTab from "./ProfileReviewTab";
 import ProfileReviewLike from "./ProfileReviewLike";
@@ -70,9 +69,7 @@ const ProfileReview = () => {
                 contents,
                 start,
                 end,
-                likeCount,
                 liketest,
-                created_at,
               } = todoItem;
               return (
                 <div

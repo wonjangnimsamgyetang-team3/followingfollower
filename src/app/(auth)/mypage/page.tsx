@@ -1,11 +1,11 @@
 "use client";
 
-import Calendar from "@/components/Calendar";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import ProfileContents from "@/components/ProfileContents";
 import ProfileImage from "@/components/ProfileImage";
 import ProfileReview from "@/components/ProfileReview";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import Calendar from "@/components/Calendar";
 
 const MyPage = () => {
   const [isEdit, setIsEdit] = useState(false);
