@@ -30,9 +30,10 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
     const userDatas = await readUsersInfo(email);
     // 현재 유저 정보
     const datas = userDatas?.find((item: UserData) => item.email === email);
+    console.log(datas);
     if (datas) {
       const { nickname, avatar, contents } = datas;
-
+      console.log(nickname, avatar, contents);
       const userData: UserData = {
         id,
         nickname,
@@ -44,12 +45,12 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
       setUserAccount(userData);
       updateUserAccounts(userData);
       setDefaultImg(avatar);
-
+      console.log(1);
       if (!userInfo || !avatar) {
         console.log("유저정보가 존재하지 않습니다.");
-        // alert("로그인 유저만 사용가능합니다. 로그인 해주세요");
+        alert("로그인 유저만 사용가능합니다. 로그인 해주세요");
         <LogOut />;
-        // router.replace("/");
+        router.replace("/");
       }
     }
   };

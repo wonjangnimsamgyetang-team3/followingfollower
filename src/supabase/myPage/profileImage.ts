@@ -10,10 +10,10 @@ export const updateUserAccounts = async ({
   avatar,
 }: UserData) => {
   const { data, error } = await supabase
-    .from("myPageAccount")
+    .from("usersAccounts")
     .update({ uid: id, nickname, contents, avatar })
     .eq("email", `${email}`)
-    .select();
+    .select("*");
 
   if (error) {
     console.error("업데이트를 다시 시도해주세요!");
@@ -27,9 +27,9 @@ export const setUserDatabase = async ({
   email,
 }: UserInfo) => {
   const { data, error } = await supabase
-    .from("myPageAccount")
+    .from("usersAccounts")
     .insert([{ nickname, contents, email }])
-    .select();
+    .select("*");
   if (!data || error) {
     console.error("데이터를 넣을 수 없습니다.");
   }
@@ -39,8 +39,8 @@ export const setUserDatabase = async ({
 
 export const readUsersInfo = async (email: string) => {
   const { data, error } = await supabase
-    .from("myPageAccount")
-    .select()
+    .from("usersAccounts")
+    .select("*")
     .eq("email", email);
   if (data !== (null || undefined)) {
     return data;
