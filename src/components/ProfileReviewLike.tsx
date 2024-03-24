@@ -25,6 +25,10 @@ const ProfileReviewLike = ({ userTodo }: ReviewLike) => {
     <div className="bg-white rounded-b-[56px]">
       {id !== (null || undefined) && activeMyTodos === "좋아요한 일" && (
         <article className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 sm:gap-8 md:gap-8 lg:gap-8 xl:gap-10 p-8">
+          {!filterMyLikeTodoList ||
+            (filterMyLikeTodoList.length === 0 && (
+              <div>내가 마음에 드는 일에 좋아요를 눌러주세요!</div>
+            ))}
           {filterMyLikeTodoList?.map((todoItem: Partial<userTodo>) => {
             const {
               todoId,
