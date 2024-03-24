@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 
-const PasswordPotal = ({ children }: props) => {
+const PasswordPotal = ({ children }: { children: React.ReactNode }) => {
   if (typeof window === "undefined") {
     return null;
   }
