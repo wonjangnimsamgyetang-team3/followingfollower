@@ -98,7 +98,7 @@ const TodoList = () => {
           </ul>
         </details>
         <button
-          className="border-2 grid place-items-center border-solid border-subColor1 p-4  h-4/5 content-center bg-subColor2 rounded-xl hover:drop-shadow rounded-[15px] font-bold transition-all duration-100"
+          className="border-2 grid place-items-center border-solid border-subColor1 p-4  h-4/5 content-center bg-subColor2 rounded-box hover:drop-shadow font-bold"
           onClick={handleNewTodoClick}
         >
           투두 작성하기
