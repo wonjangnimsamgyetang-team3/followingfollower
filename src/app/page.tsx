@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import AllCard from "@/components/AllCard";
-import NewCard from "@/components/NewCard";
-import Banner from "@/components/Banner";
-import LikeTop from "@/components/LikeTop";
-import React, { useEffect } from "react";
-import { supabase } from "@/supabase/supabase";
-import useStoreState from "@/shared/store";
+import AllCard from '@/components/AllCard';
+import NewCard from '@/components/NewCard';
+import Banner from '@/components/Banner';
+import LikeTop from '@/components/LikeTop';
+import React, { useEffect } from 'react';
+import { supabase } from '@/supabase/supabase';
+import useStoreState from '@/shared/store';
 
 const MainPage = () => {
   const { addUser } = useStoreState();
@@ -16,7 +16,7 @@ const MainPage = () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      console.log("home - 소셜", user);
+      console.log('home - 소셜', user);
 
       const withAvatar =
         user?.user_metadata.avatar_url ?? user?.user_metadata.avatar;
@@ -29,8 +29,8 @@ const MainPage = () => {
       addUser({
         avatar: withAvatar,
         nickname: withName,
-        contents: "",
-        id: authId ?? "",
+        contents: '',
+        id: authId ?? '',
         email: withEmail,
       });
     };
@@ -38,23 +38,22 @@ const MainPage = () => {
   }, []);
 
   return (
-    <main>
+    <main className="mx-10 mb-20">
       <Banner />
-      <article className="flex gap-10 pb-32">
-        <aside className="flex flex-col place-items-center ml-7">
-          <div className="m-5 flex text-2xl">인기 유저 TOP 3</div>
+      <article className="flex gap-10">
+        <aside>
           <LikeTop />
         </aside>
         <section className="flex flex-col gap-6">
-          <h2 className="py-4 text-2xl text-center text-white bg-subColor1 rounded-3xl">
+          <h2 className="py-3 text-center text-xl font-bold text-white bg-subColor1 rounded-2xl">
             최신 Todo
           </h2>
           <div>
-            <h3 className="text-2xl">인기순</h3>
+            <h3 className="pl-2 text-xl font-bold text-subColor1">인기순</h3>
             <NewCard />
           </div>
           <div>
-            <h3 className="text-2xl">All</h3>
+            <h3 className="pl-2 text-xl font-bold text-subColor1">All</h3>
             <AllCard />
           </div>
         </section>

@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { supabase } from "@/supabase/supabase";
-import TodoCard from "./TodoCard";
-import Link from "next/link";
-import useStoreState from "@/shared/store";
-import { useRouter } from "next/navigation";
-import Loading from "./Loading";
+import React, { useEffect, useState } from 'react';
+import { supabase } from '@/supabase/supabase';
+import TodoCard from './TodoCard';
+import Link from 'next/link';
+import useStoreState from '@/shared/store';
+import { useRouter } from 'next/navigation';
+import Loading from './Loading';
 
 export type TodoData = {
   contents: string;
@@ -27,7 +27,7 @@ export type TodoData = {
 
 const TodoList = () => {
   const [todoData, setTodoData] = useState<TodoData[]>([]);
-  const [sortedBy, setSortedBy] = useState<string>("created_at");
+  const [sortedBy, setSortedBy] = useState<string>('created_at');
   const router = useRouter();
 
   useEffect(() => {
@@ -35,30 +35,30 @@ const TodoList = () => {
   }, []);
 
   async function getMostLikedTodo() {
-    let { data } = await supabase.from("TodoList").select("*");
+    let { data } = await supabase.from('TodoList').select('*');
     if (data) {
       data.sort(
         (a, b) => (b.liketest?.length || 0) - (a.liketest?.length || 0)
       );
-      setSortedBy("liketest");
+      setSortedBy('liketest');
       setTodoData([...data]);
     }
   }
 
   async function getRecentTodo() {
-    let { data } = await supabase.from("TodoList").select("*");
+    let { data } = await supabase.from('TodoList').select('*');
     if (data) {
       data.sort(
         (a, b) =>
           new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       );
-      setSortedBy("created_at");
+      setSortedBy('created_at');
       setTodoData([...data]);
     }
   }
 
   const handleSortChange = async (sortBy: string) => {
-    if (sortBy === "liketest") {
+    if (sortBy === 'liketest') {
       await getMostLikedTodo();
     } else {
       await getRecentTodo();
@@ -68,11 +68,11 @@ const TodoList = () => {
   const { userInfo } = useStoreState();
   // console.log("로그인한 유저정보", userInfo);
   const nickname = userInfo?.nickname;
-  const userAvatar = userInfo?.avatar || "";
+  const userAvatar = userInfo?.avatar || '';
   const userId = userInfo?.id;
 
   const handleNewTodoClick = () => {
-    router.push("/feed/newTodo");
+    router.push('/feed/newTodo');
   };
 
   if (todoData.length === 0) {
@@ -89,16 +89,16 @@ const TodoList = () => {
         <details className="dropdown">
           <summary className="m-1 btn w-[120px] p-3">▼ 투두 정렬</summary>
           <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-full">
-            <li onClick={() => handleSortChange("created_at")}>
+            <li onClick={() => handleSortChange('created_at')}>
               <a>최신 순</a>
             </li>
-            <li onClick={() => handleSortChange("liketest")}>
+            <li onClick={() => handleSortChange('liketest')}>
               <a>좋아요 순</a>
             </li>
           </ul>
         </details>
         <button
-          className="border-2 grid place-items-center border-solid border-[#fb8494] p-4  h-4/5 content-center bg-subColor2 rounded-xl hover:drop-shadow rounded-[15px] font-bold transition-all duration-100"
+          className="border-2 grid place-items-center border-solid border-subColor1 p-4  h-4/5 content-center bg-subColor2 rounded-box hover:drop-shadow font-bold"
           onClick={handleNewTodoClick}
         >
           투두 작성하기

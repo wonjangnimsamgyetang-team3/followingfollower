@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import Calendar from "@/components/Calendar";
-import ProfileContents from "@/components/ProfileContents";
-import ProfileImage from "@/components/ProfileImage";
-import ProfileReview from "@/components/ProfileReview";
-import { useState } from "react";
+import Calendar from '@/components/Calendar';
+import ProfileContents from '@/components/ProfileContents';
+import ProfileImage from '@/components/ProfileImage';
+import ProfileReview from '@/components/ProfileReview';
+import { useState } from 'react';
 
 const MyPage = () => {
   const [isEdit, setIsEdit] = useState(false);
