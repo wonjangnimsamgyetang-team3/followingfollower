@@ -5,6 +5,7 @@ import React, { FormEvent, useState } from "react";
 import { TodoType } from "../TodoCard";
 import useStoreState from "@/shared/store";
 import Image from "next/image";
+import defaultProfile from "../../assets/profile.png";
 
 type Props = {
   todo: TodoType;
@@ -17,12 +18,12 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
 
   //zustand
   const { userInfo } = useStoreState();
-  console.log("로그인한 유저정보", userInfo);
+  // console.log("로그인한 유저정보", userInfo);
   const nickname = userInfo?.nickname;
   const userAvatar = userInfo?.avatar || "";
   // const email = userinfo?.email;
   // const id = userInfo?.id;
-  console.log("userAvatar:", userAvatar);
+  // console.log("userAvatar:", userAvatar);
 
   const handleCommentSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,6 +31,11 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
     const { data: user } = await supabase.auth.getUser();
     const userEmail = user?.user?.email;
     const userId = user?.user?.id;
+
+    if (!userId) {
+      alert("로그인 후 이용해주세요.");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("comment", comment);
@@ -49,13 +55,23 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
 
   return (
     <form className="flex items-center" onSubmit={handleCommentSubmit}>
-      <Image
-        className="w-[50px] h-[50px] mr-[10px]"
-        alt="avatar"
-        src={userAvatar}
-        width={100}
-        height={100}
-      />
+      {userAvatar ? (
+        <Image
+          className="w-[50px] h-[50px] mr-[15px] rounded-full"
+          src={userAvatar}
+          alt="userAvatar"
+          height={100}
+          width={100}
+        />
+      ) : (
+        <Image
+          className="w-[50px] h-[50px] mr-[15px] rounded-full"
+          src={defaultProfile}
+          alt="defaultProfile"
+          height={100}
+          width={100}
+        />
+      )}
       <input
         className="w-[250px] h-[40px] border-solid border-2 border-gray-200 rounded-[10px] p-[10px]"
         name="comment"

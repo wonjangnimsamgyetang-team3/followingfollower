@@ -17,6 +17,10 @@ export async function middleware(req: NextRequest) {
     return NextResponse.rewrite(new URL("/login", req.url));
   }
 
+  if (!session && req.url === "/feed/newTodo") {
+    return NextResponse.rewrite(new URL("/login", req.url));
+  }
+
   return res;
 }
 
