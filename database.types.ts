@@ -80,6 +80,8 @@ export type Database = {
           nickname: string | null;
           uid: string;
           email: string;
+          following: string[] | null;
+          follower: string[] | null;
         };
         Insert: {
           avatar?: string | null;
@@ -88,6 +90,8 @@ export type Database = {
           nickname?: string | null;
           uid?: string;
           email?: string;
+          following: string[] | null;
+          follower: string[] | null;
         };
         Update: {
           avatar?: string | null;
@@ -96,6 +100,8 @@ export type Database = {
           nickname?: string | null;
           uid?: string;
           email?: string;
+          following: string[] | null;
+          follower: string[] | null;
         };
         Relationships: [
           {

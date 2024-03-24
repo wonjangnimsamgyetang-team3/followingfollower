@@ -1,5 +1,3 @@
-import { StaticImageData } from "next/image";
-
 export type Todo = {
   todoId: string;
   nickname: string;
@@ -60,3 +58,5 @@ export type userTodo = {
 export type Image = {
   image: string | Blob | File | Uint8Array | ArrayBuffer;
 };
+
+export type followType = string[] | null;
