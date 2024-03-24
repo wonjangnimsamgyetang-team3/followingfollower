@@ -5,6 +5,7 @@ import TodoBar from "../TodoBar";
 import CommentForm from "./CommentForm";
 import useStoreState from "@/shared/store";
 import Image from "next/image";
+import defaultProfile from "../../assets/profile.png";
 
 export type CommentData = {
   nickname: string;
@@ -30,7 +31,7 @@ const TodoDetail = ({
   onDetailContentChange,
 }: Props) => {
   const [commentData, setCommentData] = useState<CommentData[]>([]);
-  const [userId, setUserId] = useState<string>("");
+  const [userId, setUserId] = useState<string | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedTitle, setEditedTitle] = useState(todo.title);
   const [editedContent, setEditedContent] = useState(todo.contents);
@@ -39,7 +40,7 @@ const TodoDetail = ({
 
   // Zustand hook
   const { userInfo } = useStoreState();
-  console.log("로그인한 유저정보", userInfo);
+  // console.log("로그인한 유저정보", userInfo);
   const nickname = userInfo?.nickname;
   const userAvatar = userInfo?.avatar;
 
@@ -135,7 +136,7 @@ const TodoDetail = ({
         setIsEditMode(false);
       }
     } catch (error) {
-      console.error("Todo 수정 오류:");
+      console.error("Todo 수정 오류");
     }
   };
 
@@ -150,15 +151,33 @@ const TodoDetail = ({
       <div className="flex w-full h-full">
         <div className="w-[500px] h-[650px] border-solid border-r-2 border-[#fb8494] p-8 mb-5 mr-10 mt-3">
           <div className="flex items-center ml-[5px] mb-[15px]">
-            {userAvatar ? (
+            {userId === todo.userId ? (
+              userAvatar ? (
+                <Image
+                  className="w-[50px] h-[50px] mr-[15px] rounded-full"
+                  src={userAvatar}
+                  alt="userAvatar"
+                  height={100}
+                  width={100}
+                />
+              ) : (
+                <Image
+                  className="w-[50px] h-[50px] mr-[15px] rounded-full"
+                  src={defaultProfile}
+                  alt="defaultProfile"
+                  height={100}
+                  width={100}
+                />
+              )
+            ) : (
               <Image
-                className="w-[50px] h-[50px] mr-[15px]"
-                src={userAvatar}
-                alt="userAvatar"
+                className="w-[50px] h-[50px] mr-[15px] rounded-full"
+                src={todo.avatar}
+                alt="todoAvatar"
                 height={100}
                 width={100}
               />
-            ) : null}
+            )}
             <p className="font-bold text-xl ml-[5px]">
               {userId === todo.userId ? nickname : todo.nickname}
             </p>

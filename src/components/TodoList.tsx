@@ -22,6 +22,7 @@ export type TodoData = {
   liketest: string[];
   email: string;
   userId: string;
+  avatar: string;
 };
 
 const TodoList = () => {
@@ -64,23 +65,14 @@ const TodoList = () => {
     }
   };
 
-  const handleDropdownClick = () => {
-    console.log("현재 정렬 기준:", sortedBy);
-  };
-
   const { userInfo } = useStoreState();
-  console.log("로그인한 유저정보", userInfo);
+  // console.log("로그인한 유저정보", userInfo);
   const nickname = userInfo?.nickname;
   const userAvatar = userInfo?.avatar || "";
   const userId = userInfo?.id;
 
   const handleNewTodoClick = () => {
-    if (!userId) {
-      alert("로그인 후 이용해주세요.");
-      router.push("/login");
-    } else {
-      router.push("/feed/newTodo");
-    }
+    router.push("/feed/newTodo");
   };
 
   if (todoData.length === 0) {
@@ -94,8 +86,8 @@ const TodoList = () => {
   return (
     <div>
       <div className="mt-[30px] flex justify-between pl-[30px] pr-[30px]">
-        <details className="dropdown" onClick={handleDropdownClick}>
-          <summary className="m-1 btn w-[100px] p-3">▼ 최신 순</summary>
+        <details className="dropdown">
+          <summary className="m-1 btn w-[120px] p-3">▼ 투두 정렬</summary>
           <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-full">
             <li onClick={() => handleSortChange("created_at")}>
               <a>최신 순</a>

@@ -5,7 +5,7 @@ const NewPostPage = async () => {
     data: { user },
   } = await supabase.auth.getUser();
 
-  console.log("newTodo", user);
+  // console.log("newTodo", user);
 
   return (
     <div>

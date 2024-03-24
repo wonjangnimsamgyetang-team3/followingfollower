@@ -11,13 +11,16 @@ import whiteSpinner from "../assets/whiteSpinner.svg";
 const NewTodo = () => {
   //zustand
   const { userInfo } = useStoreState();
-  console.log("로그인한 유저정보", userInfo);
+  // console.log("로그인한 유저정보", userInfo);
   const nickname = userInfo?.nickname;
-  const userAvatar = userInfo?.avatar || "";
+  console.log(nickname);
+
   const userId = userInfo?.id;
 
   const [dragging, setDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [userAvatar, setUserAvatar] = useState<string>("");
+  const [userNickname, setUserNickname] = useState<string>(nickname);
   const [file, setFile] = useState<File>();
   const router = useRouter();
 
@@ -47,9 +50,29 @@ const NewTodo = () => {
     const files = e.dataTransfer?.files;
     if (files && files[0]) {
       setFile(files[0]);
-      console.log(files[0]);
+      // console.log(files[0]);
     }
   };
+
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUserNickname(userInfo?.nickname);
+      setUserAvatar(user?.user_metadata?.avatar);
+      console.log(userInfo?.nickname);
+      console.log(user?.user_metadata?.avatar);
+
+      //로그인 안 한 상태 시
+      if (!user) {
+        alert("로그인 후 이용해주세요.");
+        router.push("/login");
+      }
+    };
+
+    getUser();
+  });
 
   // supabase에 todo 저장
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -121,8 +144,9 @@ const NewTodo = () => {
           end: formData.get("end"),
           imageFile: ImgDbUrl,
           email: userEmail,
-          nickname: nickname,
+          nickname: userNickname,
           userId: userId,
+          avatar: userAvatar,
         },
       ]);
 
@@ -147,7 +171,7 @@ const NewTodo = () => {
             width={100}
             height={100}
           />
-          <div className="text-lg text-[#fb8494] ">{nickname}</div>
+          <div className="text-lg text-[#fb8494] ">{userNickname}</div>
         </div>
         <form className="w-full flex flex-col mt-2" onSubmit={handleSubmit}>
           <textarea

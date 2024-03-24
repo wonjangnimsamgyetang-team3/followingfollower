@@ -24,6 +24,7 @@ export type TodoType = {
   todoId: string;
   liketest: string[];
   userId: string;
+  avatar: string;
 };
 
 const TodoCard = ({ todo }: { todo: TodoType }) => {
