@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TodoType } from '../TodoCard';
 import { supabase } from '@/supabase/supabase';
+import Image from 'next/image';
 import TodoBar from '../TodoBar';
 import CommentForm from './CommentForm';
 import useStoreState from '@/shared/store';
-import Image from 'next/image';
-import defaultProfile from '../../assets/profile.png';
+import defaultProfile from '@/assets/profile.png';
 
 export type CommentData = {
   nickname: string;
@@ -36,9 +36,7 @@ const TodoDetail = ({
   const [editedTitle, setEditedTitle] = useState(todo.title);
   const [editedContent, setEditedContent] = useState(todo.contents);
 
-  // Zustand hook
   const { userInfo } = useStoreState();
-  // console.log("로그인한 유저정보", userInfo);
   const nickname = userInfo?.nickname;
   const userAvatar = userInfo?.avatar;
 

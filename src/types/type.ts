@@ -30,7 +30,6 @@ export interface UserInfo {
   email: string;
 }
 
-// nickname: userInfo.nickname,
 export type UserEmail = {
   userEmail: string;
 };

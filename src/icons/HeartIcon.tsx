@@ -1,4 +1,4 @@
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineHeart } from 'react-icons/ai';
 
 type Props = {
   className?: string;
@@ -7,8 +7,8 @@ type Props = {
 export const HeartIcon = ({ className }: Props) => {
   return (
     <AiOutlineHeart
-      className={className || "w-7 h-7"}
-      style={{ color: "red" }}
+      className={className || 'w-7 h-7'}
+      style={{ color: 'red' }}
     />
   );
 };

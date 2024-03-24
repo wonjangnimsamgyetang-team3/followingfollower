@@ -1,44 +1,40 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { FaGithub } from "react-icons/fa6";
-import { SiKakaotalk } from "react-icons/si";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { supabase } from "@/supabase/supabase";
-import useStoreState from "@/shared/store";
-import PasswordModal from "@/components/FindPassword/PasswordModal";
-import PasswordPotal from "@/components/FindPassword/PasswordPotal";
-import PasswordDetail from "@/components/FindPassword/PasswordDetail";
+import { useState } from 'react';
+import { FaGithub } from 'react-icons/fa6';
+import { SiKakaotalk } from 'react-icons/si';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/supabase/supabase';
+import Link from 'next/link';
+
+import PasswordModal from '@/components/FindPassword/PasswordModal';
+import PasswordPotal from '@/components/FindPassword/PasswordPotal';
+import PasswordDetail from '@/components/FindPassword/PasswordDetail';
 
 const LoginPage = () => {
-  const [loginEmail, setLoginEmail] = useState<string>("");
-  const [loginPw, setLoginPw] = useState<string>("");
+  const [loginEmail, setLoginEmail] = useState<string>('');
+  const [loginPw, setLoginPw] = useState<string>('');
   //모달오픈 관리
   const [pwOpenModal, setPwOpenModal] = useState(false);
   const router = useRouter();
 
-  //로그인
   const signInHandler = async (
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
 
-    //간단한 유효성 검사
     if (!loginEmail || !loginPw) {
-      alert("빈칸 없이 작성해주세요");
+      alert('빈칸 없이 작성해주세요');
       return;
     }
 
-    //로그인 로직
     let { data: loginUser, error } = await supabase.auth.signInWithPassword({
       email: loginEmail,
       password: loginPw,
     });
 
-    //오류발생
     if (error) {
-      alert("아이디나 비밀번호를 확인해주세요");
+      alert('아이디나 비밀번호를 확인해주세요');
       return;
     }
 
@@ -52,15 +48,12 @@ const LoginPage = () => {
 
     //만약 마이페이지에 먼저 접근했을 경우-> 로그인 후 다시 마이페이지로 이동
     if (loginUser) {
-      const url = localStorage.getItem("url");
-      // const path = url?.split("/").slice(3).join("/");
-      if (url === "/mypage") {
-        alert("마이페이지로 이동합니다!");
-
-        router.push("/mypage");
+      const url = localStorage.getItem('url');
+      if (url === '/mypage') {
+        router.push('/mypage');
         router.refresh();
       } else {
-        router.push("/");
+        router.push('/');
         router.refresh();
       }
       localStorage.removeItem;
@@ -68,15 +61,14 @@ const LoginPage = () => {
   };
 
   //소셜 로그인
-  //깃허브
   const githubSignInHandler = async () => {
     try {
       const { data: git, error } = await supabase.auth.signInWithOAuth({
-        provider: "github",
+        provider: 'github',
         options: {
           queryParams: {
-            access_type: "offline",
-            prompt: "consent",
+            access_type: 'offline',
+            prompt: 'consent',
           },
           redirectTo: `${location.origin}/auth/callback`,
         },
@@ -87,14 +79,13 @@ const LoginPage = () => {
     }
   };
 
-  //카카오톡
   const kakaoSignInHandler = async () => {
     let { data: kakao, error } = await supabase.auth.signInWithOAuth({
-      provider: "kakao",
+      provider: 'kakao',
       options: {
         queryParams: {
-          access_type: "offline",
-          prompt: "consent",
+          access_type: 'offline',
+          prompt: 'consent',
         },
         redirectTo: `${location.origin}/auth/callback`,
       },
@@ -107,7 +98,7 @@ const LoginPage = () => {
     setPwOpenModal(true);
   };
   return (
-    <div className="w-screen h-screen bg-subColor4 flex items-center flex justify-center ">
+    <div className="w-screen h-screen bg-subColor4 flex items-center justify-center ">
       <div className="  w-1/3 h-4/5 py-4 bg-white caret-pink-500 border-2 border-solid border-subColor1 rounded-[50px]">
         <div className="h-1/5 content-center ">
           <p className="flex justify-center text-4xl text-subColor1/100">
@@ -127,7 +118,6 @@ const LoginPage = () => {
             />
           </div>
           <div className="h-2/6 flex justify-center">
-            {" "}
             <input
               type="password"
               onChange={(e) => setLoginPw(e.target.value)}
@@ -137,9 +127,8 @@ const LoginPage = () => {
             />
           </div>
           <div className="h-2/6 flex justify-center">
-            {" "}
             <button
-              className="w-10/12 h-4/5 content-center bg-subColor2 rounded-xl hover:drop-shadow rounded-[15px]"
+              className="w-10/12 h-4/5 content-center bg-subColor2 hover:drop-shadow rounded-[15px]"
               type="submit"
             >
               <p className="font-semibold text-lg ">로그인</p>
@@ -171,7 +160,6 @@ const LoginPage = () => {
           </div>
           <div className="h-1/6 flex justify-center">
             <p className="content-center text-lg">
-              {" "}
               <Link href="/join">
                 <p className="font-semibold text-subColor1/100">회원가입</p>
               </Link>
@@ -180,7 +168,6 @@ const LoginPage = () => {
         </div>
       </div>
       {/**모달 창 */}
-
       {pwOpenModal && (
         <PasswordPotal>
           <div>

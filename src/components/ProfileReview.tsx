@@ -1,23 +1,24 @@
-"use client";
-import { queryKey } from "@/query/queryKey";
-import { useQuery } from "@tanstack/react-query";
-import { readMyTodo, updateUserAccounts } from "@/supabase/myPage/profileImage";
-import type { UserData, userTodo } from "@/types/type";
-import useStoreState from "@/shared/store";
-import ProfileReviewTab from "./ProfileReviewTab";
-import ProfileReviewLike from "./ProfileReviewLike";
-import defaultImg from "@/assets/profile.png";
-import HeartFillIcon from "@/icons/HeartFillIcon";
-import Image from "next/image";
-import { HeartIcon } from "@/icons/HeartIcon";
-import Loading from "./Loading";
-import { useRouter } from "next/navigation";
+'use client';
+
+import { queryKey } from '@/query/queryKey';
+import { useQuery } from '@tanstack/react-query';
+import { readMyTodo } from '@/supabase/myPage/profileImage';
+import { HeartIcon } from '@/icons/HeartIcon';
+
+import Image from 'next/image';
+import Loading from './Loading';
+import defaultImg from '@/assets/profile.png';
+import useStoreState from '@/shared/store';
+import HeartFillIcon from '@/icons/HeartFillIcon';
+import ProfileReviewLike from './ProfileReviewLike';
+import ProfileReviewTab from './ProfileReviewTab';
+
+import type { userTodo } from '@/types/type';
 
 const ProfileReview = () => {
   const { userInfo } = useStoreState();
   const email = userInfo?.email;
-  const router = useRouter();
-  console.log("email", email);
+
   const {
     isLoading,
     isPending,
@@ -33,7 +34,7 @@ const ProfileReview = () => {
   );
 
   if (email == (null || undefined) || !email) {
-    console.error("정보를 가져오는 데 오류가 났습니다.");
+    console.error('정보를 가져오는 데 오류가 났습니다.');
     return (
       <div>
         <Loading />
@@ -53,10 +54,9 @@ const ProfileReview = () => {
   }
   return (
     <section className="flex flex-col bg-subColor4 border-[2px] border-solid border-subColor2 rounded-[56px] sm:w-[670px] md:w-[940px] lg:w-[1024px] xl:w-[1280px]">
-      {/* 내가 한 일 */}
       <ProfileReviewTab />
       <div className="bg-white rounded-b-[56px]">
-        {activeMyTodos === "내가 할 일" && email !== (null || undefined) && (
+        {activeMyTodos === '내가 할 일' && email !== (null || undefined) && (
           <article className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8 p-8">
             {!filterUserTodo ||
               (filterUserTodo.length === 0 && (
@@ -112,7 +112,7 @@ const ProfileReview = () => {
                       <div className="align-bottom text-[18px]">{`${end} ~ ${start}`}</div>
                       <div className="flex items-center justify-between text-[20px]">
                         <div className="text-[20px] p-[4px] border-[2px] bg-subColor2 rounded-[15px]">
-                          {nickname ? nickname : "no name"}
+                          {nickname ? nickname : 'no name'}
                         </div>
                         <div className="flex gap-[0.2rem]">
                           {liketest !== null ? liketest?.length : <div>0</div>}
@@ -131,12 +131,9 @@ const ProfileReview = () => {
           </article>
         )}
       </div>
-      {/* 좋아요 한 일 */}
       <ProfileReviewLike userTodo={userTodo} />
     </section>
   );
 };
 
 export default ProfileReview;
-
-// filterUserTodo && filterUserTodo.length > 0;

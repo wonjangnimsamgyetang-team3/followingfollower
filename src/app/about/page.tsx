@@ -1,18 +1,19 @@
-import Image from "next/image";
-import girl from "../../assets/girl.png";
-import boy from "../../assets/boy.png";
-import memo from "../../assets/memo.png";
-import calendar from "../../assets/calendar.png";
-import comment from "../../assets/comment.png";
-import { supabase } from "@/supabase/supabase";
-import Link from "next/link";
+import Link from 'next/link';
+import Image from 'next/image';
+import { supabase } from '@/supabase/supabase';
+
+import girl from '@/assets/girl.png';
+import boy from '@/assets/boy.png';
+import memo from '@/assets/memo.png';
+import calendar from '@/assets/calendar.png';
+import comment from '@/assets/comment.png';
 
 export const revalidate = 10;
 
 const AboutPage = async () => {
-  const { data: todos } = await supabase.from("TodoList").select("*");
-  const { data: users } = await supabase.from("usersAccounts").select("*");
-  const { data: members } = await supabase.from("members").select("*");
+  const { data: todos } = await supabase.from('TodoList').select('*');
+  const { data: users } = await supabase.from('usersAccounts').select('*');
+  const { data: members } = await supabase.from('members').select('*');
 
   const sortedMember = members?.sort((a, b) => a.id - b.id);
   const today = new Date();
@@ -24,7 +25,7 @@ const AboutPage = async () => {
   const doneTodosNum = doneTodos?.length;
 
   return (
-    <main className="pt-20 pb-32 flex flex-col place-items-center gap-20">
+    <main className="pt-20 pb-32 flex flex-col place-items-center gap-40">
       <h2 className="p-3 text-4xl text-subColor1 border-b-2 border-solid border-subColor1">
         Todo를 공유하며 소통할 수 있는 사이트 팔팔입니다!
       </h2>

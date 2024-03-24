@@ -1,15 +1,13 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { supabase } from "@/supabase/supabase";
-import TodoBar from "./TodoBar";
-import ModalPotal from "./TodoModal/ModalPortal";
-import TodoModal from "./TodoModal/TodoModal";
-import TodoDetail from "./TodoModal/TodoDetail";
-import useStoreState from "@/shared/store";
-import Image from "next/image";
-import Loading from "./Loading";
-import FollowBtn from "./FollowBtn";
+import { useEffect, useState } from 'react';
+import { supabase } from '@/supabase/supabase';
+import TodoBar from './TodoBar';
+import ModalPotal from './TodoModal/ModalPortal';
+import TodoModal from './TodoModal/TodoModal';
+import TodoDetail from './TodoModal/TodoDetail';
+import useStoreState from '@/shared/store';
+import Image from 'next/image';
 
 export type TodoType = {
   contents: string;
@@ -34,9 +32,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
   const [userId, setUserId] = useState<string | null>(null);
   const [editedTodo, setEditedTodo] = useState<TodoType>(todo);
 
-  //zustand
   const { userInfo } = useStoreState();
-  // console.log('로그인한 유저정보', userInfo);
   const nickname = userInfo?.nickname;
   const myEmail = userInfo?.email;
 
@@ -57,9 +53,9 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
 
   const fetchCommentCount = async (todoId: string) => {
     const { data, error } = await supabase
-      .from("commentList")
-      .select("count", { count: "exact" })
-      .eq("todoId", todoId);
+      .from('commentList')
+      .select('count', { count: 'exact' })
+      .eq('todoId', todoId);
 
     if (error) {
       throw error;

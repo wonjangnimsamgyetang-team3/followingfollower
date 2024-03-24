@@ -1,12 +1,12 @@
 'use client';
 
-import Image from 'next/image';
-import React, { ChangeEvent, FormEvent, useState, useEffect } from 'react';
+import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import { FaPhotoVideo } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/supabase/supabase';
+import Image from 'next/image';
 import useStoreState from '@/shared/store';
-import whiteSpinner from '../assets/whiteSpinner.svg';
+import whiteSpinner from '@/assets/whiteSpinner.svg';
 
 const NewTodo = () => {
   //zustand

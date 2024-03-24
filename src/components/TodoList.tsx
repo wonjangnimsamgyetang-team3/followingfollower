@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { supabase } from '@/supabase/supabase';
-import TodoCard from './TodoCard';
-import Link from 'next/link';
-import useStoreState from '@/shared/store';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/supabase/supabase';
 import Loading from './Loading';
+import TodoCard from './TodoCard';
+import useStoreState from '@/shared/store';
 
 export type TodoData = {
   contents: string;
@@ -64,12 +63,6 @@ const TodoList = () => {
       await getRecentTodo();
     }
   };
-
-  const { userInfo } = useStoreState();
-  // console.log("로그인한 유저정보", userInfo);
-  const nickname = userInfo?.nickname;
-  const userAvatar = userInfo?.avatar || '';
-  const userId = userInfo?.id;
 
   const handleNewTodoClick = () => {
     router.push('/feed/newTodo');

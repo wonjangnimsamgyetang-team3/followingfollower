@@ -1,10 +1,10 @@
-import React from "react";
-import { userTodo } from "@/types/type";
-import defaultImg from "@/assets/profile.png";
-import useStoreState from "@/shared/store";
-import Image from "next/image";
-import HeartFillIcon from "@/icons/HeartFillIcon";
-import { HeartIcon } from "@/icons/HeartIcon";
+import { HeartIcon } from '@/icons/HeartIcon';
+import Image from 'next/image';
+import defaultImg from '@/assets/profile.png';
+import useStoreState from '@/shared/store';
+import HeartFillIcon from '@/icons/HeartFillIcon';
+
+import type { userTodo } from '@/types/type';
 
 export type ReviewLike = {
   userTodo: userTodo[] | null | undefined;
@@ -18,12 +18,14 @@ const ProfileReviewLike = ({ userTodo }: ReviewLike) => {
   const filterMyLikeTodoList = userTodo?.filter((todoItem: Partial<userTodo>) =>
     todoItem?.liketest?.includes(id)
   );
+
   if (!userTodo) {
     <div> 정보를 가져오고 있습니다..</div>;
   }
+
   return (
     <div className="bg-white rounded-b-[56px]">
-      {id !== (null || undefined) && activeMyTodos === "좋아요한 일" && (
+      {id !== (null || undefined) && activeMyTodos === '좋아요한 일' && (
         <article className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8 p-8">
           {!filterMyLikeTodoList ||
             (filterMyLikeTodoList.length === 0 && (
@@ -78,7 +80,7 @@ const ProfileReviewLike = ({ userTodo }: ReviewLike) => {
                     <div className="align-bottom text-[18px]">{`${end} ~ ${start}`}</div>
                     <div className="flex items-center justify-between text-[20px]">
                       <div className="text-[20px] p-[4px] border-[2px] bg-subColor2 rounded-[15px]">
-                        {nickname ? nickname : "no name"}
+                        {nickname ? nickname : 'no name'}
                       </div>
                       <div className="flex gap-[0.2rem]">
                         {liketest !== null ? liketest?.length : <div>0</div>}

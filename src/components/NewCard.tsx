@@ -2,7 +2,6 @@
 
 import { supabase } from '@/supabase/supabase';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
 import MainCard from './MainCard';
 
 const NewCard = () => {

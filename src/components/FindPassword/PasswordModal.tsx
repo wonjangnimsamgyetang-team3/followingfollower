@@ -4,7 +4,6 @@ type Props = {
 };
 
 import CloseIcon from '@/icons/CloseIcon';
-import React from 'react';
 
 const PasswordModal = ({ onClose, children }: Props) => {
   return (

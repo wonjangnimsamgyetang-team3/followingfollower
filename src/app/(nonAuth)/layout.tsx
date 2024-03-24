@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { supabase } from "@/supabase/supabase";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/supabase/supabase';
 
 const NonAuthlayout = ({
   children,
@@ -10,7 +10,6 @@ const NonAuthlayout = ({
   children: React.ReactNode;
 }>) => {
   const router = useRouter();
-  //state
   const [session, setSession] = useState<boolean>(false);
 
   useEffect(() => {
@@ -19,10 +18,10 @@ const NonAuthlayout = ({
         data: { user },
       } = await supabase.auth.getUser();
 
-      //로그인 한 상태 시
+      //로그인 상태 시
       if (user) {
-        alert("이미 로그인 상태입니다. 홈으로 이동합니다.");
-        router.push("/");
+        alert('이미 로그인 상태입니다. 홈으로 이동합니다.');
+        router.push('/');
       } else {
         setSession(true);
       }

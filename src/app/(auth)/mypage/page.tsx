@@ -1,10 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import Calendar from '@/components/Calendar';
 import ProfileContents from '@/components/ProfileContents';
 import ProfileImage from '@/components/ProfileImage';
 import ProfileReview from '@/components/ProfileReview';
-import { useState } from 'react';
 
 const MyPage = () => {
   const [isEdit, setIsEdit] = useState(false);
@@ -15,7 +15,6 @@ const MyPage = () => {
         <p className="text-subColor1 font-bold text-[30px]">마이페이지</p>
       </div>
       <article className="flex bg-gray-400 w-[1280px] mt-[46px]">
-        {/* 프로필 */}
         <section className="flex-col w-[500px] p-[2rem]">
           <article>
             <ProfileImage isEdit={isEdit} setIsEdit={setIsEdit} />
@@ -24,7 +23,6 @@ const MyPage = () => {
             <ProfileContents isEdit={isEdit} setIsEdit={setIsEdit} />
           </article>
         </section>
-        {/* 캘린더 */}
         <article className="flex-col w-[800px]">
           <Calendar />
         </article>
