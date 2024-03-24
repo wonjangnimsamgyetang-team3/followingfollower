@@ -35,8 +35,6 @@ const TodoDetail = ({
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedTitle, setEditedTitle] = useState(todo.title);
   const [editedContent, setEditedContent] = useState(todo.contents);
-  const [originalTitle, setOriginalTitle] = useState(todo.title);
-  const [originalContent, setOriginalContent] = useState(todo.contents);
 
   // Zustand hook
   const { userInfo } = useStoreState();
@@ -141,8 +139,8 @@ const TodoDetail = ({
   };
 
   const handleCancelEdit = () => {
-    setEditedTitle(originalTitle);
-    setEditedContent(originalContent);
+    setEditedTitle(editedTodo.title);
+    setEditedContent(editedTodo.contents);
     setIsEditMode(false);
   };
 

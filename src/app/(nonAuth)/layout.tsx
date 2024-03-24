@@ -10,7 +10,6 @@ const NonAuthlayout = ({
   children: React.ReactNode;
 }>) => {
   const router = useRouter();
-  const [session, setSession] = useState<boolean>(false);
   useEffect(() => {
     const getUser = async () => {
       const {
@@ -22,25 +21,10 @@ const NonAuthlayout = ({
         alert("이미 로그인 상태입니다. 홈으로 이동합니다.");
         router.push("/");
       }
-
-      //수정 필요
-      // const session = await supabase.auth.getSession();
-      // const token = session.data.session?.access_token;
-      // const {
-      //   data: { subscription },
-      // } = supabase.auth.onAuthStateChange((event, session) => {
-      //   if (session?.access_token !== token) {
-      //     router.refresh();
-      //   }
-      // });
-
-      // return () => {
-      //   //   subscription.unsubscribe();
-      // };
     };
 
     getUser();
-  }, []);
+  });
 
   return (
     <div>

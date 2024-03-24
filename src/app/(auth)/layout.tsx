@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/supabase/supabase";
 import { useRouter } from "next/navigation";
-import Rendering from "@/components/Rendering";
+import Loading from "@/components/Loading";
 
 const AuthLayout = ({
   children,
@@ -19,7 +19,8 @@ const AuthLayout = ({
         data: { user },
       } = await supabase.auth.getUser();
 
-      if (user === null) {
+      console.log("mypage-유저", user);
+      if (!user) {
         alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
         localStorage.setItem("url", "/mypage");
         router.push("/login");
@@ -29,11 +30,11 @@ const AuthLayout = ({
     };
 
     getUser();
-  }, []);
+  });
 
   // 세션 데이터가 없으면 자식 컴포넌트(children)를 렌더링하지 않습니다.
   if (!session) {
-    return <Rendering />;
+    return <Loading />;
   }
 
   return (
