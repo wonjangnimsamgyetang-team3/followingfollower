@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { FaGithub } from "react-icons/fa6";
-import { SiKakaotalk } from "react-icons/si";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from 'react';
+import { FaGithub } from 'react-icons/fa6';
+import { SiKakaotalk } from 'react-icons/si';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-import { supabase } from "@/supabase/supabase";
-import useStoreState from "@/app/shared/store";
-import PasswordModal from "@/components/FindPassword/PasswordModal";
-import PasswordPotal from "@/components/FindPassword/PasswordPotal";
-import PasswordDetail from "@/components/FindPassword/PasswordDetail";
+import { supabase } from '@/supabase/supabase';
+import useStoreState from '@/app/shared/store';
+import PasswordModal from '@/components/FindPassword/PasswordModal';
+import PasswordPotal from '@/components/FindPassword/PasswordPotal';
+import PasswordDetail from '@/components/FindPassword/PasswordDetail';
 
 const LoginPage = () => {
-  const [loginEmail, setLoginEmail] = useState<string>("");
-  const [loginPw, setLoginPw] = useState<string>("");
+  const [loginEmail, setLoginEmail] = useState<string>('');
+  const [loginPw, setLoginPw] = useState<string>('');
   //모달오픈 관리
   const [pwOpenModal, setPwOpenModal] = useState(false);
   const router = useRouter();
@@ -28,7 +28,7 @@ const LoginPage = () => {
 
     //간단한 유효성 검사
     if (!loginEmail || !loginPw) {
-      alert("빈칸 없이 작성해주세요");
+      alert('빈칸 없이 작성해주세요');
       return;
     }
 
@@ -40,7 +40,7 @@ const LoginPage = () => {
 
     //오류발생
     if (error) {
-      alert("아이디나 비밀번호를 확인해주세요");
+      alert('아이디나 비밀번호를 확인해주세요');
       return;
     }
 
@@ -54,9 +54,9 @@ const LoginPage = () => {
       const authEmail = session.data.session?.user.email;
       const authId = session.data.session?.user.id;
 
-      localStorage.setItem("avatar", authAvatar);
-      localStorage.setItem("contents", authContents);
-      localStorage.setItem("nickname", authNickname);
+      localStorage.setItem('avatar', authAvatar);
+      localStorage.setItem('contents', authContents);
+      localStorage.setItem('nickname', authNickname);
 
       //로그인 유저 정보를 zustand로 관리 -> main 페이지로 이동
       // addUser({
@@ -67,32 +67,20 @@ const LoginPage = () => {
       //   email: authEmail,
       // });
 
-      const { data: insertData, error: insetError } = await supabase
-        .from("usersAccounts")
-        .insert([
-          {
-            avatar: authAvatar,
-            contents: authContents,
-            nickname: authNickname,
-            email: authEmail,
-          },
-        ])
-        .select();
-
       alert(`안녕하세요. ${authNickname}님!`);
     }
 
     //만약 마이페이지에 먼저 접근했을 경우-> 로그인 후 다시 마이페이지로 이동
     if (loginUser) {
-      const url = localStorage.getItem("url");
+      const url = localStorage.getItem('url');
       // const path = url?.split("/").slice(3).join("/");
-      if (url === "/mypage") {
-        alert("마이페이지로 이동합니다!");
+      if (url === '/mypage') {
+        alert('마이페이지로 이동합니다!');
 
-        router.push("/mypage");
+        router.push('/mypage');
         router.refresh();
       } else {
-        router.push("/");
+        router.push('/');
         router.refresh();
       }
       localStorage.removeItem;
@@ -104,11 +92,11 @@ const LoginPage = () => {
   const githubSignInHandler = async () => {
     try {
       const { data: git, error } = await supabase.auth.signInWithOAuth({
-        provider: "github",
+        provider: 'github',
         options: {
           queryParams: {
-            access_type: "offline",
-            prompt: "consent",
+            access_type: 'offline',
+            prompt: 'consent',
           },
           redirectTo: `${location.origin}/auth/callback`,
         },
@@ -122,11 +110,11 @@ const LoginPage = () => {
   //카카오톡
   const kakaoSignInHandler = async () => {
     let { data: kakao, error } = await supabase.auth.signInWithOAuth({
-      provider: "kakao",
+      provider: 'kakao',
       options: {
         queryParams: {
-          access_type: "offline",
-          prompt: "consent",
+          access_type: 'offline',
+          prompt: 'consent',
         },
         redirectTo: `${location.origin}/auth/callback`,
       },
@@ -159,7 +147,7 @@ const LoginPage = () => {
             />
           </div>
           <div className="h-2/6 flex justify-center">
-            {" "}
+            {' '}
             <input
               type="text"
               onChange={(e) => setLoginPw(e.target.value)}
@@ -169,7 +157,7 @@ const LoginPage = () => {
             />
           </div>
           <div className="h-2/6 flex justify-center">
-            {" "}
+            {' '}
             <button
               className="w-10/12 h-4/5 content-center bg-subColor2 rounded-xl hover:drop-shadow rounded-[15px]"
               type="submit"
@@ -203,7 +191,7 @@ const LoginPage = () => {
           </div>
           <div className="h-1/6 flex justify-center">
             <p className="content-center text-lg">
-              {" "}
+              {' '}
               <Link href="/join">
                 <p className="font-semibold text-subColor1/100">회원가입</p>
               </Link>
