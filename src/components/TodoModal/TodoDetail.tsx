@@ -141,8 +141,8 @@ const TodoDetail = ({
   };
 
   const handleCancelEdit = () => {
-    setEditedTitle(originalTitle);
-    setEditedContent(originalContent);
+    setEditedTitle(editedTodo.title);
+    setEditedContent(editedTodo.contents);
     setIsEditMode(false);
   };
 
