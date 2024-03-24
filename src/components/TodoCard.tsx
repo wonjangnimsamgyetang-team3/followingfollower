@@ -99,7 +99,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
           <p className="mb-[10px]">
             {isCurrentUserTodo ? nickname : todo.nickname}
           </p>
-          <FollowBtn myEmail={myEmail} writerEmail={todo.email} />
+          {/* <FollowBtn myEmail={myEmail} writerEmail={todo.email} /> */}
           <p
             className="mb-[20px] overflow-ellipsis cursor-pointer"
             onClick={() => setOpenModal(true)}
