@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaGithub } from "react-icons/fa6";
 import { SiKakaotalk } from "react-icons/si";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
 import { supabase } from "@/supabase/supabase";
 import useStoreState from "@/shared/store";
 import PasswordModal from "@/components/FindPassword/PasswordModal";

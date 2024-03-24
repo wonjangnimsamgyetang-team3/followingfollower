@@ -4,7 +4,7 @@ import AllCard from "@/components/AllCard";
 import NewCard from "@/components/NewCard";
 import Banner from "@/components/Banner";
 import LikeTop from "@/components/LikeTop";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { supabase } from "@/supabase/supabase";
 import useStoreState from "@/shared/store";
 
@@ -16,6 +16,7 @@ const MainPage = () => {
         data: { user },
       } = await supabase.auth.getUser();
       console.log("home - 소셜", user);
+
       const withAvatar =
         user?.user_metadata.avatar_url ?? user?.user_metadata.avatar;
       const withEmail = user?.user_metadata.email ?? user?.user_metadata.email;
@@ -31,20 +32,6 @@ const MainPage = () => {
         id: authId ?? "",
         email: withEmail,
       });
-
-      if (user) {
-        const { data: insertData, error: insetError } = await supabase
-          .from("usersAccounts")
-          .insert([
-            {
-              avatar: withAvatar,
-              contents: withContents,
-              nickname: withName,
-              email: withEmail,
-            },
-          ])
-          .select();
-      }
     };
     getUser();
   }, []);
