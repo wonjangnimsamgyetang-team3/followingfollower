@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/supabase/supabase";
 import TodoCard from "./TodoCard";
@@ -33,19 +35,25 @@ const TodoList = () => {
 
   async function getMostLikedTodo() {
     let { data } = await supabase.from("TodoList").select("*");
-    data.sort((a, b) => (b.liketest?.length || 0) - (a.liketest?.length || 0));
-    setSortedBy("liketest");
-    setTodoData([...data]);
+    if (data) {
+      data.sort(
+        (a, b) => (b.liketest?.length || 0) - (a.liketest?.length || 0)
+      );
+      setSortedBy("liketest");
+      setTodoData([...data]);
+    }
   }
 
   async function getRecentTodo() {
     let { data } = await supabase.from("TodoList").select("*");
-    data.sort(
-      (a, b) =>
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-    );
-    setSortedBy("created_at");
-    setTodoData([...data]);
+    if (data) {
+      data.sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+      setSortedBy("created_at");
+      setTodoData([...data]);
+    }
   }
 
   const handleSortChange = async (sortBy: string) => {

@@ -1,18 +1,20 @@
-'use client';
+"use client";
 
-import { supabase } from '@/supabase/supabase';
-import { useQuery } from '@tanstack/react-query';
-import Image from 'next/image';
-import React from 'react';
+import { supabase } from "@/supabase/supabase";
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import React, { useState } from "react";
 
-import type { Todo } from '@/types/type';
+import type { Todo } from "@/types/type";
+import TodoBar from "./TodoBar";
 
 const AllCard = () => {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['todos'],
+    queryKey: ["todos"],
     queryFn: async () => {
-      const response = await supabase.from('TodoList').select('*').range(0, 4);
-      return response.data;
+      const response = await supabase.from("TodoList").select("*").range(0, 4);
+      const { data } = response;
+      return data;
     },
   });
 
@@ -35,7 +37,6 @@ const AllCard = () => {
           <h3 className="text-lg">{card.title}</h3>
           <h4>{card.nickname}</h4>
           <p>{card.contents}</p>
-          <h4 className="pt-2">{card.created_at}</h4>
         </section>
       </article>
     );
