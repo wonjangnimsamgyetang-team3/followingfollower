@@ -32,7 +32,6 @@ const ProfileReview = () => {
 
   if (email == (null || undefined) || !email) {
     console.error("정보를 가져오는 데 오류가 났습니다.");
-    alert("정보를 가져오는 데 오류가 났습니다.");
     return (
       <div>
         <Loading />

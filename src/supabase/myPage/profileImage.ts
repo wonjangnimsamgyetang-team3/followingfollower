@@ -10,7 +10,7 @@ export const updateUserAccounts = async ({
   avatar,
 }: UserData) => {
   const { data, error } = await supabase
-    .from("usersAcoounts")
+    .from("myPageAccount")
     .update({ uid: id, nickname, contents, avatar })
     .eq("email", `${email}`)
     .select();
@@ -27,7 +27,7 @@ export const setUserDatabase = async ({
   email,
 }: UserInfo) => {
   const { data, error } = await supabase
-    .from("usersAcoounts")
+    .from("myPageAccount")
     .insert([{ nickname, contents, email }])
     .select();
   if (!data || error) {
@@ -39,7 +39,7 @@ export const setUserDatabase = async ({
 
 export const readUsersInfo = async (email: string) => {
   const { data, error } = await supabase
-    .from("usersAcoounts")
+    .from("myPageAccount")
     .select()
     .eq("email", email);
   if (data !== (null || undefined)) {

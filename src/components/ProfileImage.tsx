@@ -24,7 +24,7 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
   const email = userInfo?.email;
   const id = userInfo?.id;
   const { nickname, contents, avatar } = userAccount;
-  console.log(id);
+  console.log("id", id, nickname, contents, avatar);
   const userMyPage = async () => {
     // DB - myPageAccount
     const userDatas = await readUsersInfo(email);
@@ -56,6 +56,7 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
   // 마이페이지 프로필 렌더링
   useEffect(() => {
     userMyPage();
+    console.log(1);
   }, [nickname, contents, avatar]);
   // 이미지 미리보기
   const addImgHandler = (e: ChangeEvent<HTMLInputElement>) => {
