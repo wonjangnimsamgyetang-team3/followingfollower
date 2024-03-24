@@ -10,7 +10,7 @@ import defaultImg from "@/assets/profile.png";
 import HeartFillIcon from "@/icons/HeartFillIcon";
 import Image from "next/image";
 import { HeartIcon } from "@/icons/HeartIcon";
-import { DiVim } from "react-icons/di";
+import Loading from "./Loading";
 
 const ProfileReview = () => {
   const { userInfo } = useStoreState();
@@ -30,11 +30,19 @@ const ProfileReview = () => {
     (todo: Partial<userTodo>) => todo.email === email
   );
 
-  if (email == (null || undefined)) {
-    <div> 정보를 가져오지 못 했습니다. 다시 로그인 해주세요!</div>;
+  if (email == (null || undefined) || !email) {
+    console.error("정보를 가져오는 데 오류가 났습니다.");
+    alert("정보를 가져오는 데 오류가 났습니다.");
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   }
   if (isPending || isLoading) {
-    <div>정보를 가져오고 있습니다..</div>;
+    <div>
+      <Loading />
+    </div>;
   }
   if (isError) {
     // 로그인 안 되어 있으면

@@ -10,6 +10,9 @@ const NonAuthlayout = ({
   children: React.ReactNode;
 }>) => {
   const router = useRouter();
+  //state
+  const [session, setSession] = useState<boolean>(false);
+
   useEffect(() => {
     const getUser = async () => {
       const {
@@ -20,6 +23,8 @@ const NonAuthlayout = ({
       if (user) {
         alert("이미 로그인 상태입니다. 홈으로 이동합니다.");
         router.push("/");
+      } else {
+        setSession(true);
       }
     };
 
