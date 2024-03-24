@@ -268,7 +268,7 @@ const TodoDetail = ({
                 <div className="flex items-center">
                   {comment.avatar ? (
                     <Image
-                      className="w-[70px] h-[70px] mr-[15px]"
+                      className="w-[70px] h-[70px] mr-[15px] rounded-full"
                       src={comment.avatar}
                       alt="avatar"
                       height={100}
