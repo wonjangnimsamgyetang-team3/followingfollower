@@ -11,19 +11,10 @@ import HeartFillIcon from "@/icons/HeartFillIcon";
 import Image from "next/image";
 import { HeartIcon } from "@/icons/HeartIcon";
 import Loading from "./Loading";
-import { useEffect, useState } from "react";
-import { supabase } from "@/supabase/supabase";
 import { useRouter } from "next/navigation";
 
 const ProfileReview = () => {
-  const {
-    userInfo,
-
-    defaultImg,
-
-    setDefaultImg,
-    setUserAccount,
-  } = useStoreState();
+  const { userInfo } = useStoreState();
   const email = userInfo?.email;
   const router = useRouter();
   console.log("email", email);
@@ -40,44 +31,6 @@ const ProfileReview = () => {
   const filterUserTodo: any[] | undefined = userTodo?.filter(
     (todo: Partial<userTodo>) => todo.email === email
   );
-  const [userAvatar, setUserAvatar] = useState<string>("");
-
-  useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      const nickname =
-        user?.user_metadata.preferred_username ??
-        user?.user_metadata.userNickname;
-      const avatar =
-        user?.user_metadata?.avatar ?? user?.user_metadata?.avatar_url;
-      console.log("user==> ", user);
-      const userData = {
-        nickname,
-        email,
-        avatar,
-      };
-      console.log(user?.user_metadata);
-      setUserAccount(userData);
-      if (nickname || email || avatar) {
-        updateUserAccounts({ nickname, email, avatar });
-      }
-      setDefaultImg(avatar);
-      setUserAvatar(avatar);
-      console.log(userInfo?.nickname);
-      console.log(user?.user_metadata?.avatar);
-
-      //로그인 안 한 상태 시
-      if (!user) {
-        alert("로그인 후 이용해주세요.");
-        router.push("/login");
-      }
-    };
-
-    getUser();
-  }, []);
 
   if (email == (null || undefined) || !email) {
     console.error("정보를 가져오는 데 오류가 났습니다.");
@@ -137,7 +90,7 @@ const ProfileReview = () => {
                       />
                     ) : (
                       <Image
-                        src={defaultImg}
+                        src={defaultImg.src}
                         className="w-full h-full object-fit rounded-[28px]"
                         alt="투두 이미지"
                         width={100}
