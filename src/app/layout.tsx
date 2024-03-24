@@ -37,7 +37,8 @@ export default async function RootLayout({
       .from("myPageAccount")
       .insert([
         {
-          // avatar: avatar,
+          //uid는 디비에 추가 시 auth id와 엮여있어 자동으로 생성
+          avatar: avatar,
           // nickname: nickname,
           // contents: "",
           email: email,

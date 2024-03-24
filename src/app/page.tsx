@@ -6,7 +6,7 @@ import Banner from "@/components/Banner";
 import LikeTop from "@/components/LikeTop";
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/supabase/supabase";
-import useStoreState from "./shared/store";
+import useStoreState from "@/shared/store";
 
 const MainPage = () => {
   const { addUser } = useStoreState();
@@ -15,7 +15,7 @@ const MainPage = () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      console.log("소셜", user);
+      console.log("home - 소셜", user);
       const withAvatar =
         user?.user_metadata.avatar_url ?? user?.user_metadata.avatar;
       const withEmail = user?.user_metadata.email ?? user?.user_metadata.email;
@@ -31,6 +31,20 @@ const MainPage = () => {
         id: authId ?? "",
         email: withEmail,
       });
+
+      if (user) {
+        const { data: insertData, error: insetError } = await supabase
+          .from("usersAccounts")
+          .insert([
+            {
+              avatar: withAvatar,
+              contents: withContents,
+              nickname: withName,
+              email: withEmail,
+            },
+          ])
+          .select();
+      }
     };
     getUser();
   }, []);
@@ -39,7 +53,7 @@ const MainPage = () => {
     <main>
       <Banner />
       <article className="flex gap-10 pb-32">
-        <aside className="flex flex-col place-items-center">
+        <aside className="flex flex-col place-items-center ml-7">
           <div className="m-5 flex text-2xl">인기 유저 TOP 3</div>
           <LikeTop />
         </aside>

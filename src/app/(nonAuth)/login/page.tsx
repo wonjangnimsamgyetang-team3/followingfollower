@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { supabase } from "@/supabase/supabase";
-import useStoreState from "@/app/shared/store";
+import useStoreState from "@/shared/store";
 import PasswordModal from "@/components/FindPassword/PasswordModal";
 import PasswordPotal from "@/components/FindPassword/PasswordPotal";
 import PasswordDetail from "@/components/FindPassword/PasswordDetail";
