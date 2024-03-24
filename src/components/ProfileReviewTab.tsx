@@ -11,27 +11,31 @@ const ProfileReviewTab = () => {
     setCategory(e.currentTarget.id);
   };
   return (
-    <div>
-      <ul>
+    <div className="grid grid-cols-1 md:grid-cols-2 rounded-t-[56px] ">
+      <ul className="bg-subColor4 rounded-tl-[56px]  ">
         <li
           id="내가 할 일"
           onClick={activeCategoryHandler}
-          className={`px-4 py-2 mr-2 cursor-pointer ${
-            activeMyTodos === "내가 할 일" ? "bg-white" : "bg-gray-200"
+          className={`flex flex-col items-center justify-center h-[104px] px-5 py-4 rounded-t-[56px] cursor-pointer ${
+            activeMyTodos === "내가 할 일" ? "bg-white" : "bg-#D9D9D9-800"
           }`}
         >
-          내가 할 일
+          <p className="w-full h-full flex flex-col items-center justify-center rounded-[56px] hover:bg-gray-200 text-center text-[30px] sm:text-[20px] md:text-[24px]">
+            내가 할 일
+          </p>
         </li>
       </ul>
-      <ul>
+      <ul className="bg-subColor4 rounded-tr-[56px]">
         <li
           id="좋아요한 일"
           onClick={activeCategoryHandler}
-          className={`px-4 py-2 cursor-pointer ${
-            activeMyTodos === "좋아요한 일" ? "bg-white" : "bg-gray-200"
+          className={`flex flex-col items-center justify-center h-[104px] px-5 py-4 rounded-t-[56px] cursor-pointer ${
+            activeMyTodos === "좋아요한 일" ? "bg-white" : "bg-#D9D9D9-800"
           }`}
         >
-          좋아요한 일
+          <p className="w-full h-full flex flex-col items-center justify-center rounded-[56px] hover:bg-gray-200 text-center text-[30px] sm:text-[20px] md:text-[24px]">
+            좋아요한 일
+          </p>
         </li>
       </ul>
     </div>
