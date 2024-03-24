@@ -41,7 +41,6 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
         avatar,
         contents,
       };
-      console.log(id, email, nickname, avatar, contents);
       setUserAccount(userData);
       updateUserAccounts(userData);
       setDefaultImg(avatar);
