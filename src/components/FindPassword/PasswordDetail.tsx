@@ -7,7 +7,7 @@ import FFlogo from "@/assets/FF2.png";
 import Link from "next/link";
 
 const PasswordDetail = () => {
-  const [findEmail, setFindEmail] = useState("");
+  const [findEmail, setFindEmail] = useState<string>("");
 
   const passwordFindHandler = async () => {
     const isValidEmail = (email: string) => {

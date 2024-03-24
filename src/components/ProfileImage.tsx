@@ -48,9 +48,9 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
 
       if (!userInfo || !avatar) {
         console.log("유저정보가 존재하지 않습니다.");
-        alert("로그인 유저만 사용가능합니다. 로그인 해주세요");
+        // alert("로그인 유저만 사용가능합니다. 로그인 해주세요");
         <LogOut />;
-        router.replace("/");
+        // router.replace("/");
       }
     }
   };

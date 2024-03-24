@@ -85,6 +85,7 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
       <button className="font-bold ml-2 rounded-[15px] bg-[#fb8494] w-[120px] h-[40px]">
         작성하기
       </button>
+      <div>{userAvatar !== null ? "로그인" : "로그아웃"}</div>
     </form>
   );
 };
