@@ -59,6 +59,7 @@ const NewTodo = () => {
         data: { user },
       } = await supabase.auth.getUser();
       console.log("user", user);
+      //닉네임
       setUserNickname(userInfo?.nickname);
       //기본 유저 ?? 소셜 로그인 유저
       setUserAvatar(
