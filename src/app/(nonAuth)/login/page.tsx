@@ -129,7 +129,7 @@ const LoginPage = () => {
           <div className="h-2/6 flex justify-center">
             {" "}
             <input
-              type="text"
+              type="password"
               onChange={(e) => setLoginPw(e.target.value)}
               value={loginPw}
               className="w-10/12 h-4/5 pl-4 content-center border border-solid border-subColor1 rounded-[15px]"
