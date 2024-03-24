@@ -59,7 +59,10 @@ const NewTodo = () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      setUserNickname(userInfo?.nickname ?? user?.user_metadata.userNickname);
+      setUserNickname(
+        user?.user_metadata.preferred_username ??
+          user?.user_metadata.userNickname
+      );
       setUserAvatar(
         user?.user_metadata?.avatar ?? user?.user_metadata?.avatar_url
       );
@@ -79,7 +82,10 @@ const NewTodo = () => {
   // supabase에 todo 저장
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!file || isLoading) return;
+    if (!file) {
+      alert("사진 첨부는 필수입니다!");
+      return;
+    }
 
     const { data: user } = await supabase.auth.getUser();
     const userEmail = user?.user?.email;

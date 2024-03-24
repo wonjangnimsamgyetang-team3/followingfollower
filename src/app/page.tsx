@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import AllCard from '@/components/AllCard';
-import NewCard from '@/components/NewCard';
-import Banner from '@/components/Banner';
-import LikeTop from '@/components/LikeTop';
-import React, { useEffect } from 'react';
-import { supabase } from '@/supabase/supabase';
-import useStoreState from '@/shared/store';
+import AllCard from "@/components/AllCard";
+import NewCard from "@/components/NewCard";
+import Banner from "@/components/Banner";
+import LikeTop from "@/components/LikeTop";
+import React, { useEffect } from "react";
+import { supabase } from "@/supabase/supabase";
+import useStoreState from "@/shared/store";
 
 const MainPage = () => {
   const { addUser } = useStoreState();
@@ -15,7 +15,7 @@ const MainPage = () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      console.log('home - 소셜', user);
+      console.log("home - 소셜", user);
 
       const withAvatar =
         user?.user_metadata.avatar_url ?? user?.user_metadata.avatar;
@@ -28,8 +28,8 @@ const MainPage = () => {
       addUser({
         avatar: withAvatar,
         nickname: withName,
-        contents: '',
-        id: authId ?? '',
+        contents: "",
+        id: authId ?? "",
         email: withEmail,
       });
     };
