@@ -22,7 +22,7 @@ export default function TodoModal({ onClose, children }: Props) {
       >
         <CloseIcon />
       </button>
-      <div className="rounded-[30px] bg-white w-3/5 h-4/5 max-w-7xl p-8 border-solid border-2 border-subColor1">
+      <div className="rounded-[30px] bg-white w-3/5 h-4/5 max-w-7xl p-5 border-solid border-2 border-subColor1">
         {children}
       </div>
     </section>
