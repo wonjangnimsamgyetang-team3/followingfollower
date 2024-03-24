@@ -13,6 +13,7 @@ const NewTodo = () => {
   const { userInfo } = useStoreState();
   // console.log("로그인한 유저정보", userInfo);
   const nickname = userInfo?.nickname;
+  console.log(nickname);
 
   const userId = userInfo?.id;
 
@@ -58,10 +59,7 @@ const NewTodo = () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      console.log("user", user);
-      //닉네임
-      setUserNickname(userInfo?.nickname);
-      //기본 유저 ?? 소셜 로그인 유저
+      setUserNickname(userInfo?.nickname ?? user?.user_metadata.userNickname);
       setUserAvatar(
         user?.user_metadata?.avatar ?? user?.user_metadata?.avatar_url
       );
@@ -169,7 +167,7 @@ const NewTodo = () => {
       <section className="w-[700px] h-[900px] outline-none flex flex-col items-center justify-center mt-20 mb-20 bg-white border-2 border-solid border-subColor2 rounded-[30px] p-[40px]">
         <div className="flex items-center justify-center mb-[10px]">
           <Image
-            className="w-[50px] h-[50px] mr-[15px]"
+            className="w-[50px] h-[50px] mr-[15px] rounded-full"
             src={userAvatar}
             alt="유저 이미지"
             width={100}
