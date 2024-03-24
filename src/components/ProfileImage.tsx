@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { ChangeEvent, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { ChangeEvent, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   readUsersInfo,
   updateUserAccounts,
-} from '@/supabase/myPage/profileImage';
-import { useStoreState } from '@/shared/store';
-import Image from 'next/image';
-import LogOut from './LogOut';
+} from "@/supabase/myPage/profileImage";
+import { useStoreState } from "@/shared/store";
+import Image from "next/image";
+import LogOut from "./LogOut";
 
-import type { Edit, UserData } from '@/types/type';
+import type { Edit, UserData } from "@/types/type";
 
 const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
   const router = useRouter();
@@ -49,9 +49,9 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
       setDefaultImg(avatar);
 
       if (!userInfo || !avatar) {
-        alert('로그인 후 이용해 주세요.');
+        alert("로그인 후 이용해 주세요.");
         <LogOut />;
-        router.replace('/');
+        router.replace("/");
       }
     }
   };
@@ -72,22 +72,22 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
         const imgUrl = URL.createObjectURL(imgFile);
         setDefaultImg(imgUrl);
       } else {
-        console.error('이미지 파일이 선택되지 않았습니다');
+        console.error("이미지 파일이 선택되지 않았습니다");
       }
     }
   };
 
   return (
-    <div className="bg-subColor4">
+    <div className=" w-full flex justify-center rounded-t-[56px]">
       {isEdit ? (
         <label htmlFor="imgFileChoice">
-          <div>
+          <div className="w-[280px] sm:w-auto flex justify-center">
             <Image
               src={defaultImg}
               alt="유저이미지"
               width={130}
-              height={0}
-              sizes="130px"
+              height={130}
+              sizes="(max-width: 639px) 50vw, 130px"
               className="rounded-full"
             />
           </div>
@@ -98,8 +98,8 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
             src={defaultImg}
             alt="유저이미지"
             width={130}
-            height={0}
-            sizes="130px"
+            height={130}
+            sizes="280px"
             className="rounded-full"
           />
         </div>
