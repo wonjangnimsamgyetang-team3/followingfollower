@@ -40,7 +40,7 @@ const NonAuthlayout = ({
     };
 
     getUser();
-  }, []);
+  });
 
   return (
     <div>
