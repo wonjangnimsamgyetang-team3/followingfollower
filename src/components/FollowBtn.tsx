@@ -2,6 +2,7 @@
 
 import { supabase } from '@/supabase/supabase';
 import { followType } from '@/types/type';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
 const FollowBtn = ({
@@ -13,18 +14,22 @@ const FollowBtn = ({
 }) => {
   // const [myFollowing, setMyFollowing] = useState([]);
 
-  // useEffect(() => {
-  //   const getMyFollowing = async () => {
-  //     const { data: followingData, error: followingError } = await supabase
-  //       .from('usersAccounts')
-  //       .select('following')
-  //       .eq('email', myEmail)
-  //       .single();
-
-  //     setMyFollowing(followingData?.following);
-  //   };
-  // }, [myEmail]);
-  // console.log('myFollowing', myFollowing);
+  // const { data: test } = useQuery({
+  //   queryKey: ['usersAccounts'],
+  //   queryFn: async () => {
+  //     try {
+  //       const response = await supabase
+  //         .from('usersAccounts')
+  //         .select('following')
+  //         .eq('email', myEmail)
+  //         .single();
+  //       return response.data;
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   },
+  // });
+  // console.log('test', test);
 
   // 팔로우 기능
   const followHandler = async () => {
@@ -95,7 +100,6 @@ const FollowBtn = ({
   };
 
   return <button onClick={followHandler}>follow</button>;
-  // return <button>follow</button>;
 };
 
 export default FollowBtn;
