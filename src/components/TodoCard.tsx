@@ -76,7 +76,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
   };
 
   return (
-    <div className="bg-white m-[15px] border-2 border-solid border-subColor2 rounded-[30px] p-[30px] flex flex-col items-center justify-center drop-shadow-todo">
+    <div className="bg-white m-[15px] border-2 border-solid border-subColor2 rounded-[30px] p-[30px] flex flex-col items-center justify-center drop-shadow-todo hover:transition-[all] hover:duration-500 hover:scale-[1.02]">
       <div>
         <div className="flex flex-col items-center justify-center">
           <h2 className="font-bold text-lg mb-[10px]">{todo.title}</h2>
