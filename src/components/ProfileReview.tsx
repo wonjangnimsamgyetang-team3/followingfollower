@@ -1,19 +1,20 @@
-"use client";
-import { queryKey } from "@/query/queryKey";
-import { useQuery } from "@tanstack/react-query";
-import { readMyTodo } from "@/supabase/myPage/profileImage";
-import type { userTodo } from "@/types/type";
-import useStoreState from "@/shared/store";
-import ProfileReviewTab from "./ProfileReviewTab";
-import ProfileReviewLike from "./ProfileReviewLike";
-import defaultImg from "@/assets/profile.png";
-import HeartFillIcon from "@/icons/HeartFillIcon";
-import Image from "next/image";
-import { HeartIcon } from "@/icons/HeartIcon";
+'use client';
+import { queryKey } from '@/query/queryKey';
+import { useQuery } from '@tanstack/react-query';
+import { readMyTodo } from '@/supabase/myPage/profileImage';
+import type { userTodo } from '@/types/type';
+import useStoreState from '@/shared/store';
+import ProfileReviewTab from './ProfileReviewTab';
+import ProfileReviewLike from './ProfileReviewLike';
+import defaultImg from '@/assets/profile.png';
+import HeartFillIcon from '@/icons/HeartFillIcon';
+import Image from 'next/image';
+import { HeartIcon } from '@/icons/HeartIcon';
 
 const ProfileReview = () => {
   const { userInfo } = useStoreState();
   const email = userInfo?.email;
+  console.log('email', email);
   const {
     isLoading,
     isPending,
@@ -41,7 +42,7 @@ const ProfileReview = () => {
       {/* 내가 한 일 */}
       <ProfileReviewTab />
       <div className="bg-white rounded-b-[56px]">
-        {activeMyTodos === "내가 할 일" && email !== (null || undefined) && (
+        {activeMyTodos === '내가 할 일' && email !== (null || undefined) && (
           <article className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8 p-8">
             {filterUserTodo?.map((todoItem) => {
               const {
@@ -90,7 +91,7 @@ const ProfileReview = () => {
                       <div className="align-bottom text-[18px]">{`${end} ~ ${start}`}</div>
                       <div className="flex items-center justify-between text-[20px]">
                         <div className="text-[20px] p-[4px] border-[2px] bg-subColor2 rounded-[15px]">
-                          {nickname ? nickname : "no name"}
+                          {nickname ? nickname : 'no name'}
                         </div>
                         <div className="flex gap-[0.2rem]">
                           {liketest !== null ? liketest?.length : <div>0</div>}

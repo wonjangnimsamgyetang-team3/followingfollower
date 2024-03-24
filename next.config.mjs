@@ -1,11 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["avatars.githubusercontent.com", "t1.kakaocdn.net"],
+    domains: ['avatars.githubusercontent.com', 't1.kakaocdn.net'],
+    domains: ['avatars.githubusercontent.com', 't1.kakaocdn.net'],
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "jcsjtjiqolsewkoutsag.supabase.co",
+        protocol: 'https',
+        hostname: 'jcsjtjiqolsewkoutsag.supabase.co',
       },
     ],
   },
