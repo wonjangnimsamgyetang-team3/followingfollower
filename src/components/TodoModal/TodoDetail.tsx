@@ -31,7 +31,7 @@ const TodoDetail = ({
   onDetailContentChange,
 }: Props) => {
   const [commentData, setCommentData] = useState<CommentData[]>([]);
-  const [userId, setUserId] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string>("");
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedTitle, setEditedTitle] = useState(todo.title);
   const [editedContent, setEditedContent] = useState(todo.contents);
@@ -52,7 +52,7 @@ const TodoDetail = ({
   useEffect(() => {
     const fetchUserData = async () => {
       const id = await getUserId();
-      setUserId(id);
+      setUserId(id || "");
     };
     fetchUserData();
   }, [userInfo]);
@@ -136,7 +136,7 @@ const TodoDetail = ({
         setIsEditMode(false);
       }
     } catch (error) {
-      console.error("Todo 수정 오류:", error.message);
+      console.error("Todo 수정 오류:");
     }
   };
 
