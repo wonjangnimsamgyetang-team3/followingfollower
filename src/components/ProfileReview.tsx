@@ -84,7 +84,7 @@ const ProfileReview = () => {
                       {title}
                     </div>
                     <article className="flex flex-col h-full rounded-[38px] gap-[10px]">
-                      <div className="bg-subColor4 rounded-[38px] w-auto h-full">
+                      <div className="bg-subColor4 rounded-[34px] w-auto h-full">
                         <p className="text-[20px] p-[10px]">{contents}</p>
                       </div>
                       <div className="align-bottom text-[18px]">{`${end} ~ ${start}`}</div>
@@ -93,8 +93,8 @@ const ProfileReview = () => {
                           {nickname ? nickname : "no name"}
                         </div>
                         <div className="flex gap-[0.2rem]">
-                          {liketest.length}
-                          {liketest.length > 0 ? (
+                          {liketest !== null ? liketest?.length : <div>0</div>}
+                          {liketest !== null && liketest.length > 0 ? (
                             <HeartFillIcon />
                           ) : (
                             <HeartIcon />

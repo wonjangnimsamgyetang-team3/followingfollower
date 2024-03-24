@@ -15,15 +15,13 @@ type Props = {
 
 const TodoBar = ({ todo, commentCount }: Props) => {
   const { userInfo } = useStoreState();
-  const { id } = userInfo || "";
+  const { id } = userInfo || {};
   // console.log(id);
   const [likes, setLikes] = useState<boolean | null>(null);
   const [liketest, setLiketest] = useState<string[]>([]);
 
   useEffect(() => {
     const likedStatus = async () => {
-      if (!id) return;
-
       const { data: likedUser, error } = await supabase
         .from("TodoList")
         .select("liketest")
@@ -49,8 +47,13 @@ const TodoBar = ({ todo, commentCount }: Props) => {
   // console.log(likes);
 
   const handleLikeToggle = async () => {
-    const userId = id;
-    if (!userId) return;
+    const { data: user } = await supabase.auth.getUser();
+    const userId = user?.user?.id;
+
+    if (!userId) {
+      alert("로그인 후 이용해주세요.");
+      return;
+    }
     // const userId = "15";
     // const getUserId = async () => {
     //   const { data: user } = await supabase.auth.getUser();
@@ -105,7 +108,7 @@ const TodoBar = ({ todo, commentCount }: Props) => {
       </p>
       <div className="flex">
         <ToggleButton
-          toggled={likes}
+          toggled={likes ?? false}
           onToggle={handleLikeToggle}
           onIcon={<HeartFillIcon />}
           offIcon={<HeartIcon />}

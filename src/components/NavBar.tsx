@@ -1,9 +1,8 @@
 import { User } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import Image from "next/image";
-import FFlogo from "@/assets/FFlogo.png";
+import FFlogo from "@/assets/FF2.png";
 import LogOut from "./LogOut";
-
 const NavBar = ({ user }: { user: User | null }) => {
   return (
     <nav className="flex flex-col place-items-center text-xl">
@@ -18,22 +17,15 @@ const NavBar = ({ user }: { user: User | null }) => {
           <Link href="/feed" className="p-4">
             88피드
           </Link>
+          <Link href="/mypage" className="p-4">
+            마이페이지
+          </Link>
           {!user ? (
-            <Link href="/login" className="p-4">
-              마이페이지
-            </Link>
-          ) : (
-            <Link href="/mypage" className="p-4">
-              마이페이지
-            </Link>
-          )}
-
-          {user ? (
-            <LogOut />
-          ) : (
             <Link href="/login" className="p-4">
               로그인
             </Link>
+          ) : (
+            <LogOut />
           )}
         </div>
       </div>
@@ -41,5 +33,4 @@ const NavBar = ({ user }: { user: User | null }) => {
     </nav>
   );
 };
-
 export default NavBar;

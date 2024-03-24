@@ -14,7 +14,7 @@ const ProfileReviewLike = ({ userTodo }: ReviewLike) => {
   const activeMyTodos: string = useStoreState((store) => store.activeCategory);
   const { userInfo } = useStoreState();
   const { id } = userInfo;
-
+  console.log(id);
   const filterMyLikeTodoList = userTodo?.filter((todoItem: Partial<userTodo>) =>
     todoItem?.liketest?.includes(id)
   );
