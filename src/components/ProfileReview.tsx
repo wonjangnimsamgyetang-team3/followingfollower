@@ -26,7 +26,7 @@ const ProfileReview = () => {
     queryFn: readMyTodo,
   });
   const activeMyTodos: string = useStoreState((store) => store.activeCategory);
-  const filterUserTodo = userTodo?.filter(
+  const filterUserTodo: any[] | undefined = userTodo?.filter(
     (todo: Partial<userTodo>) => todo.email === email
   );
 

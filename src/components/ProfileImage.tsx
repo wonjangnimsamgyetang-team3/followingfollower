@@ -24,7 +24,7 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
   const email = userInfo?.email;
   const id = userInfo?.id;
   const { nickname, contents, avatar } = userAccount;
-
+  console.log(id);
   const userMyPage = async () => {
     // DB - myPageAccount
     const userDatas = await readUsersInfo(email);
