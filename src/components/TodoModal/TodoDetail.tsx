@@ -5,7 +5,6 @@ import TodoBar from "../TodoBar";
 import CommentForm from "./CommentForm";
 import useStoreState from "@/shared/store";
 import Image from "next/image";
-import Loading from "../Loading";
 
 export type CommentData = {
   nickname: string;
