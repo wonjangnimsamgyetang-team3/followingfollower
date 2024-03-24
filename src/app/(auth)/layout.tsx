@@ -29,7 +29,7 @@ const AuthLayout = ({
     };
 
     getUser();
-  }, []);
+  });
 
   // 세션 데이터가 없으면 자식 컴포넌트(children)를 렌더링하지 않습니다.
   if (!session) {
