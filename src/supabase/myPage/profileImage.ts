@@ -116,15 +116,3 @@ export const updateUserMetaData = async ({
   }
   return data;
 };
-
-// export const getLocalStorageJSON = () => {
-//   const localStorageKey = localStorage.key(0);
-//   if (localStorageKey !== null) {
-//     const localStorageValue = localStorage.getItem(localStorageKey);
-//     const resultObj = JSON.parse(localStorageValue ?? "null") || [];
-//     return resultObj;
-//   } else {
-//     console.error("로컬 스토리지에 저장된 값이 없습니다.");
-//     return [];
-//   }
-// };
