@@ -10,6 +10,7 @@ import useStoreState from "@/shared/store";
 
 const MainPage = () => {
   const { addUser } = useStoreState();
+
   useEffect(() => {
     const getUser = async () => {
       const {
