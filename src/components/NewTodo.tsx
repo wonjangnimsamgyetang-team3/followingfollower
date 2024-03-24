@@ -1,19 +1,17 @@
 'use client';
 
-import Image from 'next/image';
-import React, { ChangeEvent, FormEvent, useState, useEffect } from 'react';
+import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import { FaPhotoVideo } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/supabase/supabase';
+import Image from 'next/image';
 import useStoreState from '@/shared/store';
-import whiteSpinner from '../assets/whiteSpinner.svg';
+import whiteSpinner from '@/assets/whiteSpinner.svg';
 
 const NewTodo = () => {
   //zustand
   const { userInfo } = useStoreState();
-  // console.log("로그인한 유저정보", userInfo);
   const nickname = userInfo?.nickname;
-  console.log(nickname);
 
   const userId = userInfo?.id;
 
@@ -50,7 +48,6 @@ const NewTodo = () => {
     const files = e.dataTransfer?.files;
     if (files && files[0]) {
       setFile(files[0]);
-      // console.log(files[0]);
     }
   };
 
@@ -66,12 +63,10 @@ const NewTodo = () => {
       setUserAvatar(
         user?.user_metadata?.avatar ?? user?.user_metadata?.avatar_url
       );
-      console.log(userInfo?.nickname);
-      console.log(user?.user_metadata?.avatar);
 
       //로그인 안 한 상태 시
       if (!user) {
-        alert('로그인 후 이용해주세요.');
+        alert('로그인 후 이용해 주세요.');
         router.push('/login');
       }
     };
@@ -83,7 +78,7 @@ const NewTodo = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!file) {
-      alert('사진 첨부는 필수입니다!');
+      alert('사진을 등록해 주세요.');
       return;
     }
 
@@ -92,7 +87,7 @@ const NewTodo = () => {
     const userId = user?.user?.id;
 
     if (!userId) {
-      alert('로그인 후 이용해주세요.');
+      alert('로그인 후 이용해 주세요.');
       return;
     }
 
@@ -162,9 +157,8 @@ const NewTodo = () => {
       console.error('insert error', insertError);
       return;
     }
-    setIsLoading(false);
 
-    alert('등록 완료!');
+    setIsLoading(false);
     router.push('/feed');
   };
 

@@ -1,9 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
-import { supabase } from "@/supabase/supabase";
-import { useRouter } from "next/navigation";
-import useStoreState from "@/shared/store";
+import { supabase } from '@/supabase/supabase';
+import { useRouter } from 'next/navigation';
+import useStoreState from '@/shared/store';
 
 const LogOut = () => {
   const { removeUser } = useStoreState();
@@ -15,15 +14,15 @@ const LogOut = () => {
     //로그아웃 시 디비에서 삭제
     if (authEmail) {
       const { error: dbError } = await supabase
-        .from("myPageAccount")
+        .from('myPageAccount')
         .delete()
-        .eq("email", authEmail);
+        .eq('email', authEmail);
     }
 
-    alert("로그아웃이 완료됐습니다.");
+    alert('로그아웃이 완료됐습니다.');
     let { error } = await supabase.auth.signOut();
     localStorage.clear();
-    router.replace("/");
+    router.replace('/');
     router.refresh();
     removeUser();
 

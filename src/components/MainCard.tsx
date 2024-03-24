@@ -1,5 +1,5 @@
-import { Todo } from '@/types/type';
 import Image from 'next/image';
+import type { Todo } from '@/types/type';
 
 const MainCard = ({ todos }: { todos: Todo[] | undefined | null }) => {
   return (

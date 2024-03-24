@@ -1,12 +1,9 @@
 'use client';
 
-import React from 'react';
 import { supabase } from '@/supabase/supabase';
 import { useQuery } from '@tanstack/react-query';
-import profile from '@/assets/profile.png';
 import Image from 'next/image';
-
-import type { Todo } from '@/types/type';
+import profile from '@/assets/profile.png';
 
 const LikeTop = () => {
   const { data, isLoading, isError } = useQuery({
@@ -17,7 +14,6 @@ const LikeTop = () => {
         .select('*')
         .order(`liketest`, { ascending: false })
         .range(0, 2);
-      // LikeCount 가 높은 순서대로
       return response.data;
     },
   });

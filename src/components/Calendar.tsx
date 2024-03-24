@@ -1,13 +1,13 @@
 'use client';
 
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import listPlugin from '@fullcalendar/list';
-import '../style/calendar.css';
 import { supabase } from '@/supabase/supabase';
 import { useQuery } from '@tanstack/react-query';
-import { TodosInCalendar } from '../types/todoInCalendar';
+import '../style/calendar.css';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import useStoreState from '@/shared/store';
+
+import type { TodosInCalendar } from '../types/todoInCalendar';
 
 const Calendar = () => {
   const todos: TodosInCalendar = [];
@@ -28,7 +28,7 @@ const Calendar = () => {
       }
     },
   });
-  console.log(data);
+
   data?.map((item) =>
     todos.push({
       title: item.title,

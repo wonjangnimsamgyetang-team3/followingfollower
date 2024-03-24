@@ -1,12 +1,12 @@
 'use client';
 
+import { useEffect } from 'react';
+import { supabase } from '@/supabase/supabase';
+import useStoreState from '@/shared/store';
 import AllCard from '@/components/AllCard';
 import NewCard from '@/components/NewCard';
 import Banner from '@/components/Banner';
 import LikeTop from '@/components/LikeTop';
-import React, { useEffect } from 'react';
-import { supabase } from '@/supabase/supabase';
-import useStoreState from '@/shared/store';
 
 const MainPage = () => {
   const { addUser } = useStoreState();
@@ -16,7 +16,6 @@ const MainPage = () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      console.log('home - 소셜', user);
 
       const withAvatar =
         user?.user_metadata.avatar_url ?? user?.user_metadata.avatar;
@@ -38,9 +37,10 @@ const MainPage = () => {
   }, []);
 
   return (
-    <main className="mx-10 mb-20">
+    <main className="mb-20">
       <Banner />
-      <article className="flex gap-10">
+      <div className="h-2 mb-10 bg-gradient-to-b from-subColor2"></div>
+      <article className="mx-10 flex gap-10">
         <aside>
           <LikeTop />
         </aside>
