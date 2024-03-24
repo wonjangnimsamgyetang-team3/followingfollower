@@ -84,7 +84,7 @@ const ProfileReview = () => {
                       {title}
                     </div>
                     <article className="flex flex-col h-full rounded-[38px] gap-[10px]">
-                      <div className="bg-subColor4 rounded-[34px] w-auto h-full">
+                      <div className="bg-subColor4 rounded-[20px] w-[auto] h-full">
                         <p className="text-[20px] p-[10px]">{contents}</p>
                       </div>
                       <div className="align-bottom text-[18px]">{`${end} ~ ${start}`}</div>
