@@ -24,6 +24,29 @@ export default async function RootLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
+  //로그인 한 유저정보 꺼내기
+  const avatar = user?.user_metadata.avatar_url ?? user?.user_metadata.avatar;
+  const email = user?.user_metadata.email;
+  const nickname =
+    user?.user_metadata.preferred_username ?? user?.user_metadata.userNickname;
+  const contents = user?.user_metadata.contents;
+
+  //로그인 시 myPageAccount에 추가
+  if (user) {
+    const { data, error } = await supabase
+      .from("myPageAccount")
+      .insert([
+        {
+          //uid는 디비에 추가 시 auth id와 엮여있어 자동으로 생성
+          avatar: avatar,
+          // nickname: nickname,
+          // contents: "",
+          email: email,
+        },
+      ])
+      .select();
+  }
+
   return (
     <html lang="en">
       <QueryProvider>
