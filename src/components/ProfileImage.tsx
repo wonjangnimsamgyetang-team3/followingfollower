@@ -56,11 +56,11 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
         setDefaultImg(avatar);
       }
 
-      if (!userInfo || !avatar) {
-        alert("로그인 후 이용해 주세요.");
-        <LogOut />;
-        router.replace("/");
-      }
+      // if (!userInfo || !avatar) {
+      //   alert("로그인 후 이용해 주세요.");
+      //   <LogOut />;
+      //   router.replace("/");
+      // }
     }
   };
   // 마이페이지 프로필 렌더링
