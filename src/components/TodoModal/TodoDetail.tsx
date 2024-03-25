@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { TodoType } from '../TodoCard';
-import { supabase } from '@/supabase/supabase';
-import Image from 'next/image';
-import TodoBar from '../TodoBar';
-import CommentForm from './CommentForm';
-import useStoreState from '@/shared/store';
-import defaultProfile from '@/assets/profile.png';
+import { useEffect, useState } from "react";
+import { TodoType } from "../TodoCard";
+import { supabase } from "@/supabase/supabase";
+import Image from "next/image";
+import TodoBar from "../TodoBar";
+import CommentForm from "./CommentForm";
+import useStoreState from "@/shared/store";
+import defaultProfile from "@/assets/profile.png";
 
 export type CommentData = {
   nickname: string;
@@ -48,7 +48,7 @@ const TodoDetail = ({
   useEffect(() => {
     const fetchUserData = async () => {
       const id = await getUserId();
-      setUserId(id || '');
+      setUserId(id || "");
     };
     fetchUserData();
   }, [userInfo]);
@@ -63,9 +63,9 @@ const TodoDetail = ({
 
   async function fetchComments(todoId: string) {
     const { data: commentList, error } = await supabase
-      .from('commentList')
-      .select('nickname, comment, created_at, userId, email, id, avatar')
-      .eq('todoId', todoId);
+      .from("commentList")
+      .select("nickname, comment, created_at, userId, email, id, avatar")
+      .eq("todoId", todoId);
 
     if (error) {
       throw error;
@@ -76,13 +76,13 @@ const TodoDetail = ({
   }
 
   const handleTodoDelete = async () => {
-    if (window.confirm('todo를 삭제하시겠습니까?')) {
+    if (window.confirm("todo를 삭제하시겠습니까?")) {
       const { error } = await supabase
-        .from('TodoList')
+        .from("TodoList")
         .delete()
-        .eq('todoId', todo.todoId);
+        .eq("todoId", todo.todoId);
       if (error) {
-        console.error('todo삭제 오류:', error.message);
+        console.error("todo삭제 오류:", error.message);
       } else {
         window.location.reload();
       }
@@ -90,13 +90,13 @@ const TodoDetail = ({
   };
 
   const handleCommentDelete = async (commentId: string) => {
-    if (window.confirm('댓글을 삭제하시겠습니까?')) {
+    if (window.confirm("댓글을 삭제하시겠습니까?")) {
       const { error } = await supabase
-        .from('commentList')
+        .from("commentList")
         .delete()
-        .eq('id', commentId);
+        .eq("id", commentId);
       if (error) {
-        console.error('댓글 삭제 오류:', error.message);
+        console.error("댓글 삭제 오류:", error.message);
       } else {
         fetchComments(todo.todoId);
       }
@@ -105,24 +105,24 @@ const TodoDetail = ({
 
   const handleTodoEdit = async () => {
     if (editedTitle === todo.title && editedContent === todo.contents) {
-      alert('수정된 부분이 없습니다.');
+      alert("수정된 부분이 없습니다.");
       return;
     }
 
     try {
       const { data, error } = await supabase
-        .from('TodoList')
+        .from("TodoList")
         .update([
           {
             title: editedTitle,
             contents: editedContent,
           },
         ])
-        .eq('todoId', todo.todoId)
+        .eq("todoId", todo.todoId)
         .select();
 
       if (error) {
-        console.error('Todo 수정 오류:', error.message);
+        console.error("Todo 수정 오류:", error.message);
       } else {
         setEditedTitle(editedTitle);
         setEditedContent(editedContent);
@@ -132,7 +132,7 @@ const TodoDetail = ({
         setIsEditMode(false);
       }
     } catch (error) {
-      console.error('Todo 수정 오류');
+      console.error("Todo 수정 오류");
     }
   };
 
@@ -281,11 +281,11 @@ const TodoDetail = ({
                   <div className="w-full flex justify-between">
                     <div className="text-gray-400">
                       {new Date(comment.created_at).toLocaleDateString(
-                        'ko-KR',
+                        "ko-KR",
                         {
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit',
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
                         }
                       )}
                     </div>

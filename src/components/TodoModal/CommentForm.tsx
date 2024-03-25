@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { supabase } from '@/supabase/supabase';
-import { FormEvent, useState } from 'react';
-import { TodoType } from '../TodoCard';
-import Image from 'next/image';
-import useStoreState from '@/shared/store';
-import defaultProfile from '@/assets/profile.png';
+import { supabase } from "@/supabase/supabase";
+import { FormEvent, useState } from "react";
+import { TodoType } from "../TodoCard";
+import Image from "next/image";
+import useStoreState from "@/shared/store";
+import defaultProfile from "@/assets/profile.png";
 
 type Props = {
   todo: TodoType;
@@ -13,12 +13,12 @@ type Props = {
 };
 
 const CommentForm = ({ todo, onCommentSuccess }: Props) => {
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
   const buttonDisabled = comment.length === 0;
 
   const { userInfo } = useStoreState();
   const nickname = userInfo?.nickname;
-  const userAvatar = userInfo?.avatar || '';
+  const userAvatar = userInfo?.avatar || "";
 
   const handleCommentSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,13 +28,13 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
     const userId = user?.user?.id;
 
     if (!userId) {
-      alert('로그인 후 이용해 주세요.');
+      alert("로그인 후 이용해 주세요.");
       return;
     }
 
     const formData = new FormData();
-    formData.append('comment', comment);
-    const { data } = await supabase.from('commentList').insert([
+    formData.append("comment", comment);
+    const { data } = await supabase.from("commentList").insert([
       {
         nickname: nickname,
         comment: comment,
@@ -45,7 +45,7 @@ const CommentForm = ({ todo, onCommentSuccess }: Props) => {
       },
     ]);
     onCommentSuccess();
-    setComment('');
+    setComment("");
   };
 
   return (
