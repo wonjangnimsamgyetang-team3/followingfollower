@@ -1,14 +1,16 @@
-'use client';
-import { ChangeEvent, FormEvent, MouseEvent, useState } from 'react';
-import { supabase } from '@/supabase/supabase';
+"use client";
+import { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
+import { supabase } from "@/supabase/supabase";
 
 import {
   updateUserAccounts,
+  updateUserMetaData,
+  updatemyPageAccount,
   uploadImage,
-} from '@/supabase/myPage/profileImage';
-import useStoreState from '@/shared/store';
+} from "@/supabase/myPage/profileImage";
+import useStoreState from "@/shared/store";
 
-import type { Edit, UserData } from '@/types/type';
+import type { Edit, UserData } from "@/types/type";
 
 const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const {
@@ -53,7 +55,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   // 이미지, 닉네임, 소개 편집
   const editSaveHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const editSaveCheck = window.confirm('수정내용을 저장하시겠습니까?');
+    const editSaveCheck = window.confirm("수정내용을 저장하시겠습니까?");
     if (editSaveCheck === false) {
       // alert('수정을 취소하셨습니다.');
       if (avatar) {
@@ -73,29 +75,31 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
       // 해당 콜렉션에 있는 문서 파일 url 가져오기
       if (data !== null) {
         const { data: imageUrl } = supabase.storage
-          .from('userImage')
+          .from("userImage")
           .getPublicUrl(data.path);
 
         // 스토리지에 있는 blob이미지를 일반 이미지 url로 변경
         const ImgDbUrl = imageUrl.publicUrl;
         if (ImgDbUrl) {
-          await updateUserAccounts({ ...editValue, avatar: ImgDbUrl });
-          alert('수정이 완료됐습니다.');
-
+          await updateUserAccounts({ ...editValue });
+          alert("수정이 완료됐습니다.");
           setUserAccount({ ...editValue, avatar: ImgDbUrl });
+          updatemyPageAccount({ ...editValue, avatar: ImgDbUrl });
+          await updateUserMetaData({ nickname, contents });
           setDefaultImg(ImgDbUrl);
         } else {
-          alert('이미지 URL을 가져올 수 없습니다.');
+          alert("이미지 URL을 가져올 수 없습니다.");
         }
       }
     } catch (error) {
-      console.error('이미지가 업로드되지 않았습니다.', error);
-      alert('이미지가 업로드 되지 않았습니다. 다시 등록해 주세요.');
+      console.error("이미지가 업로드되지 않았습니다.", error);
+      alert("이미지가 업로드 되지 않았습니다. 다시 등록해 주세요.");
     }
 
     // DB에 저장
     const userAccountEditHandler = async () => {
       await updateUserAccounts(editValue);
+      await updatemyPageAccount(editValue);
     };
     userAccountEditHandler();
 
@@ -105,7 +109,6 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
 
   const editCancelHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // alert('수정을 취소하셨습니다.');
     setIsEdit(false);
     setDefaultImg(avatar ?? defaultImg);
   };
@@ -118,7 +121,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
             <div className="flex flex-col gap-[10px]">
               <div>
                 <p className="text-center text-[20px] text-subColor1 text-bold">
-                  {nickname}
+                  {nickname ? nickname : "no name"}
                 </p>
               </div>
               <div>
@@ -148,8 +151,8 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
                 onChange={editValueChangeHandler}
                 maxLength={10}
                 placeholder={
-                  editValueNickname === ''
-                    ? '닉네임을 적어주세요 (10글자 이내)'
+                  editValueNickname === ""
+                    ? "닉네임을 적어주세요 (10글자 이내)"
                     : editValueNickname
                 }
                 className="h-8 text-md input input-bordered focus:border-1 focus:border-subColor2 focus:border-solid focus:bg-white bg-subColor4 w-full max-w-xs"
@@ -163,8 +166,8 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
               onChange={editValueChangeHandler}
               maxLength={30}
               placeholder={
-                editValueContents === ''
-                  ? '자신을 소개해주세요 (30글자 이내)'
+                editValueContents === ""
+                  ? "자신을 소개해주세요 (30글자 이내)"
                   : editValueContents
               }
               className="w-full text-md textarea textarea-bordered h-16 focus:border-1 focus:border-subColor2 focus:border-solid focus:bg-white bg-subColor4"
