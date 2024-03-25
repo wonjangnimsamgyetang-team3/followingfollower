@@ -19,7 +19,6 @@ const LogOut = () => {
         .eq('email', authEmail);
     }
 
-    alert('로그아웃이 완료됐습니다.');
     let { error } = await supabase.auth.signOut();
     localStorage.clear();
     router.replace('/');

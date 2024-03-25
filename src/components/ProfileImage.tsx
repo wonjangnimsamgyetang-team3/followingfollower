@@ -6,6 +6,7 @@ import {
   readUsersInfo,
   updateUserAccounts,
   updateUserMetaData,
+  updatemyPageAccount,
 } from "@/supabase/myPage/profileImage";
 import { useStoreState } from "@/shared/store";
 import noAvatar from "@/assets/profile.png";
@@ -28,7 +29,6 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
 
   const email = userInfo?.email;
   const id = userInfo?.id;
-  // const nickname = userInfo?.nickname;
   const { nickname, contents, avatar } = userAccount;
 
   const userMyPage = async () => {
@@ -36,10 +36,9 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
     const userDatas = await readUsersInfo(email);
     // 현재 유저 정보
     const datas = userDatas?.find((item: UserData) => item.email === email);
-    console.log(userDatas);
+
     if (datas) {
       const { email } = datas;
-      console.log(email);
 
       const userData: UserData = {
         id,
@@ -48,11 +47,9 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
         avatar,
         contents,
       };
-      console.log(avatar);
-      console.log(userData);
-      console.log(contents);
-      console.log(nickname);
+
       setUserAccount(userData);
+      updatemyPageAccount(userData);
       updateUserAccounts(userData);
       updateUserMetaData({ nickname, contents });
       if (avatar) {
@@ -92,27 +89,51 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
     <div className=" w-full flex justify-center rounded-t-[56px]">
       {isEdit ? (
         <label htmlFor="imgFileChoice">
-          <div className="w-[280px] sm:w-auto flex justify-center object-fit">
-            <Image
-              src={defaultImg ?? noAvatar}
-              alt="유저이미지"
-              width={130}
-              height={130}
-              sizes="(max-width: 639px) 50vw, 130px"
-              className="rounded-full object-cover"
-            />
-          </div>
+          {isEdit && avatar ? (
+            <div className="w-[280px] sm:w-auto flex justify-center object-fit">
+              <Image
+                src={defaultImg}
+                alt="유저이미지"
+                width={130}
+                height={130}
+                sizes="(max-width: 639px) 50vw, 130px"
+                className="rounded-full object-cover"
+              />
+            </div>
+          ) : (
+            <div className="w-[280px] sm:w-auto flex justify-center object-fit">
+              <Image
+                src={defaultImg}
+                alt="유저이미지"
+                width={130}
+                height={130}
+                sizes="(max-width: 639px) 50vw, 130px"
+                className="rounded-full object-cover"
+              />
+            </div>
+          )}
         </label>
       ) : (
         <div>
-          <Image
-            src={defaultImg ?? noAvatar}
-            alt="유저이미지"
-            width={130}
-            height={130}
-            sizes="280px"
-            className="rounded-full object-cover"
-          />
+          {isEdit && selectFile ? (
+            <Image
+              src={noAvatar}
+              alt="유저이미지"
+              width={130}
+              height={130}
+              sizes="280px"
+              className="rounded-full object-cover"
+            />
+          ) : (
+            <Image
+              src={defaultImg}
+              alt="유저이미지"
+              width={130}
+              height={130}
+              sizes="280px"
+              className="rounded-full object-cover"
+            />
+          )}
         </div>
       )}
       <input

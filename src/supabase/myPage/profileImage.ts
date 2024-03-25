@@ -2,7 +2,7 @@ import { supabase } from "../supabase";
 import type { UserData, UserInfo } from "@/types/type";
 
 // DB - myPageAccount 테이블 업데이트
-export const updateUserAccounts = async ({
+export const updatemyPageAccount = async ({
   id,
   nickname,
   contents,
@@ -12,6 +12,24 @@ export const updateUserAccounts = async ({
   const { data, error } = await supabase
     .from("myPageAccount")
     .update({ uid: id, nickname, contents, avatar })
+    .eq("email", `${email}`)
+    .select("*");
+
+  if (error) {
+    console.error("업데이트를 다시 시도해 주세요.");
+  }
+  return data;
+};
+
+export const updateUserAccounts = async ({
+  id,
+  nickname,
+  contents,
+  email,
+}: UserData) => {
+  const { data, error } = await supabase
+    .from("usersAccounts")
+    .update({ uid: id, nickname, contents })
     .eq("email", `${email}`)
     .select("*");
 

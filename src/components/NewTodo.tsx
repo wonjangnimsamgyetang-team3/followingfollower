@@ -263,7 +263,7 @@ const NewTodo = () => {
             </div>
           </div>
           <button
-            className="h-[50px] bg-subColor1 rounded-[15px] text-white font-bold mt-[30px] hover:drop-shadow transition-all duration-200 flex justify-center items-center"
+            className="h-[50px] bg-subColor1 rounded-[15px] text-white font-bold mt-[30px] hover:drop-shadow transition-all flex justify-center items-center"
             disabled={isLoading}
           >
             {isLoading ? (

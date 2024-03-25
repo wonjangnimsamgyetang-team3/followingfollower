@@ -5,6 +5,7 @@ import { supabase } from "@/supabase/supabase";
 import {
   updateUserAccounts,
   updateUserMetaData,
+  updatemyPageAccount,
   uploadImage,
 } from "@/supabase/myPage/profileImage";
 import useStoreState from "@/shared/store";
@@ -24,7 +25,6 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const email = userInfo?.email;
   const id = userInfo?.id;
   const { nickname, contents, avatar }: Partial<UserData> = userAccount;
-  console.log(nickname);
 
   const [editValue, setEditValue] = useState<UserData>({
     nickname,
@@ -57,7 +57,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     e.preventDefault();
     const editSaveCheck = window.confirm("수정내용을 저장하시겠습니까?");
     if (editSaveCheck === false) {
-      alert("수정을 취소하셨습니다.");
+      // alert('수정을 취소하셨습니다.');
       if (avatar) {
         setDefaultImg(avatar);
       }
@@ -81,12 +81,11 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
         // 스토리지에 있는 blob이미지를 일반 이미지 url로 변경
         const ImgDbUrl = imageUrl.publicUrl;
         if (ImgDbUrl) {
-          await updateUserAccounts({ ...editValue, avatar: ImgDbUrl });
+          await updateUserAccounts({ ...editValue });
           alert("수정이 완료됐습니다.");
-          console.log(nickname);
-          console.log(contents);
-          updateUserMetaData({ nickname, contents });
           setUserAccount({ ...editValue, avatar: ImgDbUrl });
+          updatemyPageAccount({ ...editValue, avatar: ImgDbUrl });
+          await updateUserMetaData({ nickname, contents });
           setDefaultImg(ImgDbUrl);
         } else {
           alert("이미지 URL을 가져올 수 없습니다.");
@@ -100,6 +99,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     // DB에 저장
     const userAccountEditHandler = async () => {
       await updateUserAccounts(editValue);
+      await updatemyPageAccount(editValue);
     };
     userAccountEditHandler();
 
@@ -109,84 +109,82 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
 
   const editCancelHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    alert("수정을 취소하셨습니다.");
     setIsEdit(false);
     setDefaultImg(avatar ?? defaultImg);
   };
-  console.log(nickname);
+
   return (
     <section>
-      <div>
-        <div className="flex flex-col item-center justify-center">
-          {!isEdit ? (
-            <article className="flex flex-col gap-[10px]">
-              <div className="flex flex-col gap-[10px]">
-                <div>
-                  <p className="text-center text-[20px] text-subColor1 text-bold">
-                    {nickname ? nickname : "no name"}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-center text-[20px]">
-                    <span>{contents}</span>
-                  </p>
-                </div>
+      <div className="flex flex-col item-center justify-center">
+        {!isEdit ? (
+          <article className="flex flex-col gap-[10px]">
+            <div className="flex flex-col gap-[10px]">
+              <div>
+                <p className="text-center text-[20px] text-subColor1 text-bold">
+                  {nickname ? nickname : "no name"}
+                </p>
               </div>
-              <div className="flex items-center justify-evenly mt-[20px]">
-                <button
-                  onClick={editContentsHandler}
-                  className="w-[100px] border-2 grid place-items-center border-solid border-[#fb8494] p-4  h-4/5 content-center bg-subColor1 hover:drop-shadow rounded-[20px] text-white font-bold transition-all duration-100"
-                >
-                  수정
-                </button>
+              <div>
+                <p className="text-center text-[20px]">
+                  <span>{contents}</span>
+                </p>
               </div>
-            </article>
-          ) : (
-            <form onSubmit={editSaveHandler} className=" w-full">
-              <div className="w-full">
-                <div>
-                  <input
-                    name="nickname"
-                    value={editValueNickname}
-                    onChange={editValueChangeHandler}
-                    maxLength={10}
-                    placeholder={
-                      editValueNickname === ""
-                        ? "닉네임을 적어주세요 (10글자 이내)"
-                        : editValueNickname
-                    }
-                    className="h-8 text-[20px] input input-bordered focus:border-1 focus:border-subColor2 focus:border-solid focus:bg-white bg-subColor4 w-full max-w-xs"
-                  />
-                </div>
-                <textarea
-                  name="contents"
-                  cols={30}
-                  rows={2}
-                  value={editValueContents}
-                  onChange={editValueChangeHandler}
-                  maxLength={30}
-                  placeholder={
-                    editValueContents === ""
-                      ? "자신을 소개해주세요 (30글자 이내)"
-                      : editValueContents
-                  }
-                  className="w-full text-[18px] textarea textarea-bordered h-16 focus:border-1 focus:border-subColor2 focus:border-solid focus:bg-white bg-subColor4"
-                ></textarea>
-                <div className="flex justify-between w-full gap-[10px]">
-                  <button className="border-2 grid place-items-center border-solid border-[#fb8494] p-4  h-4/5 content-center bg-subColor2 hover:drop-shadow rounded-[15px] font-bold transition-all duration-100">
-                    수정완료
-                  </button>
-                  <button
-                    onClick={editCancelHandler}
-                    className="border-2 grid place-items-center border-solid border-[#fb8494] p-4  h-4/5 content-center bg-subColor2 hover:drop-shadow rounded-[15px] font-bold transition-all duration-100"
-                  >
-                    수정취소
-                  </button>
-                </div>
-              </div>
-            </form>
-          )}
-        </div>
+            </div>
+            <div className="flex items-center justify-evenly mt-[20px]">
+              <button
+                onClick={editContentsHandler}
+                className="w-[100px] border-2 grid place-items-center border-none p-4  h-4/5 content-center bg-subColor1 hover:drop-shadow rounded-[20px] text-white font-bold transition-all"
+              >
+                수정
+              </button>
+            </div>
+          </article>
+        ) : (
+          <form
+            onSubmit={editSaveHandler}
+            className=" w-full flex flex-col gap-5"
+          >
+            <div>
+              <input
+                name="nickname"
+                value={editValueNickname}
+                onChange={editValueChangeHandler}
+                maxLength={10}
+                placeholder={
+                  editValueNickname === ""
+                    ? "닉네임을 적어주세요 (10글자 이내)"
+                    : editValueNickname
+                }
+                className="h-8 text-md input input-bordered focus:border-1 focus:border-subColor2 focus:border-solid focus:bg-white bg-subColor4 w-full max-w-xs"
+              />
+            </div>
+            <textarea
+              name="contents"
+              cols={30}
+              rows={2}
+              value={editValueContents}
+              onChange={editValueChangeHandler}
+              maxLength={30}
+              placeholder={
+                editValueContents === ""
+                  ? "자신을 소개해주세요 (30글자 이내)"
+                  : editValueContents
+              }
+              className="w-full text-md textarea textarea-bordered h-16 focus:border-1 focus:border-subColor2 focus:border-solid focus:bg-white bg-subColor4"
+            ></textarea>
+            <div className="flex justify-center w-full gap-10">
+              <button className="border-2 grid place-items-center border-solid border-subColor1 p-4  h-4/5 content-center bg-subColor2 hover:drop-shadow rounded-[15px] font-bold transition-all">
+                수정완료
+              </button>
+              <button
+                onClick={editCancelHandler}
+                className="border-2 grid place-items-center border-solid border-subColor1 p-4  h-4/5 content-center bg-subColor2 hover:drop-shadow rounded-[15px] font-bold transition-all"
+              >
+                수정취소
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </section>
   );
