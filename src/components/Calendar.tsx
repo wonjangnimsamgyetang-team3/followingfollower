@@ -1,21 +1,27 @@
 'use client';
 
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import listPlugin from '@fullcalendar/list';
-import '../style/calendar.css';
 import { supabase } from '@/supabase/supabase';
 import { useQuery } from '@tanstack/react-query';
-import { TodosInCalendar } from '../types/todoInCalendar';
+import '../style/calendar.css';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import useStoreState from '@/shared/store';
+
+import type { TodosInCalendar } from '../types/todoInCalendar';
 
 const Calendar = () => {
   const todos: TodosInCalendar = [];
+  const { userInfo } = useStoreState();
+  const myEmail = userInfo?.email;
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['todos'],
     queryFn: async () => {
       try {
-        const response = await supabase.from('TodoList').select('*');
+        const response = await supabase
+          .from('TodoList')
+          .select('*')
+          .eq('email', myEmail);
         return response.data;
       } catch (error) {
         console.log(error);
@@ -33,13 +39,17 @@ const Calendar = () => {
 
   return (
     <>
-      <section className="w-1/2">
+      {/* <section>
+        <div> */}
+      {/* <section className="flex items-center justify-center lg:w-[100%] lg:h-[418px]"> */}
+      <div className="p-4 flex-col items-center w-full h-full rounded-[56px]">
         <FullCalendar
           initialView="dayGridMonth"
           plugins={[dayGridPlugin]}
           events={todos}
         />
-      </section>
+      </div>
+      {/* </section> */}
       {/* <section>
         <FullCalendar
           plugins={[listPlugin]}

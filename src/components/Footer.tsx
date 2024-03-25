@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import youtubeIcon from '../assets/youtube-icon.png';
-import githubIcon from '../assets/github-icon.png';
+import youtubeIcon from '@/assets/youtube-icon.png';
+import githubIcon from '@/assets/github-icon.png';
 
 const Footer = () => {
   const moveToTop = () => {

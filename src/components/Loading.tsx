@@ -1,5 +1,5 @@
-import Image from "next/image";
-import redSpinner from "../assets/redSpinner.svg";
+import Image from 'next/image';
+import redSpinner from '../assets/redSpinner.svg';
 
 const Loading = () => {
   return (

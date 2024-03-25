@@ -1,10 +1,12 @@
 'use client';
 
 import { supabase } from '@/supabase/supabase';
-import { followType } from '@/types/type';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
+import type { followType } from '@/types/type';
+
+// 팔로우 기능 구현 test 입니다.
 const FollowBtn = ({
   myEmail,
   writerEmail,

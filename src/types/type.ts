@@ -18,7 +18,7 @@ export type Edit = {
 export type UserData = {
   avatar?: string;
   nickname: string | undefined;
-  contents: string | undefined;
+  contents?: string | undefined;
   id?: string;
   email: string;
 };
@@ -30,7 +30,6 @@ export interface UserInfo {
   email: string;
 }
 
-// nickname: userInfo.nickname,
 export type UserEmail = {
   userEmail: string;
 };

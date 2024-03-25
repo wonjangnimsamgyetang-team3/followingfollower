@@ -1,15 +1,13 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { supabase } from "@/supabase/supabase";
-import TodoBar from "./TodoBar";
-import ModalPotal from "./TodoModal/ModalPortal";
-import TodoModal from "./TodoModal/TodoModal";
-import TodoDetail from "./TodoModal/TodoDetail";
-import useStoreState from "@/shared/store";
-import Image from "next/image";
-import Loading from "./Loading";
-import FollowBtn from "./FollowBtn";
+import { useEffect, useState } from 'react';
+import { supabase } from '@/supabase/supabase';
+import TodoBar from './TodoBar';
+import ModalPotal from './TodoModal/ModalPortal';
+import TodoModal from './TodoModal/TodoModal';
+import TodoDetail from './TodoModal/TodoDetail';
+import useStoreState from '@/shared/store';
+import Image from 'next/image';
 
 export type TodoType = {
   contents: string;
@@ -34,9 +32,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
   const [userId, setUserId] = useState<string | null>(null);
   const [editedTodo, setEditedTodo] = useState<TodoType>(todo);
 
-  //zustand
   const { userInfo } = useStoreState();
-  // console.log('로그인한 유저정보', userInfo);
   const nickname = userInfo?.nickname;
   const myEmail = userInfo?.email;
 
@@ -57,9 +53,9 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
 
   const fetchCommentCount = async (todoId: string) => {
     const { data, error } = await supabase
-      .from("commentList")
-      .select("count", { count: "exact" })
-      .eq("todoId", todoId);
+      .from('commentList')
+      .select('count', { count: 'exact' })
+      .eq('todoId', todoId);
 
     if (error) {
       throw error;
@@ -80,7 +76,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
   };
 
   return (
-    <div className="bg-white m-[15px] border-2 border-solid border-subColor2 rounded-[30px] p-[30px] flex flex-col items-center justify-center drop-shadow-todo">
+    <div className="bg-white m-[15px] border-2 border-solid border-subColor2 rounded-[30px] p-[30px] flex flex-col items-center justify-center drop-shadow-todo hover:transition-[all] hover:duration-500 hover:scale-[1.02]">
       <div>
         <div className="flex flex-col items-center justify-center">
           <h2 className="font-bold text-lg mb-[10px]">{todo.title}</h2>
