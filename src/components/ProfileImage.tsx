@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 import {
   readUsersInfo,
   updateUserAccounts,
+  updateUserMetaData,
 } from "@/supabase/myPage/profileImage";
 import { useStoreState } from "@/shared/store";
+import noAvatar from "@/assets/profile.png";
 import Image from "next/image";
 import LogOut from "./LogOut";
 
@@ -26,6 +28,7 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
 
   const email = userInfo?.email;
   const id = userInfo?.id;
+  // const nickname = userInfo?.nickname;
   const { nickname, contents, avatar } = userAccount;
 
   const userMyPage = async () => {
@@ -33,9 +36,10 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
     const userDatas = await readUsersInfo(email);
     // 현재 유저 정보
     const datas = userDatas?.find((item: UserData) => item.email === email);
-
+    console.log(userDatas);
     if (datas) {
-      const { nickname, avatar, contents } = datas;
+      const { email } = datas;
+      console.log(email);
 
       const userData: UserData = {
         id,
@@ -44,9 +48,16 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
         avatar,
         contents,
       };
+      console.log(avatar);
+      console.log(userData);
+      console.log(contents);
+      console.log(nickname);
       setUserAccount(userData);
       updateUserAccounts(userData);
-      setDefaultImg(avatar);
+      updateUserMetaData({ nickname, contents });
+      if (avatar) {
+        setDefaultImg(avatar);
+      }
 
       if (!userInfo || !avatar) {
         alert("로그인 후 이용해 주세요.");
@@ -58,7 +69,7 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
   // 마이페이지 프로필 렌더링
   useEffect(() => {
     userMyPage();
-  }, [nickname, contents, avatar]);
+  }, []);
   // 이미지 미리보기
   const addImgHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (selectFile === null) return;
@@ -67,10 +78,10 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
       const imgFile = e.target.files[0];
       if (!imgFile) return;
       if (imgFile) {
-        setSelectFile(imgFile);
+        setSelectFile(selectFile ? imgFile : defaultImg);
 
         const imgUrl = URL.createObjectURL(imgFile);
-        setDefaultImg(imgUrl);
+        setDefaultImg(selectFile ? imgUrl : defaultImg);
       } else {
         console.error("이미지 파일이 선택되지 않았습니다");
       }
@@ -81,26 +92,26 @@ const ProfileImage = ({ isEdit, setIsEdit }: Edit) => {
     <div className=" w-full flex justify-center rounded-t-[56px]">
       {isEdit ? (
         <label htmlFor="imgFileChoice">
-          <div className="w-[280px] sm:w-auto flex justify-center">
+          <div className="w-[280px] sm:w-auto flex justify-center object-fit">
             <Image
-              src={defaultImg}
+              src={defaultImg ?? noAvatar}
               alt="유저이미지"
               width={130}
               height={130}
               sizes="(max-width: 639px) 50vw, 130px"
-              className="rounded-full"
+              className="rounded-full object-cover"
             />
           </div>
         </label>
       ) : (
         <div>
           <Image
-            src={defaultImg}
+            src={defaultImg ?? noAvatar}
             alt="유저이미지"
             width={130}
             height={130}
             sizes="280px"
-            className="rounded-full"
+            className="rounded-full object-cover"
           />
         </div>
       )}

@@ -4,6 +4,7 @@ import { supabase } from "@/supabase/supabase";
 
 import {
   updateUserAccounts,
+  updateUserMetaData,
   uploadImage,
 } from "@/supabase/myPage/profileImage";
 import useStoreState from "@/shared/store";
@@ -23,6 +24,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
   const email = userInfo?.email;
   const id = userInfo?.id;
   const { nickname, contents, avatar }: Partial<UserData> = userAccount;
+  console.log(nickname);
 
   const [editValue, setEditValue] = useState<UserData>({
     nickname,
@@ -81,7 +83,9 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
         if (ImgDbUrl) {
           await updateUserAccounts({ ...editValue, avatar: ImgDbUrl });
           alert("수정이 완료됐습니다.");
-
+          console.log(nickname);
+          console.log(contents);
+          updateUserMetaData({ nickname, contents });
           setUserAccount({ ...editValue, avatar: ImgDbUrl });
           setDefaultImg(ImgDbUrl);
         } else {
@@ -109,7 +113,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
     setIsEdit(false);
     setDefaultImg(avatar ?? defaultImg);
   };
-
+  console.log(nickname);
   return (
     <section>
       <div>
@@ -119,7 +123,7 @@ const ProfileContents = ({ isEdit, setIsEdit }: Edit) => {
               <div className="flex flex-col gap-[10px]">
                 <div>
                   <p className="text-center text-[20px] text-subColor1 text-bold">
-                    {nickname}
+                    {nickname ? nickname : "no name"}
                   </p>
                 </div>
                 <div>
