@@ -29,7 +29,7 @@ const AuthLayout = ({
     };
 
     getUser();
-  });
+  }, []);
 
   if (!session) {
     return <Loading />;

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/supabase/supabase';
+import Loading from '@/components/Loading';
 
 const NonAuthlayout = ({
   children,
@@ -28,7 +29,11 @@ const NonAuthlayout = ({
     };
 
     getUser();
-  });
+  }, []);
+
+  if (!session) {
+    return <Loading />;
+  }
 
   return (
     <div>
